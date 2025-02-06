@@ -4,7 +4,7 @@ interface Props {
   children: React.ReactNode
 }
 
-const mobileLayout: React.FC<Props> = ({ children }) => {
+const MobileLayout: React.FC<Props> = ({ children }) => {
   return (
     <div className="max-w-[375px] mx-auto bg-mainBlack min-h-screen">
       {children}
@@ -12,4 +12,4 @@ const mobileLayout: React.FC<Props> = ({ children }) => {
   )
 }
 
-export default mobileLayout
+export default MobileLayout
