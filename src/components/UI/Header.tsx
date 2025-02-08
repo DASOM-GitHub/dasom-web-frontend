@@ -10,6 +10,7 @@ export const Header = (): JSX.Element => {
         setIsMenuOpen((prev) => !prev)
     }
 
+    
     return (
         <div className='flex justify-between items-center px-4 py-4'>
             <div className='font-black text-mainColor text-2xl'>
