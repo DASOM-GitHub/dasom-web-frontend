@@ -14,6 +14,10 @@ export default {
             subGrey2: '#A8A8A8',
             subGrey3: '#26262D',
         },
+        fontFamily: {
+          pretendardBlack: ['Pretendard Black', 'sans-serif'],
+          pretendardBold: ['Pretendard Bold', 'sans-serif'],
+        }
       },
     },
     plugins: [],
