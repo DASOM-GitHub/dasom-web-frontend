@@ -6,7 +6,7 @@ interface Props {
 
 const MobileLayout: React.FC<Props> = ({ children }) => {
   return (
-    <div className="max-w-[375px] mx-auto bg-mainBlack min-h-screen">
+    <div className="max-w-[395px] mx-auto bg-mainBlack min-h-screen">
       {children}
     </div>
   )
