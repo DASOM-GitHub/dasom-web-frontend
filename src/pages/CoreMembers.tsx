@@ -65,7 +65,7 @@ const CoreMembers: React.FC = () => {
   return (
     <MobileLayout>
       <Header/>
-      <div className='relative top-[28px] ml-[12px] flex'>
+      <div className='mt-[28px] ml-[12px] flex'>
           <img
               className='w-[21px] h-[24px] cursor-pointer'
               alt='logo'
@@ -77,7 +77,7 @@ const CoreMembers: React.FC = () => {
       </div>
       
       {/* 멤버 프로필 리스트 */}
-      <div className='ml-[12px] mt-[48px] text-white'>
+      <div className='ml-[12px] mt-[20px] text-white'>
         {profiles.map((member) => (
           <div key={member.id} className='flex mb-[20px] items-center justify-between pr-[12px]'>
             <div className="flex items-center">
