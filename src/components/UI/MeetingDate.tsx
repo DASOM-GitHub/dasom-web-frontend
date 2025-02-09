@@ -8,10 +8,10 @@ interface props {
 	isSelected?: boolean
 }
 
-/** 면접 날짜 선택 컴포넌트 */
+/** 면접 날짜 선택 버튼 컴포넌트 */
 const MeetingDate = ({ month, day, week, onClick, isSelected }: props): JSX.Element => {
 	return (
-		<button className={`font-pretendardBold text-white text-center border-2 border-mainColor p-1 w-[100px] h-[30px] ${isSelected ? 'bg-mainColor' : 'bg-none'}`} onClick={onClick}>
+		<button className={`font-pretendardBold text-white text-center border-2 border-mainColor p-1 w-[100px] h-[35px] ${isSelected ? 'bg-mainColor' : 'bg-none'}`} onClick={onClick}>
 			{month}.{day} {week}
 		</button>
 	)
