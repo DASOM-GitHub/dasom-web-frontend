@@ -31,7 +31,7 @@ const MeetingDateSelector = ({ onSelect }: props): JSX.Element => {
 	}
 
 	return (
-		<div className='flex gap-2'>
+		<div className='flex gap-x-5'>
 			{meetingDates.map((date, index) => (
 				<MeetingDate key={index} {...date} onClick={() => handleDateClick(date)} isSelected={selectedDate === `${date.month}.${date.day} ${date.week}`} />
 			))}
