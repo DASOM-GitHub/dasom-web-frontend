@@ -10,15 +10,16 @@ export const Header = (): JSX.Element => {
         setIsMenuOpen((prev) => !prev)
     }
 
+    
     return (
-        <MobileLayout>
-            <div className='ml-[17px] pt-[53px] w-[93px] h-8 font-pretendardBlack text-mainColor text-2xl'>
+        <div className='flex justify-between items-center px-4 py-4'>
+            <div className='font-black text-mainColor text-2xl'>
                 DASOM
             </div>
 
             {/* 메뉴 버튼 */}
             <img
-                className='relative w-3 h-[9px] top-[12px] left-[351px] cursor-pointer'
+                className='w-3 h-[9px] cursor-pointer'
                 alt='headerMenu'
                 src={headerMenu}
                 onClick={toggleMenu}
@@ -26,35 +27,38 @@ export const Header = (): JSX.Element => {
 
             {/* 메뉴 팝업 */}
             {isMenuOpen && (
-                <div className='relative top-[-2px] w-[375px] h-[720px] bg-[#17171BF5]'>
-                    <img
-                        className='relative w-3 h-3 left-[351px]'
-                        alt='headerMenuUndo'
-                        src={headerMenuUndo}
-                        onClick={toggleMenu}
-                    />
-                    <ul className='relative'>
-                        <li className="relative top-[152px] font-pretendardBlack text-mainColor text-[20px] text-center" onClick={() => console.log('About 이동')}>
-                            About
-                        </li>
-                        <li className="relative top-[164px] font-pretendardBlack text-mainColor text-[20px] text-center" onClick={() => console.log('news 이동')}>
-                            News
-                        </li>
-                        <li className="relative top-[176px] font-pretendardBlack text-mainColor text-[20px] text-center" onClick={() => console.log('members 이동')}>
-                            Members
-                        </li>
-                        <li className="relative top-[188px] font-pretendardBlack text-mainColor text-[20px] text-center" onClick={() => console.log('faq 이동')}>
-                            FAQ
-                        </li>
-                        <li className="relative top-[200px] font-pretendardBlack text-[#ffffff] text-[20px] text-center" onClick={() => console.log('form 이동')}>
-                            34기 지원하기
-                        </li>
-                        <li className="relative top-[212px] font-pretendardBlack text-[#ffffff] text-[20px] text-center" onClick={() => console.log('합격여부 이동')}>
-                            합격여부 확인하기
-                        </li>
-                    </ul>
-                </div>
-            )}
-        </MobileLayout>
+               <div className='absolute inset-0 flex flex-col items-center justify-center bg-[#17171BF5] w-[375px] h-[720px] left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2'>
+            {/* 닫기 버튼 */}
+            <img
+            className='absolute top-5 right-5 w-5 h-5 cursor-pointer'
+            alt='headerMenuUndo'
+            src={headerMenuUndo}
+            onClick={toggleMenu}
+        />
+
+        {/* 메뉴 리스트 */}
+        <ul className='flex flex-col items-center space-y-6 text-center'>
+            <li className="font-pretendardBlack text-mainColor text-[20px] cursor-pointer hover:text-white" onClick={() => console.log('About 이동')}>
+                About
+            </li>
+            <li className="font-pretendardBlack text-mainColor text-[20px] cursor-pointer hover:text-white" onClick={() => console.log('News 이동')}>
+                News
+            </li>
+            <li className="font-pretendardBlack text-mainColor text-[20px] cursor-pointer hover:text-white" onClick={() => console.log('Members 이동')}>
+                Members
+            </li>
+            <li className="font-pretendardBlack text-mainColor text-[20px] cursor-pointer hover:text-white" onClick={() => console.log('FAQ 이동')}>
+                FAQ
+            </li>
+            <li className="font-pretendardBlack text-white text-[20px] cursor-pointer hover:scale-110" onClick={() => console.log('form 이동')}>
+                34기 지원하기
+            </li>
+            <li className="font-pretendardBlack text-white text-[20px] cursor-pointer hover:scale-110" onClick={() => console.log('합격여부 이동')}>
+                합격여부 확인하기
+            </li>
+        </ul>
+        </div>
+        )}
+      </div>
     )
 }
