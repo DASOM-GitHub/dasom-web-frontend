@@ -17,6 +17,8 @@ export default {
         fontFamily: {
           pretendardBlack: ['Pretendard Black', 'sans-serif'],
           pretendardBold: ['Pretendard Bold', 'sans-serif'],
+          pretendardSemiBold: ['Pretendard SemiBold', 'sans-serif'],
+          pretendardRegular: ['Pretendard Regular', 'sans-serif'],
         }
       },
     },
