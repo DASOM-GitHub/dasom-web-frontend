@@ -1,7 +1,36 @@
-import React from 'react'
+import React, { useState } from 'react'
+import axios from 'axios'
 import MobileLayout from '../components/layout/MobileLayout'
+import { useNavigate } from 'react-router-dom'
 
 const Login: React.FC = () => {
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+    const navigate = useNavigate()
+
+    const handleLogin = async () => {
+        if (!email || !password) {
+            alert('아이디와 비밀번호를 입력하세요.')
+            return
+        }
+        
+        try {
+            const response = await axios.post('http://dmu-dasom.or.kr/api/auth/login', {
+                email,
+                password
+            },{ withCredentials: true }) // 쿠키허용
+            console.log('로그인 성공:', response.data)
+            navigate('/') // 메인으로 리다이렉트
+        } catch (err: any) {
+            const errorCode = err.response?.data?.code
+            if (errorCode === 'C005') {
+                alert('이메일 또는 비밀번호가 잘못되었습니다.')
+            } else {
+                alert('로그인 실패. 다시 시도해주세요.')
+            }
+        }
+    }
+
     return (
         <MobileLayout>
             <div className='h-screen flex flex-col items-center justify-center'>
@@ -9,9 +38,24 @@ const Login: React.FC = () => {
                     DASOM
                 </div>
                 <div className='w-full text-[12px] flex flex-col items-center font-pretendardRegular'>
-                    <input type='text' className='bg-subGrey h-[32px] w-[80%] rounded-[6px] mb-[16px] pl-[12px]' placeholder='Email' />
-                    <input type='password' className='bg-subGrey h-[32px] w-[80%] rounded-[6px] mb-[16px] pl-[12px]' placeholder='Password' />
-                    <div className='cursor-pointer bg-mainColor h-[32px] w-[80%] rounded-[6px] font-pretendardBold tracking-[1px] text-white flex justify-center items-center hover:bg-[#00A889]'>
+                    <input 
+                        type='text' 
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        className='bg-subGrey h-[32px] w-[80%] rounded-[6px] mb-[16px] pl-[12px] outline-mainColor focus:ring-1 ring-white' 
+                        placeholder='Email' 
+                    />
+                    <input 
+                        type='password'
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        className='bg-subGrey h-[32px] w-[80%] rounded-[6px] mb-[16px] pl-[12px] outline-mainColor focus:ring-1 ring-white' 
+                        placeholder='Password' 
+                    />
+                    <div 
+                        className='cursor-pointer bg-mainColor h-[32px] w-[80%] rounded-[6px] font-pretendardBold tracking-[1px] text-white flex justify-center items-center hover:bg-[#00A889]'
+                        onClick={handleLogin}
+                    >
                         로그인
                     </div>
                 </div>
