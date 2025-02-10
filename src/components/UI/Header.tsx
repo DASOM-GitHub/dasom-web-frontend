@@ -1,64 +1,102 @@
-import React, { useState } from 'react'
+import React, { JSX, useState, useEffect } from 'react'
 import MobileLayout from '../layout/MobileLayout'
 import headerMenu from '../../assets/images/headerMenu.svg'
 import headerMenuUndo from '../../assets/images/headerMenuUndo.svg'
 
 export const Header = (): JSX.Element => {
-    const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth)
 
-    const toggleMenu = () => {
-        setIsMenuOpen((prev) => !prev)
+  const toggleMenu = () => {
+    setIsMenuOpen((prev) => !prev)
+  }
+
+  // window width 변경 상태관리리
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth)
     }
 
-    
-    return (
-        <div className='flex justify-between items-center px-4 py-4'>
-            <div className='font-black text-mainColor text-2xl'>
-                DASOM
-            </div>
+    window.addEventListener('resize', handleResize)
 
-            {/* 메뉴 버튼 */}
-            <img
-                className='w-3 h-[9px] cursor-pointer'
-                alt='headerMenu'
-                src={headerMenu}
-                onClick={toggleMenu}
-            />
+    return () => {
+      window.removeEventListener('resize', handleResize)
+    }
+  }, [])
 
-            {/* 메뉴 팝업 */}
-            {isMenuOpen && (
-               <div className='absolute inset-0 flex flex-col items-center justify-center bg-[#17171BF5] w-[375px] h-[720px] left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2'>
-            {/* 닫기 버튼 */}
-            <img
-            className='absolute top-5 right-5 w-5 h-5 cursor-pointer'
-            alt='headerMenuUndo'
-            src={headerMenuUndo}
-            onClick={toggleMenu}
+  return (
+    <div className='relative'>
+      <div
+        className='fixed top-0 left-0 right-0 z-50 flex justify-between items-center px-4 py-4 bg-mainBlack'
+        style={{
+          width: windowWidth > 480 ? '395px' : '100vw',  // 모바일에서 100vw, PC에서 395px
+          margin: '0 auto',
+        }}
+      >
+        <div className='font-black text-mainColor text-2xl'>DASOM</div>
+
+        {/* 메뉴 버튼 */}
+        <img
+          className='w-3 h-8 cursor-pointer'
+          alt='menuButton'
+          src={isMenuOpen ? headerMenuUndo : headerMenu}
+          onClick={toggleMenu}
         />
-
-        {/* 메뉴 리스트 */}
-        <ul className='flex flex-col items-center space-y-6 text-center'>
-            <li className="font-pretendardBlack text-mainColor text-[20px] cursor-pointer hover:text-white" onClick={() => console.log('About 이동')}>
-                About
-            </li>
-            <li className="font-pretendardBlack text-mainColor text-[20px] cursor-pointer hover:text-white" onClick={() => console.log('News 이동')}>
-                News
-            </li>
-            <li className="font-pretendardBlack text-mainColor text-[20px] cursor-pointer hover:text-white" onClick={() => console.log('Members 이동')}>
-                Members
-            </li>
-            <li className="font-pretendardBlack text-mainColor text-[20px] cursor-pointer hover:text-white" onClick={() => console.log('FAQ 이동')}>
-                FAQ
-            </li>
-            <li className="font-pretendardBlack text-white text-[20px] cursor-pointer hover:scale-110" onClick={() => console.log('form 이동')}>
-                34기 지원하기
-            </li>
-            <li className="font-pretendardBlack text-white text-[20px] cursor-pointer hover:scale-110" onClick={() => console.log('합격여부 이동')}>
-                합격여부 확인하기
-            </li>
-        </ul>
-        </div>
-        )}
       </div>
-    )
+
+      {/* 메뉴 팝업 */}
+      {isMenuOpen && (
+        <MobileLayout>
+          <div
+            className='absolute flex flex-col items-center justify-center bg-[#17171BF5] left-0 top-0 z-40'
+            style={{
+              width: window.innerWidth > 480 ? '395px' : '100vw',
+              height: '100vh',
+              margin: '0 auto',
+            }}
+          >
+            {/* 메뉴 리스트 */}
+            <ul className='flex flex-col items-center space-y-6 text-center'>
+              <li
+                className='font-pretendardBlack text-mainColor text-[20px] cursor-pointer hover:text-white'
+                onClick={() => console.log('About 이동')}
+              >
+                About
+              </li>
+              <li
+                className='font-pretendardBlack text-mainColor text-[20px] cursor-pointer hover:text-white'
+                onClick={() => console.log('News 이동')}
+              >
+                News
+              </li>
+              <li
+                className='font-pretendardBlack text-mainColor text-[20px] cursor-pointer hover:text-white'
+                onClick={() => console.log('Members 이동')}
+              >
+                Members
+              </li>
+              <li
+                className='font-pretendardBlack text-mainColor text-[20px] cursor-pointer hover:text-white'
+                onClick={() => console.log('FAQ 이동')}
+              >
+                FAQ
+              </li>
+              <li
+                className='font-pretendardBlack text-white text-[20px] cursor-pointer hover:scale-110'
+                onClick={() => console.log('form 이동')}
+              >
+                34기 지원하기
+              </li>
+              <li
+                className='font-pretendardBlack text-white text-[20px] cursor-pointer hover:scale-110'
+                onClick={() => console.log('합격여부 이동')}
+              >
+                합격여부 확인하기
+              </li>
+            </ul>
+          </div>
+        </MobileLayout>
+      )}
+    </div>
+  )
 }
