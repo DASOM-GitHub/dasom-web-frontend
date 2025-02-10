@@ -1,34 +1,60 @@
-import React, { useState } from 'react'
+import React, { JSX, useState, useEffect } from 'react'
 import MobileLayout from '../layout/MobileLayout'
 import headerMenu from '../../assets/images/headerMenu.svg'
 import headerMenuUndo from '../../assets/images/headerMenuUndo.svg'
 
 export const Header = (): JSX.Element => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth)
 
   const toggleMenu = () => {
     setIsMenuOpen((prev) => !prev)
   }
 
+  // window width 변경 상태관리리
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth)
+    }
+
+    window.addEventListener('resize', handleResize)
+
+    return () => {
+      window.removeEventListener('resize', handleResize)
+    }
+  }, [])
+
   return (
-    <div className='flex justify-between items-center px-4 py-4 bg-mainBlack relative'>
-      <MobileLayout>
-        <div className='flex justify-between px-4 py-4'>
-          <div className='font-black text-mainColor text-2xl'>DASOM</div>
+    <div className='relative'>
+      <div
+        className='fixed top-0 left-0 right-0 z-50 flex justify-between items-center px-4 py-4 bg-mainBlack'
+        style={{
+          width: windowWidth > 480 ? '395px' : '100vw',  // 모바일에서 100vw, PC에서 395px
+          margin: '0 auto',
+        }}
+      >
+        <div className='font-black text-mainColor text-2xl'>DASOM</div>
 
-          {/* 메뉴 버튼 (팝업이 떠 있어도 유지됨) */}
-          <img
-            className='w-3 h-7 cursor-pointer z-50 relative'
-            alt='menuButton'
-            src={isMenuOpen ? headerMenuUndo : headerMenu}
-            onClick={toggleMenu}
-          />
-        </div>
+        {/* 메뉴 버튼 */}
+        <img
+          className='w-3 h-8 cursor-pointer'
+          alt='menuButton'
+          src={isMenuOpen ? headerMenuUndo : headerMenu}
+          onClick={toggleMenu}
+        />
+      </div>
 
-        {/* 메뉴 팝업 */}
-        {isMenuOpen && (
-          <div className='absolute flex flex-col items-center justify-center bg-[#17171BF5] w-[375px] h-[720px] left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2'>
-
+      {/* 메뉴 팝업 */}
+      {isMenuOpen && (
+        <MobileLayout>
+          <div
+            className='absolute flex flex-col items-center justify-center bg-[#17171BF5] left-0 top-0 z-40'
+            style={{
+              width: window.innerWidth > 480 ? '395px' : '100vw',
+              height: '100vh',
+              margin: '0 auto',
+            }}
+          >
             {/* 메뉴 리스트 */}
             <ul className='flex flex-col items-center space-y-6 text-center'>
               <li
@@ -69,8 +95,8 @@ export const Header = (): JSX.Element => {
               </li>
             </ul>
           </div>
-        )}
-      </MobileLayout>
+        </MobileLayout>
+      )}
     </div>
   )
 }
