@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import React, { JSX, useState } from 'react'
 import MeetingDate from '../UI/MeetingDate'
 
 interface dateInfo {

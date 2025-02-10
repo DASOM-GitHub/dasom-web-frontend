@@ -1,3 +1,5 @@
+import React, { JSX } from 'react'
+
 interface props {
 	time: string
 	/** 시간 선택 핸들러 */

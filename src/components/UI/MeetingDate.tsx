@@ -1,3 +1,5 @@
+import React, { JSX } from 'react'
+
 interface props {
 	month: string
 	day: string
