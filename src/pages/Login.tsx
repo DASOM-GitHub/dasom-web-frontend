@@ -31,6 +31,12 @@ const Login: React.FC = () => {
         }
     }
 
+    const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+        if (event.key === 'Enter') {
+            handleLogin()
+        }
+    }
+
     return (
         <MobileLayout>
             <div className='h-screen flex flex-col items-center justify-center'>
@@ -43,14 +49,16 @@ const Login: React.FC = () => {
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         className='bg-subGrey h-[32px] w-[80%] rounded-[6px] mb-[16px] pl-[12px] outline-mainColor focus:ring-1 ring-white' 
-                        placeholder='Email' 
+                        placeholder='Email'
+                        onKeyDown={handleKeyDown}
                     />
                     <input 
                         type='password'
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         className='bg-subGrey h-[32px] w-[80%] rounded-[6px] mb-[16px] pl-[12px] outline-mainColor focus:ring-1 ring-white' 
-                        placeholder='Password' 
+                        placeholder='Password'
+                        onKeyDown={handleKeyDown}
                     />
                     <div 
                         className='cursor-pointer bg-mainColor h-[32px] w-[80%] rounded-[6px] font-pretendardBold tracking-[1px] text-white flex justify-center items-center hover:bg-[#00A889]'
