@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Header } from '../components/UI/Header'
 import { Cover } from '../components/UI/cover'
 import MobileLayout from '../components/layout/MobileLayout'
@@ -14,6 +14,41 @@ import pythonDown from '../assets/images/pythonDown.svg'
 import pythonStart from '../assets/images/pythonStart.svg'
 import pythonFocus from '../assets/images/pythonFocus.svg'
 import ActivityStatus from '../components/UI/ActivityStatus'
+
+const TypingEffect = ({ text }: { text: string }) => {
+  const [displayText, setDisplayText] = useState('')
+  const [index, setIndex] = useState(0)
+  const [isDeleting, setIsDeleting] = useState(false)
+
+  useEffect(() => {
+    const speed = isDeleting ? 100 : 150 // 삭제시 100 추가시 150
+    const delay = isDeleting && index === 0 ? 1000 : speed
+
+    const timeout = setTimeout(() => {
+      if (!isDeleting) {
+        // 추가
+        setDisplayText(text.slice(0, index + 1))
+        setIndex((prev) => prev + 1)
+
+        if (index + 1 === text.length) {
+          setTimeout(() => setIsDeleting(true), 1000) // 다 찍으면 1초 후 삭제 시작
+        }
+      } else {
+        // 제거
+        setDisplayText(text.slice(0, index - 1))
+        setIndex((prev) => prev - 1)
+
+        if (index - 1 === 0) {
+          setIsDeleting(false)
+        }
+      }
+    }, delay)
+
+    return () => clearTimeout(timeout) // 메모리 최적화용
+  }, [index, isDeleting, text])
+
+  return <span className="text-xs text-[#D69D85]">{displayText}</span>
+}
 
 const Main: React.FC = () => {
   return (
@@ -92,7 +127,7 @@ const Main: React.FC = () => {
             </div>
             <div>
               <pre className='text-xs bg-neutral-800 border border-neutral-700 p-3 text-zinc-300 rounded'>
-                <code>print(<span className='text-[#D69D85]'>"Join DASOM"</span>)</code>
+                <code>print(<span className='text-[#D69D85]'><TypingEffect text='"Join DASOM"' /></span>)</code>
               </pre>
               <div className='text-xs font-medium text-zinc-500'>Ctrl + Enter to run</div>
             </div>
