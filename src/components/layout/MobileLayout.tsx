@@ -13,7 +13,8 @@ const MobileLayout: React.FC<Props> = ({ children }) => {
       className="mx-auto bg-mainBlack"
       style={{
         width: width > 480 ? '395px' : '100%', // PC에서는 고정, 모바일에서는 꽉 차게
-        height: height,
+        height: '100vh',
+        overflowY: 'auto',
       }}
     >
       {children}
