@@ -13,6 +13,7 @@ import pythonMain from '../assets/images/pythonMain.svg'
 import pythonDown from '../assets/images/pythonDown.svg'
 import pythonStart from '../assets/images/pythonStart.svg'
 import pythonFocus from '../assets/images/pythonFocus.svg'
+import ActivityStatus from '../components/UI/ActivityStatus'
 
 const Main: React.FC = () => {
   return (
@@ -21,7 +22,7 @@ const Main: React.FC = () => {
       <div className='top-44 text-4xl md:text-[24px] lg:text-[36px] font-semibold max-w-7xl mx-auto text-center mt-6 relative z-20 py-6 bg-clip-text text-transparent bg-gradient-to-b from-neutral-100 via-neutral-400 to-neutral-300 dark:from-neutral-800 dark:via-white dark:to-white'>
         Code Beyond Limits, <br /> Discover <Cover>New Spaces</Cover> with <div className='text-mainColor'>DASOM</div>
       </div>
-      <div className='absolute top-[800px] max-w-[351px]'>
+      <div className='relative top-[600px] max-w-[351px] mx-auto'>
         {/* Header */}
         <div className='flex gap-10 justify-between items-center pr-3 w-full whitespace-nowrap bg-neutral-800'>
           <div className='flex gap-px items-start self-stretch my-auto'>
@@ -101,7 +102,9 @@ const Main: React.FC = () => {
         </div>
 
         {/* Divider */}
-        <div className='flex w-full bg-stone-900 min-h-[1px]' />
+        <div className='flex w-full bg-stone-900 min-h-[1px] mb-20' />
+
+        <ActivityStatus year="2024" />
       </div>
     </MobileLayout>
   )
