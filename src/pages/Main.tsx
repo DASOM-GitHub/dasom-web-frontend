@@ -23,7 +23,7 @@ const Main: React.FC = () => {
         Code Beyond Limits, <br /> Discover <Cover>New Spaces</Cover> with <div className='text-mainColor'>DASOM</div>
       </div>
       <div className='relative top-[600px] max-w-[351px] mx-auto'>
-        {/* Header */}
+        {/* 파이썬 헤더 */}
         <div className='flex gap-10 justify-between items-center pr-3 w-full whitespace-nowrap bg-neutral-800'>
           <div className='flex gap-px items-start self-stretch my-auto'>
             <div className='flex items-center'>
@@ -41,7 +41,7 @@ const Main: React.FC = () => {
           </div>
         </div>
 
-        {/* Code Editor */}
+        {/* 코드에디터 */}
         <div className='flex flex-col pt-1 w-full bg-stone-900 min-h-[398px]'>
           <div className='flex items-start w-full text-center bg-stone-900 text-stone-300 px-3'>
             <div className='flex gap-1 items-start'>
@@ -62,9 +62,8 @@ const Main: React.FC = () => {
             </div>
           </div>
 
-          {/* Code Blocks */}
+          {/* 코드블럭 */}
           <div className='flex flex-col w-full bg-zinc-900 p-3'>
-            {/* First Code Block */}
             <div className='mb-4'>
               <div className='text-2xl font-semibold text-white flex items-center'>
                 <img src={pythonDown} className='h-4 w-4 mr-2.5' alt='Python Scroll Down Icon' />
@@ -91,7 +90,6 @@ const Main: React.FC = () => {
                 </div>
               </div>
             </div>
-            {/* Second Code Block */}
             <div>
               <pre className='text-xs bg-neutral-800 border border-neutral-700 p-3 text-zinc-300 rounded'>
                 <code>print(<span className='text-[#D69D85]'>"Join DASOM"</span>)</code>
@@ -100,11 +98,16 @@ const Main: React.FC = () => {
             </div>
           </div>
         </div>
-
-        {/* Divider */}
         <div className='flex w-full bg-stone-900 min-h-[1px] mb-20' />
-
         <ActivityStatus year="2024" />
+
+        <div className='flex items-center justify-center w-full text-[20px] mt-[20px] font-pretendardBlack text-white text-center'>
+          DASOM 34기 지원하기
+        </div>
+        <div className='w-[30px] bg-white min-h-[1px] mb-[20px] mt-[48px] mx-auto' />
+        <div className='flex items-center justify-center w-full text-[12px] font-pretendardRegular text-white text-center'>
+          © 2025 DASOM. ALL RIGHTS RESERVED.
+        </div>
       </div>
     </MobileLayout>
   )
