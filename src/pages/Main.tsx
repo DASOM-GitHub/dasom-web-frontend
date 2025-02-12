@@ -33,8 +33,8 @@ const Main: React.FC = () => {
                   <img src={pythonCross} className='h-3 w-3' alt='Python Exit Icon' />
                 </div>
               </div>
-              <img src={pythonMerge} className='h-4 w-4' alt='Python Open Change Icon' />
-              <img src={pythonSplit} className='h-4 w-4' alt='Python Split Icon' />
+              <img src={pythonMerge} className='h-4 w-4 mr-2.5 ml-20' alt='Python Open Change Icon' />
+              <img src={pythonSplit} className='h-4 w-4 mr-2.5' alt='Python Split Icon' />
               <img src={pythonMeetballs} className='h-4 w-4' alt='Python Meetball Icon' />
             </div>
           </div>
@@ -45,18 +45,18 @@ const Main: React.FC = () => {
           <div className='flex items-start w-full text-center bg-stone-900 text-stone-300 px-3'>
             <div className='flex gap-1 items-start'>
               <div className='self-stretch my-auto text-xs font-medium flex items-center'>
-                <img src={pythonPlus} className='h-4 w-4' alt='Python Plus Icon' />
+                <img src={pythonPlus} className='h-4 w-4 mr-1' alt='Python Plus Icon' />
                 Code
               </div>
-              <div className='flex shrink-0 self-stretch w-px bg-stone-300 bg-opacity-40 h-[22px]' />
+              <div className='flex shrink-0 self-stretch w-px bg-stone-300 bg-opacity-40 h-[22px] ml-1' />
               <div className='self-stretch my-auto text-xs font-medium flex'>
-                <img src={pythonRunAll} className='h-4 w-4' alt='Python RunAll Icon' />
+                <img src={pythonRunAll} className='h-4 w-4 ml-1 mr-1' alt='Python RunAll Icon' />
                 Run All
-                <img src={pythonMeetballs} className='h-4 w-4' alt='Python Meetball Icon' />
+                <img src={pythonMeetballs} className='h-4 w-4 mr-2.5 ml-1.5' alt='Python Meetball Icon' />
               </div>
             </div>
-            <div className='self-stretch my-auto text-xs font-medium flex'>
-              <img src={pythonMain} className='h-4 w-4' alt='Python Main Icon' />
+            <div className='self-stretch my-auto text-xs font-medium flex ml-8'>
+              <img src={pythonMain} className='h-4 w-4 mr-0.5' alt='Python Main Icon' />
               main (Python 3.9.7)
             </div>
           </div>
@@ -66,30 +66,30 @@ const Main: React.FC = () => {
             {/* First Code Block */}
             <div className='mb-4'>
               <div className='text-2xl font-semibold text-white flex items-center'>
-                <img src={pythonDown} className='h-4 w-4' alt='Python Scroll Down Icon' />
+                <img src={pythonDown} className='h-4 w-4 mr-2.5' alt='Python Scroll Down Icon' />
                 DASOM 34기 부원 모집
                 </div>
                 <div className='text-xl font-semibold text-stone-300 flex items-center'>
-                  <img src={pythonDown} className='h-4 w-4' alt='Python Scroll Down Icon' />
+                  <img src={pythonDown} className='h-4 w-4 mr-2.5' alt='Python Scroll Down Icon' />
                   WHY NOT?!
                   </div>
-                  <div className='flex items-start'>
-                    <img src={pythonFocus} className='h-full object-contain' alt='Python Focus Icon' />
-                    <div className='w-full'>
-                      <pre className='relative text-xs bg-neutral-800 border border-neutral-700 p-3 text-zinc-300 rounded overflow-x-auto'>
+                  <div className='flex items-stretch w-full'>
+                    <img src={pythonFocus} className='h-40 flex-none object-contain' alt='Python Focus Icon' />
+                    <div className='w-full flex-1'>
+                      <pre className='relative flex-1 flex flex-col h-full text-xs bg-neutral-800 border border-neutral-700 p-3 text-zinc-300 rounded overflow-auto min-h-[10rem]'>
                         <code>
                           <span className='text-[#C586C0]'>import</span> pandas <span className='text-[#C586C0]'>as</span> pd{'\n'}
                           <span className='text-[#C586C0]'>import</span> numpy <span className='text-[#C586C0]'>as</span> np{'\n'}
                           <span className='text-[#C586C0]'>import</span> seaborn <span className='text-[#C586C0]'>as</span> sns{'\n'}
                           <span className='text-[#C586C0]'>import</span> matplotlib.pyplot <span className='text-[#C586C0]'>as</span> plt{'\n\n'}
-                          sns.set(<span className='text-[#9CDCF2]'>style</span>=<span className='text-[#D69D85]'>'darkgrid'</span>)
+                          sns.set(<span className='text-[#9CDCF2]'>style</span>=<span className='text-[#D69D85]'> 'darkgrid' </span>)
                         </code>
-                        <div className='absolute bottom-0 left-2 text-xs font-medium text-emerald-300'>✔ 0.3s</div>
-                        <div className='absolute bottom-1 right-2 text-xs font-medium text-gray-500'>Python</div>
-                        </pre>
-                      </div>
-                    </div>
-                  </div>
+                      <div className='absolute bottom-1 left-2 text-xs font-medium text-emerald-300'>✔ 0.3s</div>
+                    <div className='absolute bottom-1 right-2 text-xs font-medium text-gray-500'>Python</div>
+                  </pre>
+                </div>
+              </div>
+            </div>
             {/* Second Code Block */}
             <div>
               <pre className='text-xs bg-neutral-800 border border-neutral-700 p-3 text-zinc-300 rounded'>
