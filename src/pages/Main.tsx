@@ -62,7 +62,7 @@ const Main: React.FC = () => {
         <div className='flex gap-10 justify-between items-center pr-3 w-full whitespace-nowrap bg-neutral-800'>
           <div className='flex gap-px items-start self-stretch my-auto'>
             <div className='flex items-center'>
-              <div className='flex gap-1 items-center self-stretch px-3 py-2.5 my-auto bg-stone-900 min-h-[35px]'>
+              <div className='flex gap-1 items-center self-stretch px-3 py-2.5 my-auto bg-[#1E1E1E] min-h-[35px]'>
                 <div className='self-stretch my-auto text-sm font-medium text-white flex items-center gap-2'>
                   <img src={pythonRecruit} className='h-5 w-5' alt='Python Recruit Icon' />
                   DasomRecruit.py
@@ -77,8 +77,8 @@ const Main: React.FC = () => {
         </div>
 
         {/* 코드에디터 */}
-        <div className='flex flex-col pt-1 w-full bg-stone-900 min-h-[398px]'>
-          <div className='flex items-start w-full text-center bg-stone-900 text-stone-300 px-3'>
+        <div className='flex flex-col pt-1 w-full bg-[#1E1E1E] min-h-[398px]'>
+          <div className='flex items-start w-full text-center bg-[#1E1E1E] text-stone-300 px-3'>
             <div className='flex gap-1 items-start'>
               <div className='self-stretch my-auto text-xs font-medium flex items-center'>
                 <img src={pythonPlus} className='h-4 w-4 mr-1' alt='Python Plus Icon' />
@@ -98,7 +98,7 @@ const Main: React.FC = () => {
           </div>
 
           {/* 코드블럭 */}
-          <div className='flex flex-col w-full bg-zinc-900 p-3'>
+          <div className='flex flex-col w-full bg-[#1E1E1E] p-3'>
             <div className='mb-4'>
               <div className='text-2xl font-semibold text-white flex items-center'>
                 <img src={pythonDown} className='h-4 w-4 mr-2.5' alt='Python Scroll Down Icon' />
