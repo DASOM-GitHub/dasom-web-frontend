@@ -2,6 +2,7 @@ import React from 'react'
 import './assets/styles/index.css'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import Main from './pages/Main'
+import Login from './pages/Login'
 import RecruitMeeting from './pages/RecruitMeeting'
 import RecruitSubmitMeeting from './pages/RecruitSubmitMeeting'
 
@@ -11,6 +12,7 @@ function App() {
 			<Router>
 				<Routes>
 					<Route path='/' element={<Main />} />
+          <Route path='/login' element={<Login />} />
 					<Route path='/recruit-meeting' element={<RecruitMeeting />} />
 					<Route path='/recruit-meeting/submit' element={<RecruitSubmitMeeting />} />
 				</Routes>
