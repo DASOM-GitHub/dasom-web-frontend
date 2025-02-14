@@ -21,7 +21,7 @@ const NewsContent = ({ title, banner, date }: news): JSX.Element => {
 	return (
 		<div className='mb-5 w-[90%]'>
 			{/* 배너 이미지 */}
-			<img className='min-w-[100%] max-w-[100%]' src={src} />
+			<img className='w-[350px] h-[140px]' src={src} />
 			{/* 제목 */}
 			<p className='font-pretendardBold text-white text-[20px]'>{title}</p>
 			{/* 날짜 */}
