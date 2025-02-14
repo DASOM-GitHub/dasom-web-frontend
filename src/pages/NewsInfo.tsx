@@ -6,6 +6,7 @@ import NewsNotice from '../components/UI/NewsNotice'
 import { Header } from '../components/UI/Header'
 
 interface notice {
+	id: number
 	text: string
 	date: Date
 }
@@ -20,7 +21,7 @@ const NewsInfo: React.FC = () => {
 				<div className='font-pretendardSemiBold text-white text-[16px] ml-[9px]'>다솜 소식</div>
 			</div>
 			<div className='flex flex-col items-center w-full mb-40'>
-				<NewsContent title='다솜 34기 신규 부원 모집!' banner={null} date='2월 25일(화) ~ 3월 14일(금)' />
+				<NewsContent title='다솜 34기 신규 부원 모집!' banner={null} date='2월 25일(화) ~ 3월 14일(금)' onClick={() => {}} id={1} />
 				<NewsNotice text={examText} date={examDate} />
 			</div>
 		</MobileLayout>
