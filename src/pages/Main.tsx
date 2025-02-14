@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Header } from '../components/UI/Header'
 import { Cover } from '../components/UI/cover'
 import MobileLayout from '../components/layout/MobileLayout'
@@ -11,9 +11,11 @@ import pythonPlus from '../assets/images/pythonPlus.svg'
 import pythonRunAll from '../assets/images/pythonRunAll.svg'
 import pythonMain from '../assets/images/pythonMain.svg'
 import pythonDown from '../assets/images/pythonDown.svg'
-import pythonStart from '../assets/images/pythonStart.svg'
 import pythonFocus from '../assets/images/pythonFocus.svg'
 import ActivityStatus from '../components/UI/ActivityStatus'
+import dasomInstagram from '../assets/images/instagram.svg'
+import dasomGithub from '../assets/images/github.svg'
+import Recruit from './Recruit'
 
 const TypingEffect = ({ text }: { text: string }) => {
   const [displayText, setDisplayText] = useState('')
@@ -51,6 +53,13 @@ const TypingEffect = ({ text }: { text: string }) => {
 }
 
 const Main: React.FC = () => {
+  //코드블럭 클릭이벤트용
+  const [selectedCode, setSelectedCode] = useState<number | null>(null)
+
+  const handleCodeClick = (index: number) => {
+    setSelectedCode(selectedCode === index ? null : index)
+  }
+
   return (
     <MobileLayout>
       <Header />
@@ -103,31 +112,34 @@ const Main: React.FC = () => {
               <div className='text-2xl font-semibold text-white flex items-center'>
                 <img src={pythonDown} className='h-4 w-4 mr-2.5' alt='Python Scroll Down Icon' />
                 DASOM 34기 부원 모집
-                </div>
-                <div className='text-xl font-semibold text-stone-300 flex items-center'>
-                  <img src={pythonDown} className='h-4 w-4 mr-2.5' alt='Python Scroll Down Icon' />
-                  WHY NOT?!
-                  </div>
-                  <div className='flex items-stretch w-full'>
-                    <img src={pythonFocus} className='h-40 flex-none object-contain' alt='Python Focus Icon' />
-                    <div className='w-full flex-1'>
-                      <pre className='relative flex-1 flex flex-col h-full text-xs bg-neutral-800 border border-neutral-700 p-3 text-zinc-300 rounded overflow-auto min-h-[10rem]'>
-                        <code>
-                          <span className='text-[#C586C0]'>import</span> pandas <span className='text-[#C586C0]'>as</span> pd{'\n'}
-                          <span className='text-[#C586C0]'>import</span> numpy <span className='text-[#C586C0]'>as</span> np{'\n'}
-                          <span className='text-[#C586C0]'>import</span> seaborn <span className='text-[#C586C0]'>as</span> sns{'\n'}
-                          <span className='text-[#C586C0]'>import</span> matplotlib.pyplot <span className='text-[#C586C0]'>as</span> plt{'\n\n'}
-                          sns.set(<span className='text-[#9CDCF2]'>style</span>=<span className='text-[#D69D85]'> 'darkgrid' </span>)
-                        </code>
-                      <div className='absolute bottom-1 left-2 text-xs font-medium text-emerald-300'>✔ 0.3s</div>
+              </div>
+              <div className='text-xl font-semibold text-stone-300 flex items-center'>
+                <img src={pythonDown} className='h-4 w-4 mr-2.5' alt='Python Scroll Down Icon' />
+                WHY NOT?!
+              </div>
+              <div className='flex items-stretch w-full'>
+                <img src={pythonFocus} className='h-40 flex-none object-contain' alt='Python Focus Icon' />
+                <div className='w-full flex-1'>
+                  <pre className='relative flex-1 flex flex-col h-full text-xs bg-neutral-800 border border-neutral-700 p-3 text-zinc-300 rounded overflow-auto min-h-[10rem]'>
+                    <code>
+                      <span className='text-[#C586C0]'>import</span> pandas <span className='text-[#C586C0]'>as</span> pd{'\n'}
+                      <span className='text-[#C586C0]'>import</span> numpy <span className='text-[#C586C0]'>as</span> np{'\n'}
+                      <span className='text-[#C586C0]'>import</span> seaborn <span className='text-[#C586C0]'>as</span> sns{'\n'}
+                      <span className='text-[#C586C0]'>import</span> matplotlib.pyplot <span className='text-[#C586C0]'>as</span> plt{'\n\n'}
+                      sns.set(<span className='text-[#9CDCF2]'>style</span>=<span className='text-[#D69D85]'> 'darkgrid' </span>)
+                    </code>
+                    <div className='absolute bottom-1 left-2 text-xs font-medium text-emerald-300'>✔ 0.3s</div>
                     <div className='absolute bottom-1 right-2 text-xs font-medium text-gray-500'>Python</div>
                   </pre>
                 </div>
               </div>
             </div>
             <div>
-              <pre className='text-xs bg-neutral-800 border border-neutral-700 p-3 text-zinc-300 rounded'>
-                <code>print(<span className='text-[#D69D85]'><TypingEffect text='"Join DASOM"' /></span>)</code>
+              <pre
+                className={`text-xs p-3 rounded ${selectedCode === 0 ? 'border-[#007ACC]' : 'border-neutral-700'} border-2`}
+                onClick={() => handleCodeClick(0)}
+              >
+                <code className='text-zinc-300'>print(<span className='text-[#D69D85]'><TypingEffect text='"Join DASOM"' /></span>)</code>
               </pre>
               <div className='text-xs font-medium text-zinc-500'>Ctrl + Enter to run</div>
             </div>
@@ -143,6 +155,21 @@ const Main: React.FC = () => {
         <div className='flex items-center justify-center w-full text-[12px] font-pretendardRegular text-white text-center'>
           © 2025 DASOM. ALL RIGHTS RESERVED.
         </div>
+        {/* 바텀마진용 */}
+        <div className='flex w-full bg-mainBlack min-h-[20px] mb-50' />
+
+        {/* 인스타&깃헙 */}
+        <div className='flex w-full justify-center items-center gap-4 mb-20'>
+          <a href='https://www.instagram.com/dasom___official/' target='_blank' rel="noopener noreferrer">
+            <img src={dasomInstagram} className='w-6 h-6'/>
+          </a>
+          <a href='https://github.com/DASOM-GitHub' target='_blank' rel="noopener noreferrer">
+            <img src={dasomGithub} className='w-6 h-6'/>
+          </a>
+        </div>
+
+        {/* 바텀마진용용 */}
+        <div className='flex w-full bg-mainBlack min-h-[2px]' />
       </div>
     </MobileLayout>
   )
