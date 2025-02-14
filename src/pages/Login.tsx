@@ -15,12 +15,23 @@ const Login: React.FC = () => {
         }
         
         try {
-            const response = await axios.post('http://dmu-dasom.or.kr/api/auth/login', {
+            const response = await axios.post('https://dmu-dasom.or.kr/api/auth/login', {
                 email,
                 password
-            },{ withCredentials: true }) // 쿠키허용
+            })
+
+            const accessToken = response.headers['Access-Token']
+            const refreshToken = response.headers['Refresh-Token']
+
+            if (accessToken && refreshToken) {
+                localStorage.setItem('accessToken', accessToken)
+                localStorage.setItem('refreshToken', refreshToken)
+            }
+            
             console.log('로그인 성공:', response.data)
-            navigate('/') // 메인으로 리다이렉트
+
+            // 리다이렉트 추후 추가
+
         } catch (err: any) {
             const errorCode = err.response?.data?.code
             if (errorCode === 'C005') {
