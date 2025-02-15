@@ -7,6 +7,7 @@ import RecruitMeeting from './pages/RecruitMeeting'
 import RecruitSubmitMeeting from './pages/RecruitSubmitMeeting'
 import News from './pages/News'
 import NewsInfo from './pages/NewsInfo'
+import UserMain from './pages/UserMain'
 
 function App() {
 	return (
@@ -14,11 +15,12 @@ function App() {
 			<Router>
 				<Routes>
 					<Route path='/' element={<Main />} />
-          <Route path='/login' element={<Login />} />
+          			<Route path='/login' element={<Login />} />
 					<Route path='/recruit-meeting' element={<RecruitMeeting />} />
 					<Route path='/recruit-meeting/submit' element={<RecruitSubmitMeeting />} />
 					<Route path='/news' element={<News />} />
 					<Route path='/news/:no' element={<NewsInfo />} />
+					<Route path='/usermain' element={<UserMain />} />
 				</Routes>
 			</Router>
 		</div>

@@ -22,7 +22,6 @@ const Login: React.FC = () => {
 
             const accessToken = response.headers['Access-Token']
             const refreshToken = response.headers['Refresh-Token']
-
             if (accessToken && refreshToken) {
                 localStorage.setItem('accessToken', accessToken)
                 localStorage.setItem('refreshToken', refreshToken)
@@ -30,7 +29,13 @@ const Login: React.FC = () => {
             
             console.log('로그인 성공:', response.data)
 
-            // 리다이렉트 추후 추가
+            const authority = response.headers['authority']
+            console.log(authority)
+            if (authority === 'ROLE_ADMIN') {
+                navigate('/admin')
+            } else {
+                navigate('/usermain')
+            }
 
         } catch (err: any) {
             const errorCode = err.response?.data?.code
