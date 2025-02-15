@@ -1,4 +1,5 @@
 import React from 'react'
+import { motion } from 'framer-motion'
 import DasomLogo from '../../assets/images/dasomLogo.svg'
 import ActivityBar from '../../assets/images/activityBar.svg'
 
@@ -11,6 +12,20 @@ type ActivityItem = {
 type ActivitySection = {
   category: string
   items: ActivityItem[]
+}
+
+// Fade In & Move up
+const FadeInSection: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.8, ease: 'easeOut' }}
+      viewport={{ once: false }}
+    >
+      {children}
+    </motion.div>
+  )
 }
 
 const ActivityStatus: React.FC<{ year: string }> = ({ year }) => {
@@ -63,46 +78,46 @@ const ActivityStatus: React.FC<{ year: string }> = ({ year }) => {
   ]
 
   return (
-    <div className='max-w-[400px] bg-mainBlack p-4 rounded-xl text-white'>
-      <div className='flex items-center gap-2 mb-3'>
-        <img
-          src={DasomLogo}
-          className='w-7 h-7'
-          alt='Dasom Icon'
-        />
-        <div>
-          <div className='text-[16px] font-pretendardBold'>활동 현황</div>
-          <div className='text-mainColor text-[13px] font-pretendardSemiBold'>{year}</div>
+    <FadeInSection>
+      <div className='max-w-[400px] bg-mainBlack p-4 rounded-xl text-white'>
+        <div className='flex items-center gap-2 mb-3'>
+          <img src={DasomLogo} className='w-7 h-7' alt='Dasom Icon' />
+          <div>
+            <div className='text-[16px] font-pretendardBold'>활동 현황</div>
+            <div className='text-mainColor text-[13px] font-pretendardSemiBold'>{year}</div>
+          </div>
+        </div>
+        <div className="flex items-start gap-3">
+          <img src={ActivityBar} className="w-4 h-[300px] mt-1.5" alt="Activitybar" />
+          <div className="space-y-3">
+            {activityData.map((section, index) => (
+              <FadeInSection key={index}>
+                <div>
+                  <div className='text-white text-[12px] font-pretendardBold'>
+                    {section.category}
+                  </div>
+                  <ul className='space-y-1'>
+                    {section.items.map((activity, idx) => (
+                      <li key={idx} className='flex flex-wrap text-[10.5px] leading-tight'>
+                        {activity.title && (
+                          <span className='font-pretendardRegular'>{activity.title}</span>
+                        )}
+                        {activity.award && (
+                          <span className='font-pretendardBold text-mainColor mr-1'>{activity.award}</span>
+                        )}
+                        {activity.subtitle && (
+                          <span className='text-subGrey font-pretendardRegular'>{' '}{activity.subtitle}</span>
+                        )}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </FadeInSection>
+            ))}
+          </div>
         </div>
       </div>
-      <div className="flex items-start gap-3">
-        <img src={ActivityBar} className="w-4 h-[300px] mt-1.5" alt="Activitybar" />
-        <div className="space-y-3">
-          {activityData.map((section, index) => (
-            <div key={index}>
-              <div className='text-white text-[12px] font-pretendardBold'>
-                {section.category}
-              </div>
-              <ul className='space-y-1'>
-                {section.items.map((activity, idx) => (
-                  <li key={idx} className='flex flex-wrap text-[10.5px] leading-tight'>
-                    {activity.title && (
-                      <span className='font-pretendardRegular'>{activity.title}</span>
-                    )}
-                    {activity.award && (
-                      <span className='font-pretendardBold text-mainColor mr-1'>{activity.award}</span>
-                    )}
-                    {activity.subtitle && (
-                      <span className='text-subGrey font-pretendardRegular'>{' '}{activity.subtitle}</span>
-                    )}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
+    </FadeInSection>
   )
 }
 

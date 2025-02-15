@@ -36,7 +36,6 @@ const RecruitMeeting: React.FC = () => {
 
 	return (
 		<MobileLayout>
-			<Header />
 			<RecruitHeader title='컴퓨터 소프트웨어 공학과 전공 동아리 다솜 34기 모집 폼' />
 			<RecruitUI />
 			<div className='flex flex-col items-center w-full'>
