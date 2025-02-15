@@ -9,7 +9,6 @@ const RecruitSubmitMeeting: React.FC = () => {
 
 	return (
 		<MobileLayout>
-			<Header />
 			<div className='flex flex-col items-center w-full mt-6'>
 				<p className='font-pretendardBold text-white text-center bg-mainColor w-[90%]'>
 					면접일 제출이 완료되었습니다.

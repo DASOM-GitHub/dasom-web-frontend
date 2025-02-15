@@ -9,8 +9,8 @@ interface ButtonProps {
 export const Button: React.FC<ButtonProps> = ({ text, className }) => {
   return (
     <div className='w-full max-w-[395px] h-[50px] flex justify-center'>
-      <button
-        className={`bg-[#00B493] max-w-[395px] h-[22px] text-white font-bold px-4 text-[10px] transition-all hover:bg-[#00937A] active:scale-95 ${className}`}
+      <button type="submit"
+        className={`bg-[#00B493] max-w-[395px] h-[22px] text-white font-bold px-4 text-[12px] transition-all hover:bg-[#00937A] active:scale-95 ${className}`}
       >
         {text}
       </button>
