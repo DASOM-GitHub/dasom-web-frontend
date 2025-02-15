@@ -1,18 +1,84 @@
-import React from 'react'
+import React, { useState } from 'react'
 import MobileLayout from '../components/layout/MobileLayout'
+import { useNavigate } from 'react-router-dom'
 import { Header } from '../components/UI/Header'
 import { RecruitUI, RecruitHeader } from '../components/UI/RecruitUI'
 import { InputField } from '../components/UI/Recruit_InputField'
 import { Button } from '../components/UI/Recruit_Button'
 
 const Recruit: React.FC = () => {
+
+  const navigate = useNavigate() 
+
+
+  const [formData, setFormData] = useState({
+    name: '',
+    studentNo: '',
+    contact: '',
+    email: '',
+    grade: '',
+    reasonForApply: '',
+    activityWish: '',
+    isPrivacyPolicyAgreed: false, // 개인정보 동의 체크
+    isOverwriteConfirmed: false, // 중복 지원 여부 체크
+  })
+
+
+  // 📌 입력값 변경 핸들러
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    const { name, value, type } = e.target
+    const newValue = type === 'checkbox' ? (e.target as HTMLInputElement).checked : value
+
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: newValue,
+    }))
+  }
+
+  // 📌 API 요청 보내기 (POST)
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+
+    // 유효성 검사 (예: 모든 필수 값 입력 확인)
+    if (!formData.name || !formData.studentNo || !formData.contact || !formData.email || !formData.reasonForApply) {
+      alert('모든 필수 정보를 입력해주세요.')
+      return
+    }
+
+    try {
+      const response = await fetch('http://dmu-dasom/or.kr/api/recruit/apply', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      })
+
+      if (response.ok) {
+        alert('지원이 성공적으로 제출되었습니다!')
+        navigate('/recruit-submit') // ✅ 제출 후 페이지 이동
+      } else {
+        const errorData = await response.json()
+        alert(`오류 발생: ${errorData.message}`)
+      }
+    } catch (error) {
+      console.error('API 요청 중 오류 발생:', error)
+      alert('지원 제출 중 오류가 발생했습니다.')
+    }
+  }
+
+
+  // const handleSubmit = (e: React.FormEvent) => {
+  //   e.preventDefault() 
+  //   navigate('/recruit-submit') 
+  // }
+
   return (
     <MobileLayout>
-      <Header />
       <RecruitHeader title="컴퓨터 소프트웨어 공학과 전공 동아리 다솜 34기 모집 폼" />
       <RecruitUI />
-      <div className=" flex flex-col items-center gap-6">
-        <form className="mt-3 bg-mainBlack w-full px-2">
+      <div className=" flex flex-col items-center gap-6 ">
+        <form className="mt-3 bg-mainBlack w-full px-2" onSubmit={handleSubmit}>
           <InputField label="이름" required />
           <InputField label="학번" required />
           <InputField label="연락처" placeholder="ex) 010-0000-0000" required />
@@ -42,12 +108,10 @@ const Recruit: React.FC = () => {
             type='checkbox'
             required
           />
+          <Button text="폼 제출하기" />
         </form>
-
-
-
       </div>
-      <Button text="폼 제출하기" />
+
     </MobileLayout>
   )
 }
