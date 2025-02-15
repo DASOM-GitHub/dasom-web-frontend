@@ -64,7 +64,6 @@ const GitHubLinkUrl = ({ username }: { username: string }) => {
 const CoreMembers: React.FC = () => {
   return (
     <MobileLayout>
-      <Header/>
       <div className='mt-[28px] ml-[12px] flex'>
           <img
               className='w-[21px] h-[24px] cursor-pointer'

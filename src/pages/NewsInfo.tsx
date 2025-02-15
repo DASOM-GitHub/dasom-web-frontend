@@ -15,7 +15,6 @@ interface notice {
 const NewsInfo: React.FC = () => {
 	return (
 		<MobileLayout>
-			<Header />
 			<div className='mt-[65px] mb-2 ml-[12px] flex'>
 				<img className='w-[21px] h-[24px] cursor-pointer' alt='logo' src={dasomLogo} />
 				<div className='font-pretendardSemiBold text-white text-[16px] ml-[9px]'>다솜 소식</div>

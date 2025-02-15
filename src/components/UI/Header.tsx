@@ -37,7 +37,10 @@ export const Header = (): JSX.Element => {
             margin: '0 auto',
           }}
         >
-          <div className='font-black text-mainColor text-2xl cursor-pointer' onClick={() => navigate('/')}>DASOM</div>
+          <div className='font-black text-mainColor text-2xl cursor-pointer' onClick={() => {
+            navigate('/')
+            isMenuOpen? toggleMenu() : null
+            }}>DASOM</div>
 
           {/* 메뉴 버튼 */}
           <img
@@ -65,6 +68,7 @@ export const Header = (): JSX.Element => {
               className='font-pretendardBlack text-mainColor text-[20px] cursor-pointer hover:text-white'
               onClick={() => {console.log('About 이동')
                 navigate('/')
+                toggleMenu()
               }}
             >
               About
@@ -73,6 +77,7 @@ export const Header = (): JSX.Element => {
               className='font-pretendardBlack text-mainColor text-[20px] cursor-pointer hover:text-white'
               onClick={() => {console.log('News 이동')
                 navigate('/news')
+                toggleMenu()
               }}
             >
               News
@@ -81,6 +86,7 @@ export const Header = (): JSX.Element => {
               className='font-pretendardBlack text-mainColor text-[20px] cursor-pointer hover:text-white'
               onClick={() =>{console.log('Members 이동')
                 navigate('/coremember')
+                toggleMenu()
               }}
             >
               Members
@@ -89,6 +95,7 @@ export const Header = (): JSX.Element => {
               className='font-pretendardBlack text-mainColor text-[20px] cursor-pointer hover:text-white'
               onClick={() => {console.log('FAQ 이동')
                 navigate('/faq')
+                toggleMenu()
               }}
             >
               FAQ
@@ -97,6 +104,7 @@ export const Header = (): JSX.Element => {
               className='font-pretendardBlack text-white text-[20px] cursor-pointer hover:scale-110'
               onClick={() => {console.log('form 이동')
                 navigate('/recruit')
+                toggleMenu()
               }}
             >
               34기 지원하기
@@ -105,6 +113,7 @@ export const Header = (): JSX.Element => {
               className='font-pretendardBlack text-white text-[20px] cursor-pointer hover:scale-110'
               onClick={() => {console.log('합격여부 이동')
                 navigate('/')
+                toggleMenu()
               }}
             >
               합격여부 확인하기
