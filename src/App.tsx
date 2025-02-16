@@ -7,6 +7,7 @@ import RecruitMeeting from './pages/RecruitMeeting'
 import RecruitSubmitMeeting from './pages/RecruitSubmitMeeting'
 import News from './pages/News'
 import NewsInfo from './pages/NewsInfo'
+import UserMain from './pages/UserMain'
 import Recruit from './pages/Recruit'
 import CoreMembers from './pages/CoreMembers'
 import { Header } from './components/UI/Header'
@@ -15,6 +16,14 @@ function App() {
 	return (
 		<div className='App'>
 			<Router>
+				<Routes>
+					<Route path='/' element={<Main />} />
+					<Route path='/recruit-meeting' element={<RecruitMeeting />} />
+					<Route path='/recruit-meeting/submit' element={<RecruitSubmitMeeting />} />
+					<Route path='/news' element={<News />} />
+					<Route path='/news/:no' element={<NewsInfo />} />
+					<Route path='/usermain' element={<UserMain />} />
+				</Routes>
 				<AppContent />
 			</Router>
 		</div>
