@@ -9,6 +9,7 @@ import RecruitSubmitMeeting from './pages/RecruitSubmitMeeting'
 import News from './pages/News'
 import NewsInfo from './pages/NewsInfo'
 import ManApplicants from './pages/admin/ManApplicants'
+import UserMain from './pages/UserMain'
 import Recruit from './pages/Recruit'
 import CoreMembers from './pages/CoreMembers'
 import { Header } from './components/UI/Header'
@@ -21,11 +22,11 @@ function App() {
 					<Route path='/' element={<Main />} />
 					<Route path='/admin' element={<AdminMain />} />
 					<Route path='/admin/applicants' element={<ManApplicants />} />
-          			<Route path='/login' element={<Login />} />
 					<Route path='/recruit-meeting' element={<RecruitMeeting />} />
 					<Route path='/recruit-meeting/submit' element={<RecruitSubmitMeeting />} />
 					<Route path='/news' element={<News />} />
 					<Route path='/news/:no' element={<NewsInfo />} />
+					<Route path='/usermain' element={<UserMain />} />
 				</Routes>
 				<AppContent />
 			</Router>
