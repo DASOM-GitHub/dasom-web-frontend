@@ -18,7 +18,6 @@ function App() {
 			<Router>
 				<Routes>
 					<Route path='/' element={<Main />} />
-          			<Route path='/login' element={<Login />} />
 					<Route path='/recruit-meeting' element={<RecruitMeeting />} />
 					<Route path='/recruit-meeting/submit' element={<RecruitSubmitMeeting />} />
 					<Route path='/news' element={<News />} />
