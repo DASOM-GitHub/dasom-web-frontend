@@ -18,16 +18,6 @@ function App() {
 	return (
 		<div className='App'>
 			<Router>
-				<Routes>
-					<Route path='/' element={<Main />} />
-					<Route path='/admin' element={<AdminMain />} />
-					<Route path='/admin/applicants' element={<ManApplicants />} />
-					<Route path='/recruit-meeting' element={<RecruitMeeting />} />
-					<Route path='/recruit-meeting/submit' element={<RecruitSubmitMeeting />} />
-					<Route path='/news' element={<News />} />
-					<Route path='/news/:no' element={<NewsInfo />} />
-					<Route path='/usermain' element={<UserMain />} />
-				</Routes>
 				<AppContent />
 			</Router>
 		</div>
@@ -45,12 +35,15 @@ function AppContent() {
 			<Routes>
 				<Route path='/' element={<Main />} />
 				<Route path='/login' element={<Login />} />
+				<Route path='/usermain' element={<UserMain />} />
 				<Route path='/recruit' element={<Recruit />} />
 				<Route path='/coremember' element={<CoreMembers />} />
 				<Route path='/recruit-meeting' element={<RecruitMeeting />} />
 				<Route path='/recruit-meeting/submit' element={<RecruitSubmitMeeting />} />
 				<Route path='/news' element={<News />} />
 				<Route path='/news/:no' element={<NewsInfo />} />
+				<Route path='/admin' element={<AdminMain />} />
+				<Route path='/admin/applicants' element={<ManApplicants />} />
 			</Routes>
 		</>
 	)
