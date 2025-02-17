@@ -168,7 +168,7 @@ const Main: React.FC = () => {
         </div>
 
         {/* 바텀마진용용 */}
-        <div className='flex w-full bg-mainBlack min-h-[2px]' />
+        <div className='flex w-full bg-mainBlack min-h-[60px]' />
       </div>
     </MobileLayout>
   )

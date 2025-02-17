@@ -13,6 +13,9 @@ import UserMain from './pages/UserMain'
 import Recruit from './pages/Recruit'
 import CoreMembers from './pages/CoreMembers'
 import { Header } from './components/UI/Header'
+import { RecruitSubmit } from './pages/RecruitSubmit'
+import FAQ from './pages/FAQ'
+import { RecruitResult } from './pages/RecruitResult'
 
 function App() {
 	return (
@@ -43,7 +46,6 @@ function AppContent() {
 			{/* 지정한 페이지 header 숨기기 */}
 			{!hideHeader.includes(location.pathname) && <Header />}
 			<Routes>
-				<Route path='/' element={<Main />} />
 				<Route path='/login' element={<Login />} />
 				<Route path='/recruit' element={<Recruit />} />
 				<Route path='/coremember' element={<CoreMembers />} />
@@ -51,6 +53,8 @@ function AppContent() {
 				<Route path='/recruit-meeting/submit' element={<RecruitSubmitMeeting />} />
 				<Route path='/news' element={<News />} />
 				<Route path='/news/:no' element={<NewsInfo />} />
+				<Route path='/admin' element={<AdminMain />} />
+				<Route path='/admin/applicants' element={<ManApplicants />} />
 			</Routes>
 		</>
 	)
