@@ -1,9 +1,9 @@
 import React from 'react'
 
 interface PaginationProps {
-    currentPage: number;
-    totalPages: number;
-    setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
+    currentPage: number
+    totalPages: number
+    setCurrentPage: React.Dispatch<React.SetStateAction<number>>
 }
 
 const AdminPagination: React.FC<PaginationProps> = ({ currentPage, totalPages, setCurrentPage }) => {

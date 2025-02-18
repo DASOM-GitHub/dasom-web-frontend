@@ -202,7 +202,7 @@ const ManApplicants: React.FC = () => {
                         <th className='border border-gray-500 py-[4px]'>상세정보</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody className='overflow-y-auto max-h-[calc(100vh)]'>
                     {currentApplicants.map((applicant) => (
                         <ApplicantInfo key={applicant.id} applicant={applicant} />
                     ))}
