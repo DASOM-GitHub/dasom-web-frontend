@@ -16,6 +16,7 @@ interface InputFieldProps {
   onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => void
 }
 
+
 export const InputField: React.FC<InputFieldProps> = ({
   label,
   name,
@@ -35,9 +36,9 @@ export const InputField: React.FC<InputFieldProps> = ({
 
   // 📌 textarea 동적 높이 변화 
   const handleTextAreaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    e.target.style.height = 'auto' 
-    e.target.style.height = `${e.target.scrollHeight}px` 
-    onChange(e) 
+    e.target.style.height = 'auto'
+    e.target.style.height = `${e.target.scrollHeight}px`
+    onChange(e)
   }
 
 
@@ -105,7 +106,7 @@ export const InputField: React.FC<InputFieldProps> = ({
           <input
             type="checkbox"
             name={name}
-            checked={checked ?? (value as boolean)} 
+            checked={checked ?? (value as boolean)}
             onChange={onChange}
             required={required}
             className={inputStyles}

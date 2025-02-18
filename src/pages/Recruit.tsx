@@ -27,18 +27,18 @@ const Recruit: React.FC = () => {
     let newValue = type === 'checkbox' ? (e.target as HTMLInputElement).checked : value
 
     if (name === 'contact') {
-      let formattedValue = value.replace(/[^0-9]/g, '') 
+      let formattedValue = value.replace(/[^0-9]/g, '')
 
-     
+
       if (formattedValue.length > 11) {
         formattedValue = formattedValue.slice(0, 11)
       }
 
-  
+
       if (formattedValue.length === 10) {
-        formattedValue = formattedValue.replace(/^(\d{3})(\d{3})(\d{4})$/, '$1-$2-$3') 
+        formattedValue = formattedValue.replace(/^(\d{3})(\d{3})(\d{4})$/, '$1-$2-$3')
       } else if (formattedValue.length === 11) {
-        formattedValue = formattedValue.replace(/^(\d{3})(\d{4})(\d{4})$/, '$1-$2-$3') 
+        formattedValue = formattedValue.replace(/^(\d{3})(\d{4})(\d{4})$/, '$1-$2-$3')
       }
 
       setContact(formattedValue)
@@ -48,15 +48,15 @@ const Recruit: React.FC = () => {
       }))
     }
     else if (name === 'studentNo') {
-      let formattedValue = value.replace(/[^0-9]/g, '') 
-      formattedValue = formattedValue.slice(0, 8) 
+      let formattedValue = value.replace(/[^0-9]/g, '')
+      formattedValue = formattedValue.slice(0, 8)
 
       setFormData((prevData) => ({
         ...prevData,
         studentNo: formattedValue
       }))
     } else if (name === 'reasonForApply') {
-      if (value.length <= 500) { 
+      if (value.length <= 500) {
         setFormData((prevData) => ({
           ...prevData,
           reasonForApply: value
@@ -64,7 +64,7 @@ const Recruit: React.FC = () => {
       }
     }
     else if (name === 'activityWish') {
-      if (value.length <= 200) { 
+      if (value.length <= 200) {
         setFormData((prevData) => ({
           ...prevData,
           activityWish: value
@@ -80,15 +80,15 @@ const Recruit: React.FC = () => {
 
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     if (e.key === 'Enter') {
-      e.preventDefault() 
+      e.preventDefault()
 
       const form = e.currentTarget.form
       if (!form) return
 
-      const elements = Array.from(form.elements) as HTMLElement[] 
+      const elements = Array.from(form.elements) as HTMLElement[]
       const index = elements.indexOf(e.currentTarget)
 
-    
+
       for (let i = index + 1; i < elements.length; i++) {
         const nextElement = elements[i]
         if (nextElement instanceof HTMLInputElement || nextElement instanceof HTMLTextAreaElement || nextElement instanceof HTMLSelectElement) {
