@@ -9,6 +9,8 @@ import RecruitSubmitMeeting from './pages/RecruitSubmitMeeting'
 import News from './pages/News'
 import NewsInfo from './pages/NewsInfo'
 import ManApplicants from './pages/admin/ManApplicants'
+import ManNewsList from './pages/admin/ManNewsList'
+import ManNewsDetail from './pages/admin/ManNewsDetail'
 import UserMain from './pages/UserMain'
 import Recruit from './pages/Recruit'
 import CoreMembers from './pages/CoreMembers'
@@ -44,6 +46,8 @@ function AppContent() {
 				<Route path='/news/:no' element={<NewsInfo />} />
 				<Route path='/admin' element={<AdminMain />} />
 				<Route path='/admin/applicants' element={<ManApplicants />} />
+				<Route path='/admin/news' element={<ManNewsList />} />
+				<Route path='/admin/news/:no' element={<ManNewsDetail />} />
 			</Routes>
 		</>
 	)
