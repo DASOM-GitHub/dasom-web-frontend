@@ -1,4 +1,5 @@
 import React from 'react'
+import axios from 'axios'
 import { Header } from '../../components/UI/Header'
 import { useNavigate } from 'react-router-dom'
 
@@ -17,6 +18,24 @@ const AdminMenuBtn = ({ text, link } : { text: string, link: string }) => {
 }
 
 const AdminMain: React.FC = () => {
+    const navigate = useNavigate()
+
+    const handleLogout = async () => {
+        try {
+            // 로그아웃
+            await axios.post('https://dmu-dasom.or.kr/api/auth/logout', {}, {
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
+                }
+            })
+            localStorage.removeItem('accessToken')
+            // 메인으로 리다이렉트
+            navigate('/')
+        } catch (error) {
+            console.error('로그아웃 중 오류 발생', error)
+        }
+    }
+
     return (
         <div className='h-[100vh] w-[100vw] bg-mainBlack'>
             <div className='h-[100%] flex flex-col items-center justify-center space-y-4 text-[16px] text-white font-pretendardSemiBold'>
@@ -26,7 +45,7 @@ const AdminMain: React.FC = () => {
                 <AdminMenuBtn text='공지사항 관리' link='/admin/news' />
                 <div 
                     className='text-[14px] font-pretendardRegular text-white'
-                    //onClick 로그아웃 기능
+                    onClick={handleLogout}
                 >
                     로그아웃
                 </div>
