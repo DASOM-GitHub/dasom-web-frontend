@@ -31,7 +31,6 @@ export const InputField: React.FC<InputFieldProps> = ({
   onChange,
   onKeyDown
 
-  
 }) => {
 
   // 📌 textarea 동적 높이 변화 
