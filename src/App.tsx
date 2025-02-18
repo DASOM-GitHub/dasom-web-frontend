@@ -9,6 +9,7 @@ import RecruitSubmitMeeting from './pages/RecruitSubmitMeeting'
 import News from './pages/News'
 import NewsInfo from './pages/NewsInfo'
 import ManApplicants from './pages/admin/ManApplicants'
+import ManRecruitDate from './pages/admin/ManRecruitDate'
 import UserMain from './pages/UserMain'
 import Recruit from './pages/Recruit'
 import CoreMembers from './pages/CoreMembers'
@@ -44,6 +45,7 @@ function AppContent() {
 				<Route path='/news/:no' element={<NewsInfo />} />
 				<Route path='/admin' element={<AdminMain />} />
 				<Route path='/admin/applicants' element={<ManApplicants />} />
+				<Route path='/admin/date' element={<ManRecruitDate />} />
 			</Routes>
 		</>
 	)
