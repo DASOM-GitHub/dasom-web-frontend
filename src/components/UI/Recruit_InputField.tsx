@@ -16,7 +16,6 @@ interface InputFieldProps {
   onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => void
 }
 
-
 export const InputField: React.FC<InputFieldProps> = ({
   label,
   name,
