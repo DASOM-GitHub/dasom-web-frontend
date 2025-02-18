@@ -113,6 +113,7 @@ const ManRecruitDate = () => {
                                     label={statusMap[key as keyof typeof statusMap]}
                                     value={value}
                                     onChange={(newValue) => handleDateChange(key as keyof typeof dates, newValue)}
+                                    ampm={false}
                                 />
                                 <Button variant="contained" onClick={() => handleSave(key as keyof typeof statusMap)}>
                                     저장
