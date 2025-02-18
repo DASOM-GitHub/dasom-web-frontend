@@ -1,6 +1,5 @@
 import React from 'react'
 import axios from 'axios'
-import { Header } from '../../components/UI/Header'
 import { useNavigate } from 'react-router-dom'
 
 // 메뉴 버튼 컴퍼넌트
@@ -44,7 +43,7 @@ const AdminMain: React.FC = () => {
                 <AdminMenuBtn text='일정 관리' link='/admin/date' />
                 <AdminMenuBtn text='공지사항 관리' link='/admin/news' />
                 <div 
-                    className='text-[14px] font-pretendardRegular text-white'
+                    className='cursor-pointer text-[14px] font-pretendardRegular text-white'
                     onClick={handleLogout}
                 >
                     로그아웃
