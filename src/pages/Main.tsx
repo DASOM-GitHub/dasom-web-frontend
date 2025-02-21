@@ -14,7 +14,6 @@ import pythonFocus from '../assets/images/pythonFocus.svg'
 import ActivityStatus from '../components/UI/ActivityStatus'
 import dasomInstagram from '../assets/images/instagram.svg'
 import dasomGithub from '../assets/images/github.svg'
-import Recruit from './Recruit'
 import { useNavigate } from 'react-router-dom'
 
 const TypingEffect = ({ text }: { text: string }) => {
@@ -152,7 +151,7 @@ const Main: React.FC = () => {
         <div className='flex w-full bg-stone-900 min-h-[1px] mb-20' />
         <ActivityStatus year="2024" />
 
-        <div className='flex items-center justify-center w-full text-[20px] mt-[20px] font-pretendardBlack text-white text-center' onClick={handleClick}>
+        <div className='flex items-center justify-center w-full text-[20px] mt-[20px] font-pretendardBlack text-white text-center cursor-pointer' onClick={handleClick}>
           DASOM 34기 지원하기
         </div>
         <div className='w-[30px] bg-white min-h-[1px] mb-[20px] mt-[48px] mx-auto' />
