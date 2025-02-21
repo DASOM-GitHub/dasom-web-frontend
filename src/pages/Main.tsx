@@ -14,6 +14,7 @@ import pythonFocus from '../assets/images/pythonFocus.svg'
 import ActivityStatus from '../components/UI/ActivityStatus'
 import dasomInstagram from '../assets/images/instagram.svg'
 import dasomGithub from '../assets/images/github.svg'
+import Recruit from './Recruit'
 import { useNavigate } from 'react-router-dom'
 
 const TypingEffect = ({ text }: { text: string }) => {
