@@ -1,7 +1,6 @@
 import React from 'react'
 import { useLocation } from 'react-router-dom'
 import MobileLayout from '../components/layout/MobileLayout'
-import { Header } from '../components/UI/Header'
 import { RecruitHeader, RecruitUI } from '../components/UI/RecruitUI'
 
 const RecruitSubmitMeeting: React.FC = () => {

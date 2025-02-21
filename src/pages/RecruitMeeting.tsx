@@ -3,7 +3,6 @@ import MobileLayout from '../components/layout/MobileLayout'
 import MeetingDateSelector from '../components/layout/MeetingDateSelector'
 import MeetingTimeSelector from '../components/layout/MeetingTimeSelector'
 import { useNavigate } from 'react-router-dom'
-import { Header } from '../components/UI/Header'
 import { RecruitHeader, RecruitUI } from '../components/UI/RecruitUI'
 
 /** 면접 날짜 선택 페이지 */
