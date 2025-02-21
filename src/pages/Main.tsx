@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import { Header } from '../components/UI/Header'
 import { Cover } from '../components/UI/cover'
 import MobileLayout from '../components/layout/MobileLayout'
 import pythonRecruit from '../assets/images/pythonRecruit.svg'
@@ -15,7 +14,6 @@ import pythonFocus from '../assets/images/pythonFocus.svg'
 import ActivityStatus from '../components/UI/ActivityStatus'
 import dasomInstagram from '../assets/images/instagram.svg'
 import dasomGithub from '../assets/images/github.svg'
-import Recruit from './Recruit'
 
 const TypingEffect = ({ text }: { text: string }) => {
   const [displayText, setDisplayText] = useState('')
@@ -167,7 +165,7 @@ const Main: React.FC = () => {
           </a>
         </div>
 
-        {/* 바텀마진용용 */}
+        {/* 바텀마진용 */}
         <div className='flex w-full bg-mainBlack min-h-[60px]' />
       </div>
     </MobileLayout>

@@ -1,5 +1,4 @@
 import React from 'react'
-import { Header } from '../../components/UI/Header'
 import { useNavigate } from 'react-router-dom'
 
 // 메뉴 버튼 컴퍼넌트

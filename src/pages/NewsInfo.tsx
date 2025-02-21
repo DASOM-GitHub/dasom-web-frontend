@@ -3,7 +3,6 @@ import MobileLayout from '../components/layout/MobileLayout'
 import dasomLogo from '../assets/images/dasomLogo.svg'
 import NewsContent from '../components/UI/NewsContent'
 import NewsNotice from '../components/UI/NewsNotice'
-import { Header } from '../components/UI/Header'
 
 interface notice {
 	id: number
