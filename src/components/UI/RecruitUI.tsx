@@ -53,38 +53,38 @@ export const RecruitUI: React.FC = () => {
 
 export const RecruitUI_SUB: React.FC = () => {
   return (
-    <div className="  text-gray-300 flex flex-col items-start max-w-[375px] h-[auto] shadow-[0px_2px_3px_rgba(255,255,255,0.2)] bg-#17171B] gap-2 ml-2.5">
+    <div className="  text-white flex flex-col items-start max-w-[375px] h-[auto] shadow-[0px_2px_3px_rgba(255,255,255,0.2)] bg-#17171B] gap-2 ml-2.5 font-pretendardRegular pl-2 pr-2 text-[12px] ">
 
       {/* 1차 서류 합격 안내 */}
-      <p className="text-[15px] font-bold text-yellow-300 pt-3">
+      <p className="text-[15px] font-pretendardBold text-yellow-300 pt-3">
         🎊 1차 서류 합격을 진심으로 축하드립니다!
       </p>
-      <p className="text-[12px] p-1">
-        2차 면접이 진행될 예정입니다. 아래에서 <span className="text-green-400 font-semibold">편하신 날짜와 시간을 선택하여 예약</span>해주세요.
+      <p>
+        2차 면접이 진행될 예정입니다. <br/> 아래에서 <span className="text-green-400 font-pretendardBold">편하신 날짜와 시간을 선택하여 예약</span>해주세요.
       </p>
 
       {/* 면접 일정 */}
 
-      <p className="text-green-400 font-semibold text-sm">📅 면접 일정</p>
+      <p className="text-green-400 font-pretendardSemiBold text-sm mt-2">📅 면접 일정</p>
       <p className="text-xs">✔ 3월 19일(수) ~ 3월 21일(금)</p>
 
 
       {/* 면접 장소 */}
 
-      <p className="text-green-400 font-semibold text-sm">🕒 면접 장소</p>
+      <p className="text-green-400 font-pretendardSemiBold text-sm mt-2">🕒 면접 장소</p>
       <p className="text-xs">✔ 개별 안내 예정</p>
 
 
       {/* 추가 안내 사항 */}
 
-      <p className="text-yellow-300 font-semibold text-sm">📌 면접 안내 사항</p>
-      <p className="text-xs">✅ 면접은 <span className="text-white">개별 면접</span>으로 진행됩니다.</p>
-      <p className="text-xs">✅ <span className="text-white">예약 변경은 불가</span>하므로 신중히 선택해주세요.</p>
-      <p className="text-xs">✅ 선착순 마감으로 <span className="text-white">일부 시간대는 예약이 어려울 수 있습니다.</span></p>
+      <p className="text-yellow-300 font-pretendardSemiBold text-sm mt-2">📌 면접 안내 사항</p>
+      <p className="text-xs">✅ 면접은 <span className="font-pretendardSemiBold">개별 면접</span>으로 진행됩니다.</p>
+      <p className="text-xs">✅ <span className="font-pretendardSemiBold">예약 변경은 불가</span>하므로 신중히 선택해주세요.</p>
+      <p className="text-xs">✅ 선착순 마감으로 <span className="font-pretendardSemiBold">일부 시간대는 예약이 어려울 수 있습니다.</span></p>
 
 
-      <p className="mt-4 text-[12px] text-gray-300 mb-3">
-        🔔 면접 당일 <span className="text-yellow-300 font-semibold">지각 없이 참석</span> 부탁드립니다.
+      <p className="mt-4 text-[12px] text-white mb-3">
+        🔔 면접 당일 <span className="text-yellow-300 font-pretendardSemiBold">지각 없이 참석</span> 부탁드립니다.
         <p>💡 면접 일정은 선착순으로 마감되므로 빠른 예약을 권장드립니다! 😊</p>
       </p>
 

@@ -13,7 +13,7 @@ export const RecruitSubmit: React.FC = () => {
       <RecruitUI />
       <Recruit_InfoBanner
         message="다솜에 지원해주셔서 감사합니다."
-        date="서류 합격자 명단은 3월 15일 이메일로 일괄 공지됩니다."
+        message2="서류 합격자 명단은 3월 15일 이메일로 일괄 공지됩니다."
       />
     </MobileLayout>
   )
