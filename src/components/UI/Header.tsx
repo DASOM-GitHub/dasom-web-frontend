@@ -112,7 +112,7 @@ export const Header = (): JSX.Element => {
             <li
               className='font-pretendardBlack text-white text-[20px] cursor-pointer hover:scale-110'
               onClick={() => {console.log('합격여부 이동')
-                navigate('/')
+                navigate('/recruit/result')
                 toggleMenu()
               }}
             >
