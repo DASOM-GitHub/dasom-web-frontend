@@ -8,21 +8,34 @@ import axios from 'axios'
 
 const ManRecruitDate = () => {
     const [dates, setDates] = useState({
-        REC_OPEN: dayjs('2025-03-01T09:00:00'),
-        REC_CLOSE: dayjs('2025-03-10T18:00:00'),
-        REC_MID_ANNOUNCE: dayjs('2025-03-15T12:00:00'),
-        REC_FINAL_ANNOUNCE: dayjs('2025-03-20T12:00:00'),
-        REC_INTERVIEW_START: dayjs('2025-03-25T10:00:00'),
-        REC_INTERVIEW_END: dayjs('2025-03-30T17:00:00')
+        // 모집 기간 (시작일, 종료일)
+        RECRUITMENT_PERIOD_START: dayjs('2025-03-01T09:00:00'),
+        RECRUITMENT_PERIOD_END: dayjs('2025-03-10T18:00:00'),
+
+        // 1차 합격 (서류) 발표일
+        DOCUMENT_PASS_ANNOUNCEMENT: dayjs('2025-03-15T12:00:00'),
+
+        // 면접 기간 (시작일, 종료일)
+        INTERVIEW_PERIOD_START: dayjs('2025-03-20T12:00:00'),
+        INTERVIEW_PERIOD_END: dayjs('2025-03-20T12:00:00'),
+
+        // 면접 시간 (시작시각, 종료시각)
+        INTERVIEW_TIME_START: dayjs('T10:00:00'),
+        INTERVIEW_TIME_END: dayjs('T10:00:00'),
+
+        // 최종 합격 (면접) 발표일
+        INTERVIEW_PASS_ANNOUNCEMENT: dayjs('2025-03-30T17:00:00')
     })
 
     const statusMap = {
-        REC_OPEN: '모집 시작',
-        REC_CLOSE: '모집 종료',
-        REC_MID_ANNOUNCE: '서류 합격 발표',
-        REC_FINAL_ANNOUNCE: '최종 합격 발표',
-        REC_INTERVIEW_START: '면접 시작',
-        REC_INTERVIEW_END: '면접 종료'
+        RECRUITMENT_PERIOD_START: '모집 시작',
+        RECRUITMENT_PERIOD_END: '모집 종료',
+        DOCUMENT_PASS_ANNOUNCEMENT: '1차 합격 발표',
+        INTERVIEW_PERIOD_START: '면접 시작 날짜',
+        INTERVIEW_PERIOD_END: '면접 종료 날짜',
+        INTERVIEW_TIME_START: '면접 시작 시간',
+        INTERVIEW_TIME_END: '면접 종료 시간',
+        INTERVIEW_PASS_ANNOUNCEMENT: '최종 합격 발표',
     }
 
     const reverseStatusMap = Object.fromEntries(
@@ -41,12 +54,14 @@ const ManRecruitDate = () => {
 
     //             const data = response.data || []
     //             const defaultDates = {
-    //                 REC_OPEN: dayjs(),
-    //                 REC_CLOSE: dayjs(),
-    //                 REC_MID_ANNOUNCE: dayjs(),
-    //                 REC_FINAL_ANNOUNCE: dayjs(),
-    //                 REC_INTERVIEW_START: dayjs(),
-    //                 REC_INTERVIEW_END: dayjs()
+    //                 RECRUITMENT_PERIOD_START: dayjs(),
+    //                 RECRUITMENT_PERIOD_END: dayjs(),
+    //                 DOCUMENT_PASS_ANNOUNCEMENT: dayjs(),
+    //                 INTERVIEW_PERIOD_START: dayjs(),
+    //                 INTERVIEW_PERIOD_END: dayjs(),
+    //                 INTERVIEW_TIME_START: dayjs(),
+    //                 INTERVIEW_TIME_END: dayjs(),
+    //                 INTERVIEW_PASS_ANNOUNCEMENT: dayjs(),
     //             }
 
     //             const newDates = Object.keys(defaultDates).reduce((acc, key) => {
