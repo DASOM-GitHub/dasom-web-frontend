@@ -1,5 +1,5 @@
 import React, { JSX, useState } from 'react'
-import MeetingDate from '../UI/MeetingDate'
+import MeetingDate from './MeetingDate'
 
 interface dateInfo {
 	month: string
@@ -7,9 +7,16 @@ interface dateInfo {
 	week: string
 }
 
+interface interviewPeriod {
+	periodStart: string
+	periodEnd: string
+}
+
 interface props {
 	/** 선택된 날짜를 반환하는 콜백 함수 */
 	onSelect: (date: string) => void
+	/** 면접 기간 */
+	period: interviewPeriod
 }
 
 /** 면접 날짜 목록 */
@@ -20,7 +27,7 @@ const meetingDates: dateInfo[] = [
 ]
 
 /** 면접 날짜 선택 레이아웃 */
-const MeetingDateSelector = ({ onSelect }: props): JSX.Element => {
+const MeetingDateSelector = ({ onSelect, period }: props): JSX.Element => {
 	const [selectedDate, setSelectedDate] = useState<string>('')
 
 	/** 날짜 클릭 핸들러 (부모컴포넌트에 state값 반환) */
