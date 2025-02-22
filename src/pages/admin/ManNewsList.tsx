@@ -1,6 +1,7 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import AdminPagination from '../../components/UI/AdminPagination'
+import axios from 'axios'
 
 interface news {
     id: number;
@@ -42,6 +43,20 @@ const ManNewsList: React.FC = () => {
     const startIndex = (currentPage - 1) * itemsPerPage
     const visibleNews = newsItems.slice(startIndex, startIndex + itemsPerPage)
     
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await axios.get('https://dmu-dasom.or.kr/api/news')
+                console.log(response.data)
+            } catch (err: any) {
+                console.error(err)
+                const errorCode = err.response?.data?.code
+            }
+        }
+    
+        fetchData()
+    }, [])
+
     return (
         <div className='h-[100vh] w-[100vw] bg-mainBlack font-pretendardRegular text-white flex flex-col items-center'>
             <div className='w-[1220px] mt-[155px] mb-[4px]'>
