@@ -35,3 +35,5 @@ export const RecruitResult: React.FC = () => {
     </MobileLayout>
   )
 }
+
+
