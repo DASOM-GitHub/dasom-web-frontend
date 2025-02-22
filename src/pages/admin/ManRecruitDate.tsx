@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { TextField, Button } from '@mui/material'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker'
+import { TimePicker } from '@mui/x-date-pickers/TimePicker'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import dayjs from 'dayjs'
 import axios from 'axios'
@@ -20,8 +21,8 @@ const ManRecruitDate = () => {
         INTERVIEW_PERIOD_END: dayjs('2025-03-20T12:00:00'),
 
         // 면접 시간 (시작시각, 종료시각)
-        INTERVIEW_TIME_START: dayjs('T10:00:00'),
-        INTERVIEW_TIME_END: dayjs('T10:00:00'),
+        INTERVIEW_TIME_START: dayjs('18:00:00', 'HH:mm:ss'),
+        INTERVIEW_TIME_END: dayjs('18:00:00', 'HH:mm:ss'),
 
         // 최종 합격 (면접) 발표일
         INTERVIEW_PASS_ANNOUNCEMENT: dayjs('2025-03-30T17:00:00')
@@ -42,42 +43,45 @@ const ManRecruitDate = () => {
         Object.entries(statusMap).map(([key, value]) => [value, key])
     )
 
-    // useEffect(() => {
-    //     const fetchDates = async () => {
-    //         try {
-    //             const token = localStorage.getItem('accessToken')
-    //             const response = await axios.get('https://dmu-dasom.or.kr/api/service', {
-    //                 headers: {
-    //                     Authorization: `Bearer ${token}`
-    //                 }
-    //             })
+    useEffect(() => {
+        const fetchDates = async () => {
+            try {
+                const response = await axios.get('https://dmu-dasom.or.kr/api/recruit')
+                console.log('API Response:', response) 
+                console.log('Response Data:', response.data) 
 
-    //             const data = response.data || []
-    //             const defaultDates = {
-    //                 RECRUITMENT_PERIOD_START: dayjs(),
-    //                 RECRUITMENT_PERIOD_END: dayjs(),
-    //                 DOCUMENT_PASS_ANNOUNCEMENT: dayjs(),
-    //                 INTERVIEW_PERIOD_START: dayjs(),
-    //                 INTERVIEW_PERIOD_END: dayjs(),
-    //                 INTERVIEW_TIME_START: dayjs(),
-    //                 INTERVIEW_TIME_END: dayjs(),
-    //                 INTERVIEW_PASS_ANNOUNCEMENT: dayjs(),
-    //             }
+                const data = response.data
+                const defaultDates = {
+                    RECRUITMENT_PERIOD_START: dayjs(),
+                    RECRUITMENT_PERIOD_END: dayjs(),
+                    DOCUMENT_PASS_ANNOUNCEMENT: dayjs(),
+                    INTERVIEW_PERIOD_START: dayjs(),
+                    INTERVIEW_PERIOD_END: dayjs(),
+                    INTERVIEW_TIME_START: dayjs('18:00:00', 'HH:mm:ss'),
+                    INTERVIEW_TIME_END: dayjs('20:00:00', 'HH:mm:ss'),
+                    INTERVIEW_PASS_ANNOUNCEMENT: dayjs(),
+                }
 
-    //             const newDates = Object.keys(defaultDates).reduce((acc, key) => {
-    //                 const found = data.find(item => item.key === key)
-    //                 acc[key] = found ? dayjs(found.value) : defaultDates[key]
-    //                 return acc
-    //             }, {})
+                const newDates = Object.keys(defaultDates).reduce((acc, key) => {
+                    const found = data.find((item: { key: string, value: string }) => item.key === key)
+                    if (found) {
+                        acc[key as keyof typeof dates] = key.includes('TIME') 
+                            ? dayjs(found.value, 'HH:mm:ss') // 시간 데이터 형식 변환
+                            : dayjs(found.value) // 날짜 데이터 변환
+                    } else {
+                        acc[key as keyof typeof dates] = defaultDates[key as keyof typeof dates]
+                    }
+                    return acc
+                }, {} as typeof dates)
 
-    //             setDates(newDates)
-    //         } catch (error) {
-    //             console.error('Failed to fetch dates:', error)
-    //         }
-    //     }
+                setDates(newDates)
+            } catch (error) {
+                console.error('Failed to fetch dates:', error)
+            }
+        }
 
-    //     fetchDates()
-    // }, [])
+        fetchDates()
+    }, [])
 
     const handleDateChange = (key: keyof typeof dates, newValue: dayjs.Dayjs | null) => {
         if (newValue) {
@@ -92,8 +96,10 @@ const ManRecruitDate = () => {
     const handleSave = async (key: keyof typeof dates) => {
         const formattedData = {
             key: key,
-            value: dates[key],
-            description: statusMap[key as keyof typeof statusMap]
+            value: key.includes('TIME') 
+                ? dates[key].format('HH:mm:ss')
+                : dates[key].toISOString(),
+            description: statusMap[key]
         }
     
         const token = localStorage.getItem('accessToken')
@@ -120,17 +126,26 @@ const ManRecruitDate = () => {
                 <div className='mb-[4px] mt-[155px] justify-start w-[380px] text-[20px]'>
                     모집 일정 관리
                 </div>
-                <div className="mt-[10px] w-fit mx-auto p-5 bg-gray-100 rounded-lg shadow-md">
-                    <div className="flex flex-col gap-4">
+                <div className='mt-[10px] w-fit mx-auto p-5 bg-gray-100 rounded-lg shadow-md'>
+                    <div className='flex flex-col gap-4'>
                         {Object.entries(dates).map(([key, value]) => (
-                            <div key={key} className="flex items-center gap-4">
-                                <DateTimePicker
-                                    label={statusMap[key as keyof typeof statusMap]}
-                                    value={value}
-                                    onChange={(newValue) => handleDateChange(key as keyof typeof dates, newValue)}
-                                    ampm={false}
-                                />
-                                <Button variant="contained" onClick={() => handleSave(key as keyof typeof statusMap)}>
+                            <div key={key} className='flex items-center gap-4'>
+                                {key.includes('TIME') ? (
+                                    <TimePicker
+                                        label={statusMap[key as keyof typeof statusMap]}
+                                        value={value}
+                                        onChange={(newValue) => handleDateChange(key as keyof typeof dates, newValue)}
+                                        ampm={false}
+                                    />
+                                ) : (
+                                    <DateTimePicker
+                                        label={statusMap[key as keyof typeof statusMap]}
+                                        value={value}
+                                        onChange={(newValue) => handleDateChange(key as keyof typeof dates, newValue)}
+                                        ampm={false}
+                                    />
+                                )}
+                                <Button variant='contained' onClick={() => handleSave(key as keyof typeof statusMap)}>
                                     저장
                                 </Button>
                             </div>
