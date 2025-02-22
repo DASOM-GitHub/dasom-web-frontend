@@ -5938,6 +5938,7 @@ __metadata:
     "@emotion/react": "npm:^11.14.0"
     "@emotion/styled": "npm:^11.14.0"
     "@mui/material": "npm:^6.4.4"
+    "@mui/system": "npm:^6.4.3"
     "@mui/x-date-pickers": "npm:^7.27.0"
     "@testing-library/dom": "npm:^10.4.0"
     "@testing-library/react": "npm:^13.0.0"
