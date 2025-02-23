@@ -131,7 +131,7 @@ const Recruit: React.FC = () => {
     <MobileLayout>
       <RecruitHeader title='컴퓨터 소프트웨어 공학과 전공 동아리 다솜 34기 모집 폼' />
       <RecruitUI />
-      <div className='flex flex-col items-center'>
+      <div className='flex flex-col items-center gap-6 mb-40'>
         <form className='mt-3 bg-mainBlack w-full px-2 font-pretendardRegular' onSubmit={handleSubmit} >
           <InputField label='이름' name='name' value={formData.name} onChange={handleInputChange} onKeyDown={handleKeyPress} required />
           <InputField label='학번' name='studentNo' value={formData.studentNo} onChange={handleInputChange} required />

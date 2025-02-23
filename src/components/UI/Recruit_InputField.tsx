@@ -97,7 +97,7 @@ export const InputField: React.FC<InputFieldProps> = ({
           onKeyDown={onKeyDown}
           required={required}
           placeholder={placeholder}
-          className={baseInputStyles}
+          className={baseInputStyles + ' overflow-scroll [&::-webkit-scrollbar]:hidden'}
           rows={4}
         />
 
