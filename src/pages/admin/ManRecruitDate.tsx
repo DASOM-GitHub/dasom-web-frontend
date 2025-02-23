@@ -51,16 +51,7 @@ const ManRecruitDate = () => {
                 console.log('Response Data:', response.data) 
 
                 const data = response.data
-                const defaultDates = {
-                    RECRUITMENT_PERIOD_START: dayjs(),
-                    RECRUITMENT_PERIOD_END: dayjs(),
-                    DOCUMENT_PASS_ANNOUNCEMENT: dayjs(),
-                    INTERVIEW_PERIOD_START: dayjs(),
-                    INTERVIEW_PERIOD_END: dayjs(),
-                    INTERVIEW_TIME_START: dayjs('18:00:00', 'HH:mm:ss'),
-                    INTERVIEW_TIME_END: dayjs('20:00:00', 'HH:mm:ss'),
-                    INTERVIEW_PASS_ANNOUNCEMENT: dayjs(),
-                }
+                const defaultDates = dates
 
                 const newDates = Object.keys(defaultDates).reduce((acc, key) => {
                     const found = data.find((item: { key: string, value: string }) => item.key === key)
@@ -98,14 +89,13 @@ const ManRecruitDate = () => {
             key: key,
             value: key.includes('TIME') 
                 ? dates[key].format('HH:mm:ss')
-                : dates[key].toISOString(),
-            description: statusMap[key]
+                : dates[key].format('YYYY-MM-DDTHH:mm:ss')
         }
-    
+         
         const token = localStorage.getItem('accessToken')
     
         try {
-            await axios.patch(`https://dmu-dasom.or.kr/api/service/${key}`, formattedData, {
+            await axios.patch('https://dmu-dasom.or.kr/api/admin/recruit/schedule', formattedData, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
