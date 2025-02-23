@@ -65,12 +65,11 @@ const RecruitMeeting: React.FC = () => {
 		const fetchData = async () => {
 			try {
 				const response = await axios.get<recruitData[]>('https://dmu-dasom.or.kr/api/recruit')
-				console.log(response.data)
 
 				// KEY값 검색하여 데이터 조회하여 각 변수에 저장
 				const periodData: interviewPeriod = {
-					periodStart: response.data.find((item) => item.key === 'INTERVIEW_PERIOD_START')?.value || '',
-					periodEnd: response.data.find((item) => item.key === 'INTERVIEW_PERIOD_END')?.value || '',
+					periodStart: response.data.find((item) => item.key === 'INTERVIEW_PERIOD_START')?.value.substring(0,10) || '',
+					periodEnd: response.data.find((item) => item.key === 'INTERVIEW_PERIOD_END')?.value.substring(0,10) || '',
 				}
 				const timeData: interviewTime = {
 					timeStart: response.data.find((item) => item.key === 'INTERVIEW_TIME_START')?.value || '',
@@ -80,16 +79,6 @@ const RecruitMeeting: React.FC = () => {
 				// 저장한 데이터 state에 반영
 				setInterviewPeriodData(periodData)
 				setInterviewTimeData(timeData)
-				console.log(
-					'면접 기간 시작 : ' +
-						interviewPeriodData.periodStart +
-						'\n면접 기간 종료 : ' +
-						interviewPeriodData.periodEnd +
-						'\n면접 시작 시간 : ' +
-						interviewTimeData.timeStart +
-						'\n면접 종료 시간 : ' +
-						interviewTimeData.timeEnd
-				)
 			} catch (e: any) {
 				console.log(e)
 				alert('데이터 불러오기 오류')
@@ -103,9 +92,10 @@ const RecruitMeeting: React.FC = () => {
 			<RecruitHeader title='컴퓨터 소프트웨어 공학과 전공 동아리 다솜 34기 모집 폼' />
 			<RecruitUI />
 			<div className='flex flex-col items-center w-full mb-40'>
-
-				<Recruit_InfoBanner 
-				message='1차 서류에 합격되신 점 다시 한번 축하드리며, 편하신 날짜의 시간대를 선택해주시길 바랍니다.' />
+				<Recruit_InfoBanner
+					message={`1차 서류에 합격되신 점 다시 한번 축하드리며,
+				 편하신 날짜의 시간대를 선택해주시길 바랍니다.`}
+				/>
 				<div className='mt-8 max-w-[90%]'>
 					<p className='font-pretendardBold text-white mb-4'>면접일</p>
 					<MeetingDateSelector onSelect={handleDateSelect} period={interviewPeriodData} />
