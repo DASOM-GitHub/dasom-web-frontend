@@ -47,9 +47,6 @@ const ManRecruitDate = () => {
         const fetchDates = async () => {
             try {
                 const response = await axios.get('https://dmu-dasom.or.kr/api/recruit')
-                console.log('API Response:', response) 
-                console.log('Response Data:', response.data) 
-
                 const data = response.data
                 const defaultDates = dates
 
