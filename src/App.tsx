@@ -11,6 +11,7 @@ import NewsInfo from './pages/NewsInfo'
 import ManApplicants from './pages/admin/ManApplicants'
 import ManNewsList from './pages/admin/ManNewsList'
 import ManNewsDetail from './pages/admin/ManNewsDetail'
+import ManNewsPost from './pages/admin/ManNewsPost'
 import ManRecruitDate from './pages/admin/ManRecruitDate'
 import UserMain from './pages/UserMain'
 import Recruit from './pages/Recruit'
@@ -57,6 +58,7 @@ function AppContent() {
 				<Route path='/admin/applicants' element={<ManApplicants />} />
 				<Route path='/admin/news' element={<ManNewsList />} />
 				<Route path='/admin/news/:no' element={<ManNewsDetail />} />
+				<Route path='/admin/news/post' element={<ManNewsPost />} />
 				<Route path='/admin/date' element={<ManRecruitDate />} />
 			</Routes>
 		</>

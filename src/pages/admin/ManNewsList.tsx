@@ -47,7 +47,7 @@ const ManNewsList: React.FC = () => {
         const fetchData = async () => {
             try {
                 const response = await axios.get('https://dmu-dasom.or.kr/api/news')
-                console.log(response.data)
+                console.log(response)
             } catch (err: any) {
                 console.error(err)
                 const errorCode = err.response?.data?.code
@@ -59,8 +59,14 @@ const ManNewsList: React.FC = () => {
 
     return (
         <div className='h-[100vh] w-[100vw] bg-mainBlack font-pretendardRegular text-white flex flex-col items-center'>
-            <div className='w-[1220px] mt-[155px] mb-[4px]'>
-                공지사항 관리
+            <div className='flex justify-between w-[1220px] mt-[155px] mb-[4px]'>
+                <div className='text-[20px]'>소식 관리</div>
+                <div 
+                    className='cursor-pointer px-2 py-1 bg-gray-700 text-white rounded-lg'
+                    onClick={() => {navigate('/admin/news/post')}}
+                >
+                    ➕ 새 소식 작성
+                </div>
             </div>
             <div className='w-[1220px] bg-gray-800 p-4'>
                 {/* 리스트 헤더 */}
