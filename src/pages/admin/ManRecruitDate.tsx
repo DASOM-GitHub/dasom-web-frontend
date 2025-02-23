@@ -90,6 +90,7 @@ const ManRecruitDate = () => {
         }
          
         const token = localStorage.getItem('accessToken')
+        console.log(token)
     
         try {
             await axios.patch('https://dmu-dasom.or.kr/api/admin/recruit/schedule', formattedData, {
@@ -101,9 +102,14 @@ const ManRecruitDate = () => {
     
             console.log(`${key} updated successfully`)
             alert(`'${statusMap[key as keyof typeof statusMap]}' 업데이트 되었습니다!`)
-        } catch (error) {
-            console.error(`Failed to update ${key}:`, error)
+        } catch (err : any) {
+            console.error(`Failed to update ${key}:`, err)
             alert(`'${statusMap[key as keyof typeof statusMap]}' 업데이트 에러`)
+
+            const errorCode = err.response?.data?.code
+            if (errorCode === 'C016') {
+                console.log('날짜 업데이트 중 오류: 날짜 형식이 올바르지 않습니다.')
+            }
         }
     }    
 
