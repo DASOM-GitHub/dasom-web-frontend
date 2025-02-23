@@ -40,6 +40,11 @@ const ManApplicants: React.FC = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
+                if (!accessToken) {
+                    alert('로그인이 필요합니다.')
+                    return
+                }
+        
                 const response = await axios.get('https://dmu-dasom.or.kr/api/admin/applicants', {
                     headers: {
                         Authorization: `Bearer ${accessToken}`
