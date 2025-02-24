@@ -37,7 +37,7 @@ export const Header = (): JSX.Element => {
             margin: '0 auto',
           }}
         >
-          <div className='font-black text-mainColor text-2xl cursor-pointer' onClick={() => {
+          <div className='font-pretendardBlack text-mainColor text-2xl cursor-pointer' onClick={() => {
             navigate('/')
             isMenuOpen? toggleMenu() : null
             }}>DASOM</div>
