@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { Cover } from '../components/UI/cover'
 import MobileLayout from '../components/layout/MobileLayout'
 import ActivityStatus from '../components/UI/ActivityStatus'
@@ -57,7 +57,7 @@ const Main: React.FC = () => {
         {/* 바텀마진 */}
         <div className='flex w-full bg-mainBlack min-h-[60px]' />
       </div>
-      
+
     </MobileLayout>
   )
 }
