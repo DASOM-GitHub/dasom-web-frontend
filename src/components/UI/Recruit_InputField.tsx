@@ -48,8 +48,8 @@ export const InputField: React.FC<InputFieldProps> = ({
   return (
     <div className={containerStyles}>
       <label className="block text-white mb-1">
-        {label.split(/(전화번호 마지막 4자리)/).map((part, index) => (
-          <span key={index} className={part === '전화번호 마지막 4자리' ? 'text-[#00B493]' : ''}>
+        {label.split(/(전화번호 마지막 4자리|학번)/).map((part, index) => (
+          <span key={index} className={['전화번호 마지막 4자리', '학번'].includes(part) ? 'text-[#00B493]' : ''}>
             {part}
 
           </span>
