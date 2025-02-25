@@ -4,6 +4,10 @@ interface RecruitHeaderProps {
   title: string;
 }
 
+interface RecruitUIProps {
+  name: string
+}
+
 export const RecruitHeader: React.FC<RecruitHeaderProps> = ({ title }) => {
   return (
     <div className=" w-full max-w-[375px] bg-[#00B493] text-white font-pretendardBold text-[13px] p-1 pl-2 ml-2.5 mt-16">
@@ -59,7 +63,7 @@ export const RecruitUI: React.FC = () => {
       <div className="mt-2 pl-2">
         <p className="text-green-400 font-pretendardSemiBold">📅 모집 일정 :</p>
         {recruitmentData ? (
-          <p>모집 폼 제출 : {formatDate(recruitmentData.RECRUITMENT_PERIOD_START)} ~ {formatDate(recruitmentData.RECRUITMENT_PERIOD_START)}</p>
+          <p>모집 폼 제출 : {formatDate(recruitmentData.RECRUITMENT_PERIOD_START)} ~ {formatDate(recruitmentData.RECRUITMENT_PERIOD_END)}</p>
         ) : (
           <p>모집 일정 불러오는 중...</p>
         )}
@@ -69,7 +73,7 @@ export const RecruitUI: React.FC = () => {
           <p>대면 일정 불러오는 중...</p>
         )}
         {recruitmentData ? (
-          <p>최종 합격자 발표 : {formatDate(recruitmentData.INTERVIEW_PERIOD_START)}</p>
+          <p>최종 합격자 발표 : {formatDate(recruitmentData.INTERVIEW_PASS_ANNOUNCEMENT)}</p>
         ) : (
           <p>최종 합격 일정 불러오는 중...</p>
         )}
@@ -98,12 +102,12 @@ export const RecruitUI: React.FC = () => {
 }
 
 
-export const RecruitUI_SUB: React.FC = () => {
+export const RecruitUI_SUB: React.FC<RecruitUIProps> = ({name}) => {
   return (
     <div className="whitespace-pre-line text-white flex flex-col items-start max-w-[375px] h-[auto] shadow-[0px_2px_3px_rgba(255,255,255,0.2)] bg-#17171B] gap-2 ml-2.5 font-pretendardRegular pl-2 pr-2 text-[12px] ">
 
       <p className="pt-3 ">
-        {`___님 안녕하세요 컴퓨터공학부 전공동아리 다솜입니다.
+        {`${name}님 안녕하세요 컴퓨터공학부 전공동아리 다솜입니다.
         먼저 다솜 34기에 많은 관심을 갖고 지원해 주셔서 감사드리며, `}
         <p><span className='text-green-400 font-pretendardBold'>1차 서류 합격</span>을 진심으로 축하드립니다!</p>
       </p>
@@ -112,9 +116,77 @@ export const RecruitUI_SUB: React.FC = () => {
         안내드립니다.`}
       </p>
 
-      <p className='mb-10'>{`대면 인터뷰는 3/19(수)~21(금) 중에 진행 될 예정이며 편한 시간대로
-        폼을 작성해주시면 감사하겟습니다.`}</p>
+      <p className='mb-3'>{`대면 인터뷰는 3/12(수)~14(금) 중에 진행 될 예정이며 편한 시간대로
+        폼을 작성해주시면 감사하겠습니다.`}</p>
     </div>
   )
 }
 
+export const RecruitUI_SUB2: React.FC<RecruitUIProps> = ({name}) => {
+  return (
+    <div className="whitespace-pre-line text-white flex flex-col items-start max-w-[375px] h-[auto] shadow-[0px_2px_3px_rgba(255,255,255,0.2)] bg-#17171B] gap-2 ml-2.5 font-pretendardRegular pl-2 pr-2 text-[12px] ">
+
+      <p className="pt-3 ">
+        {`${name}님 안녕하세요 컴퓨터공학부 전공동아리 다솜입니다.
+        먼저 다솜 34기에 많은 관심을 갖고 지원해 주셔서 감사드리며, `}
+      </p>
+
+      <p >{`안타깝게도, 모집 인원 제한으로 인해
+      ${name}님의 1차 서류 결과 불합격을 안내드리게 되었습니다.`}
+      </p>
+
+      <p className='mb-3'>{`좋은 결과를 드리지 못해 아쉬운 마음이 크지만,
+      앞으로도 멋진 기회들이 많을 거라 믿습니다.
+      다시 한번 지원해주셔서 감사드리며, ${name}님의 앞날을 응원하겠습니다.`}</p>
+    </div>
+  )
+}
+
+export const RecruitUI_FINAL: React.FC<RecruitUIProps> = ({name}) => {
+  return (
+    <div className="whitespace-pre-line text-white flex flex-col items-start max-w-[375px] h-[auto] shadow-[0px_2px_3px_rgba(255,255,255,0.2)] bg-#17171B] gap-2 ml-2.5 font-pretendardRegular pl-2 pr-2 text-[12px] ">
+
+      <p className="pt-3 font-pretendardBold ">
+        안녕하세요 {`${name}`}님, <br/> 다솜 34기에<span className='text-green-400 font-pretendardBold'> 최종합격</span> 되신 점 축하드립니다!
+      </p>
+
+      <p >{`길었던 면접 과정 간 고생 많으셨습니다.
+      향후 활동 내용은 디스코드 및 카카오톡 단체 톡방을 통해
+      전달 될 예쩡이며, 카카오톡 단체 톡방은 금일 밤 중 초대드릴 예정입니다.`}
+      </p>
+
+      <p className='mb-3'>
+        {`다시 한번 진심으로 축하드리며,
+        2025학년도 다솜 34기 멤버로서의 앞으로의 활동을 기대하겠습니다.
+        수고 많으셨습니다. ☺️`}
+      </p>
+    </div>
+  )
+}
+
+export const RecruitUI_FINAL2: React.FC<RecruitUIProps> = ({name}) => {
+  return (
+    <div className="whitespace-pre-line text-white flex flex-col items-start max-w-[375px] h-[auto] shadow-[0px_2px_3px_rgba(255,255,255,0.2)] bg-#17171B] gap-2 ml-2.5 font-pretendardRegular pl-2 pr-2 text-[12px] ">
+
+      <p className="pt-3 ">
+        {`${name}님 안녕하세요. 컴퓨터공학부 전공동아리 다솜입니다.
+        먼저, 다솜 34기에 관심을 갖고 지원해 주시고 소중한 시간을 내어
+        대면 인터뷰까지 함께해 주셔서 진심으로 감사드립니다.`}
+      </p>
+
+      <p >{`함께할 수 있기를 기대했지만, 모집 인원 제한으로 인해
+      안타깝게도 ${name}님께 불합격 소식을 전하게 되었습니다.`}
+      </p>
+
+      <p >{`짧은 시간이었지만 ${name}님의 열정과 역량을 볼 수 있어 감사했고,
+      더 좋은 기회에서 빛을 발하실 거라 믿습니다.`}
+      </p>
+
+      <p className='mb-3'>
+        {`다시 한번 지원해 주셔서 감사드리며,
+        앞으로의 모든 도전을 응원하겠습니다.
+        수고 많으셨습니다.`}
+      </p>
+    </div>
+  )
+}
