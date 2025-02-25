@@ -18,6 +18,7 @@ import { RecruitResult } from './pages/RecruitResult'
 import FAQ from './pages/FAQ'
 import { RecruitSubmit } from './pages/RecruitSubmit'
 import RecruitCheck from './pages/RecruitCheck'
+import RecruitCheckFinal from './pages/RecruitCheckFinal'
 
 function App() {
 	return (
@@ -49,6 +50,7 @@ function AppContent() {
 				<Route path='/recruit/submit' element={<RecruitSubmit />} />
 				<Route path='/recruit/result' element={<RecruitResult />} />
 				<Route path='/recruit/check' element={<RecruitCheck />} />
+				<Route path='/recruit/check/final' element={<RecruitCheckFinal />} />
 				<Route path='/recruit/meeting' element={<RecruitMeeting />} />
 				<Route path='/recruit/meeting/submit' element={<RecruitSubmitMeeting />} />
 				<Route path='/admin' element={<AdminMain />} />
