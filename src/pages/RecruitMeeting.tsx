@@ -23,7 +23,6 @@ interface interviewTime {
 	timeEnd: string
 }
 
-/** 면접 날짜 선택 페이지 */
 const RecruitMeeting: React.FC = () => {
 	const navigate = useNavigate()
 	// 면접 일정 데이터
@@ -39,17 +38,17 @@ const RecruitMeeting: React.FC = () => {
 	const [selectedTime, setSelectedTime] = useState<string | null>(null)
 	const [activebtn, setActivebtn] = useState<boolean>(false)
 
-	/** 날짜 선택 핸들러 */
+	// 날짜 선택 핸들러 
 	const handleDateSelect = (date: string) => {
 		setSelectedDate(date)
 	}
 
-	/** 시간 선택 핸들러 */
+	// 시간 선택 핸들러 
 	const handleTimeSelect = (time: string) => {
 		setSelectedTime(time)
 	}
 
-	/** 면접일정 폼 제출 핸들러 */
+	// 면접 일정 폼 제출 핸들러러
 	const handleSubmit = () => {
 		// 선택된 날짜와 시간 state값 전달하여 페이지 이동
 		navigate('/recruit/meeting/submit', { state: { date: selectedDate, time: selectedTime } })

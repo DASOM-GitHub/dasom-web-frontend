@@ -21,7 +21,7 @@ const Recruit: React.FC = () => {
     isPrivacyPolicyAgreed: false,
   })
 
-  // 📌 입력값들 제약조건 설정 
+  // 입력값들 제약조건 설정 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value, type } = e.target
     let newValue = type === 'checkbox' ? (e.target as HTMLInputElement).checked : value

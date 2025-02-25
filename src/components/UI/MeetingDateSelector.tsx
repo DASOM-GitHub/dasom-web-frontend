@@ -13,18 +13,16 @@ interface interviewPeriod {
 }
 
 interface props {
-	/** 선택된 날짜를 반환하는 콜백 함수 */
 	onSelect: (date: string) => void
-	/** 면접 기간 */
-	period: interviewPeriod
+	period: interviewPeriod // 면접 기간 
 }
 
-/** 면접 날짜 선택 레이아웃 */
+// 면접 날짜 선택 레이아웃 
 const MeetingDateSelector = ({ onSelect, period }: props): JSX.Element => {
 	const [selectedDate, setSelectedDate] = useState<string>('')
 	const [meetingDates, setMeetingDates] = useState<dateInfo[]>([])
 	
-	/** 날짜 사이의 일 수 계산 */
+	// 날짜 사이에 일 수 계산
 	const getDateDiff = (d1: string, d2: string) => {
 			const date1 = new Date(d1)
 			const date2 = new Date(d2)
@@ -57,7 +55,7 @@ const MeetingDateSelector = ({ onSelect, period }: props): JSX.Element => {
 		setMeetingDates(dateArray)
 	}, [period])
 
-	/** 날짜 클릭 핸들러 (부모컴포넌트에 state값 반환) */
+	// 날짜 클릭 핸들러 (상태값 반환용)
 	const handleDateClick = (date: dateInfo) => {
 		const formattedDate = `${date.month}.${date.day} ${date.week}`
 		setSelectedDate(formattedDate)
