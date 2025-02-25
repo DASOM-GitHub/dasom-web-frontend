@@ -5,12 +5,14 @@ import axios from 'axios'
 const ManNewsPost: React.FC = () => {
     const [title, setTitle] = useState('')
     const [content, setContent] = useState('')
-    const [images, setImages] = useState<File[]>([])
+    const [images, setImages] = useState<string[]>([])
 
+    // 본문 내용 담기
     const handleContentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
         setContent(e.target.value)
     }
 
+    // 굵게, 다솜색 처리
     const applyFormat = (tag: string, style?: string) => {
         const formattedText = style
             ? `<span style='${style}'></span>`
@@ -19,31 +21,44 @@ const ManNewsPost: React.FC = () => {
         setContent((prev) => prev + formattedText)
     }
 
+    // FileReader로 이미지 인코딩
     const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        if (e.target.files) {
-            setImages(Array.from(e.target.files))
-        }
+        if (!e.target.files) return
+        const files = Array.from(e.target.files)
+    
+        const imagePromises = files.map((file) => {
+            return new Promise<string>((resolve, reject) => {
+                const reader = new FileReader()
+                reader.readAsDataURL(file)
+                reader.onloadend = () => resolve(reader.result as string)
+                reader.onerror = reject
+            })
+        })
+    
+        Promise.all(imagePromises).then((imageUrls) => {
+            setImages((prevImages) => [...prevImages, ...imageUrls])
+        })
     }
 
+    // 저장 버튼
     const handleSubmit = async () => {
         try {
             const formattedContent = content.replace(/\n/g, '<br />') // 본문 내용 중 enter br태그로 바꿈
-            const imageUrls: string[] = images.map((image) => URL.createObjectURL(image))
             const token = localStorage.getItem('accessToken')
 
             const payload = {
                 title,
                 content: formattedContent,
-                imageUrl: imageUrls
+                imageUrls: images, // Base64로..... 인코딩된 이미지
             }
-
-            console.log(payload)
-            
+    
+            console.log('전송 데이터:', payload)
+    
             await axios.post('https://dmu-dasom.or.kr/api/news', payload, {
                 headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                }
+                    Authorization: `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                },
             })
 
             alert('새 소식이 성공적으로 저장되었습니다.')
@@ -88,7 +103,7 @@ const ManNewsPost: React.FC = () => {
                 
                 
                 <div className='flex justify-between w-[1220px]'>
-                    <div className='w-[570px]'>
+                    <div className='w-[600px]'>
                         <label className='block mb-2'>내용</label>
                         <textarea
                             className='text-black w-full p-2 border rounded-[6px] mb-2'
@@ -104,7 +119,7 @@ const ManNewsPost: React.FC = () => {
                         </div>
                     </div>
                     {/* 미리보기 화면 */}
-                    <div className='mb-[20px] w-[570px]'>
+                    <div className='mb-[20px] w-[600px]'>
                         <div className='block mb-2'>미리보기</div>
                         <div
                             className='text-white p-4 border rounded-[6px] bg-gray-800 break-words'

@@ -3,38 +3,15 @@ import { useNavigate } from 'react-router-dom'
 import AdminPagination from '../../components/UI/AdminPagination'
 import axios from 'axios'
 
-interface news {
+interface News {
     id: number;
     title: string;
     createdAt: string;
   }
-  
-const newsItems: news[] = [
-    { id: 1, title: '다솜 34기 신규 부원 모집!', createdAt: '2025-02-18' },
-    { id: 2, title: '다솜 34기 신규 부원 모집!', createdAt: '2025-02-18' },
-    { id: 3, title: '다솜 34기 신규 부원 모집!', createdAt: '2025-02-18' },
-    { id: 4, title: '다솜 34기 신규 부원 모집!', createdAt: '2025-02-18' },
-    { id: 5, title: '다솜 34기 신규 부원 모집!', createdAt: '2025-02-18' },
-    { id: 6, title: '다솜 34기 신규 부원 모집!', createdAt: '2025-02-18' },
-    { id: 7, title: '다솜 34기 신규 부원 모집!', createdAt: '2025-02-18' },
-    { id: 8, title: '다솜 34기 신규 부원 모집!', createdAt: '2025-02-18' },
-    { id: 9, title: '다솜 34기 신규 부원 모집!', createdAt: '2025-02-18' },
-    { id: 10, title: '다솜 34기 신규 부원 모집!', createdAt: '2025-02-18' },
-    { id: 11, title: '다솜 34기 신규 부원 모집!', createdAt: '2025-02-18' },
-    { id: 12, title: '다솜 34기 신규 부원 모집!', createdAt: '2025-02-18' },
-    { id: 13, title: '다솜 34기 신규 부원 모집!', createdAt: '2025-02-18' },
-    { id: 14, title: '다솜 34기 신규 부원 모집!', createdAt: '2025-02-18' },
-    { id: 15, title: '다솜 34기 신규 부원 모집!', createdAt: '2025-02-18' },
-    { id: 16, title: '다솜 34기 신규 부원 모집!', createdAt: '2025-02-18' },
-    { id: 17, title: '다솜 34기 신규 부원 모집!', createdAt: '2025-02-18' },
-    { id: 18, title: '다솜 34기 신규 부원 모집!', createdAt: '2025-02-18' },
-    { id: 19, title: '다솜 34기 신규 부원 모집!', createdAt: '2025-02-18' },
-    { id: 20, title: '다솜 34기 신규 부원 모집!', createdAt: '2025-02-17' },
-    { id: 21, title: '다솜 34기 신규 부원 모집!', createdAt: '2025-02-16' },
-]
 
 const ManNewsList: React.FC = () => {
     const navigate = useNavigate()
+    const [newsItems, setNewsItems] = useState<News[]>([])
 
     // 페이지네이션
     const [currentPage, setCurrentPage] = useState<number>(1)
@@ -47,7 +24,13 @@ const ManNewsList: React.FC = () => {
         const fetchData = async () => {
             try {
                 const response = await axios.get('https://dmu-dasom.or.kr/api/news')
+                const formattedData = response.data.map((item: any) => ({
+                    id: item.id,
+                    title: item.title,
+                    createdAt: item.createdAt.split('T')[0],
+                }))
                 console.log(response)
+                setNewsItems(formattedData)
             } catch (err: any) {
                 console.error(err)
                 const errorCode = err.response?.data?.code

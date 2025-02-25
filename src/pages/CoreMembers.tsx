@@ -12,7 +12,7 @@ interface Profile {
 const profiles: Profile[] = [
   { id: 1, name: '윤도훈', roll: '회장', github_username: 'hodoon' },
   { id: 2, name: '공석', roll: '부회장', github_username: '' },
-  { id: 3, name: '유승완', roll: '기술이사', github_username: 'ysw789' },
+  { id: 3, name: '유승완', roll: '기술팀장', github_username: 'ysw789' },
   { id: 4, name: '최도현', roll: '학술팀장', github_username: 'titeotty' },
   { id: 5, name: '공석', roll: '학술차장', github_username: '' },
   { id: 6, name: '김수현', roll: '홍보팀장', github_username: 'sooh329' },
