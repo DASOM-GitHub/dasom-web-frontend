@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
 interface RecruitHeaderProps {
   title: string;
@@ -12,8 +12,45 @@ export const RecruitHeader: React.FC<RecruitHeaderProps> = ({ title }) => {
   )
 }
 
-
 export const RecruitUI: React.FC = () => {
+
+  const [recruitmentData, setRecruitmentData] = useState<Record<string, string> | null>(null)
+
+  useEffect(() => {
+    fetch('https://dmu-dasom.or.kr/api/recruit', {
+      method: 'GET',
+      credentials: 'include'
+    })
+      .then((res) => res.json())
+      .then((data) => {
+
+        if (Array.isArray(data)) {
+          const formattedData: Record<string, string> = {}
+          data.forEach((item) => {
+            formattedData[item.key] = item.value
+          })
+          setRecruitmentData(formattedData)
+
+        } else {
+          console.error('예상하지 못한 응답 형식:', data)
+        }
+      })
+      .catch((error) => {
+        console.error('API 요청 오류:', error)
+      })
+  }, [])
+
+  {/* 데이터 형식 번경 기능  */ }
+  const formatDate = (isoString: string) => {
+    const date = new Date(isoString)
+    const options: Intl.DateTimeFormatOptions = {
+      month: 'numeric',
+      day: 'numeric',
+      weekday: 'short'
+    }
+    return new Intl.DateTimeFormat('ko-KR', options).format(date)
+  }
+
   return (
     <div className="text-white font-pretendardRegular flex flex-col text-[12px] items-start max-w-[375px] shadow-[0px_2px_3px_rgba(255,255,255,0.2)] bg-#17171B] gap-2 ml-2.5">
       <p className="pl-2 pt-2">
@@ -21,9 +58,21 @@ export const RecruitUI: React.FC = () => {
       </p>
       <div className="mt-2 pl-2">
         <p className="text-green-400 font-pretendardSemiBold">📅 모집 일정 :</p>
-        <p>모집 폼 제출 : 2/25(화) ~ 3/14(금)</p>
-        <p>대면 면접 : 3/19(수) ~ 3/21(금)</p>
-        <p>최종 합격자 발표 : 3/24(월)</p>
+        {recruitmentData ? (
+          <p>모집 폼 제출 : {formatDate(recruitmentData.RECRUITMENT_PERIOD_START)} ~ {formatDate(recruitmentData.RECRUITMENT_PERIOD_START)}</p>
+        ) : (
+          <p>모집 일정 불러오는 중...</p>
+        )}
+        {recruitmentData ? (
+          <p>대면 면접 : {formatDate(recruitmentData.INTERVIEW_PERIOD_START)} ~ {formatDate(recruitmentData.INTERVIEW_PERIOD_END)}</p>
+        ) : (
+          <p>대면 일정 불러오는 중...</p>
+        )}
+        {recruitmentData ? (
+          <p>최종 합격자 발표 : {formatDate(recruitmentData.INTERVIEW_PERIOD_START)}</p>
+        ) : (
+          <p>최종 합격 일정 불러오는 중...</p>
+        )}
       </div>
 
       <div className="mt-2 pl-2  flex items-center">
@@ -49,45 +98,22 @@ export const RecruitUI: React.FC = () => {
 }
 
 
-
-
 export const RecruitUI_SUB: React.FC = () => {
   return (
-    <div className="  text-white flex flex-col items-start max-w-[375px] h-[auto] shadow-[0px_2px_3px_rgba(255,255,255,0.2)] bg-#17171B] gap-2 ml-2.5 font-pretendardRegular pl-2 pr-2 text-[12px] ">
+    <div className="whitespace-pre-line text-white flex flex-col items-start max-w-[375px] h-[auto] shadow-[0px_2px_3px_rgba(255,255,255,0.2)] bg-#17171B] gap-2 ml-2.5 font-pretendardRegular pl-2 pr-2 text-[12px] ">
 
-      {/* 1차 서류 합격 안내 */}
-      <p className="text-[15px] font-pretendardBold text-yellow-300 pt-3">
-        🎊 1차 서류 합격을 진심으로 축하드립니다!
-      </p>
-      <p>
-        2차 면접이 진행될 예정입니다. <br/> 아래에서 <span className="text-green-400 font-pretendardBold">편하신 날짜와 시간을 선택하여 예약</span>해주세요.
+      <p className="pt-3 ">
+        {`___님 안녕하세요 컴퓨터공학부 전공동아리 다솜입니다.
+        먼저 다솜 34기에 많은 관심을 갖고 지원해 주셔서 감사드리며, `}
+        <p><span className='text-green-400 font-pretendardBold'>1차 서류 합격</span>을 진심으로 축하드립니다!</p>
       </p>
 
-      {/* 면접 일정 */}
-
-      <p className="text-green-400 font-pretendardSemiBold text-sm mt-2">📅 면접 일정</p>
-      <p className="text-xs">✔ 3월 19일(수) ~ 3월 21일(금)</p>
-
-
-      {/* 면접 장소 */}
-
-      <p className="text-green-400 font-pretendardSemiBold text-sm mt-2">🕒 면접 장소</p>
-      <p className="text-xs">✔ 개별 안내 예정</p>
-
-
-      {/* 추가 안내 사항 */}
-
-      <p className="text-yellow-300 font-pretendardSemiBold text-sm mt-2">📌 면접 안내 사항</p>
-      <p className="text-xs">✅ 면접은 <span className="font-pretendardSemiBold">개별 면접</span>으로 진행됩니다.</p>
-      <p className="text-xs">✅ <span className="font-pretendardSemiBold">예약 변경은 불가</span>하므로 신중히 선택해주세요.</p>
-      <p className="text-xs">✅ 선착순 마감으로 <span className="font-pretendardSemiBold">일부 시간대는 예약이 어려울 수 있습니다.</span></p>
-
-
-      <p className="mt-4 text-[12px] text-white mb-3">
-        🔔 면접 당일 <span className="text-yellow-300 font-pretendardSemiBold">지각 없이 참석</span> 부탁드립니다.
-        <p>💡 면접 일정은 선착순으로 마감되므로 빠른 예약을 권장드립니다! 😊</p>
+      <p >{`다음 전형인 대면 인터뷰에서 뵐 수 있게 되어 기쁜 마음을 담아
+        안내드립니다.`}
       </p>
 
+      <p className='mb-10'>{`대면 인터뷰는 3/19(수)~21(금) 중에 진행 될 예정이며 편한 시간대로
+        폼을 작성해주시면 감사하겟습니다.`}</p>
     </div>
   )
 }
