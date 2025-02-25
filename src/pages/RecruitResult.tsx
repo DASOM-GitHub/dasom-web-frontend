@@ -40,7 +40,7 @@ export const RecruitResult: React.FC = () => {
 				const interviewPass = new Date(response.data.find((item) => item.key === 'INTERVIEW_PASS_ANNOUNCEMENT')?.value.substring(0, 10) || '')
 				const documentPass = new Date(response.data.find((item) => item.key === 'DOCUMENT_PASS_ANNOUNCEMENT')?.value.substring(0, 10) || '')
 				const today = new Date()
-				console.log(response.data)
+				//console.log(response.data)
 
         // 현재 날짜에 따른 조회 type 지정
 				if (today >= interviewPass) {
@@ -70,8 +70,7 @@ export const RecruitResult: React.FC = () => {
 					contactLastDigit: checkInput.contact,
 				},
 			})
-			console.log(response.data)
-			console.log(response.data.isPassed)
+			//console.log(response.data)
 			const resData: responseData = {
 				name: response.data.name,
 				isPassed: response.data.isPassed,
