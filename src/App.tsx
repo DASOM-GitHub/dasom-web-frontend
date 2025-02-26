@@ -19,6 +19,7 @@ import FAQ from './pages/FAQ'
 import { RecruitSubmit } from './pages/RecruitSubmit'
 import RecruitCheck from './pages/RecruitCheck'
 import RecruitCheckFinal from './pages/RecruitCheckFinal'
+import ProtectedRoute from './components/layout/ProtectRoute'
 
 function App() {
 	return (
@@ -53,9 +54,11 @@ function AppContent() {
 				<Route path='/recruit/check/final' element={<RecruitCheckFinal />} />
 				<Route path='/recruit/meeting' element={<RecruitMeeting />} />
 				<Route path='/recruit/meeting/submit' element={<RecruitSubmitMeeting />} />
-				<Route path='/admin' element={<AdminMain />} />
-				<Route path='/admin/applicants' element={<ManApplicants />} />
-				<Route path='/admin/date' element={<ManRecruitDate />} />
+
+				{/* 관리자 페이지 */}
+				<Route path='/admin' element={<ProtectedRoute><AdminMain /></ProtectedRoute>} />
+				<Route path='/admin/applicants' element={<ProtectedRoute><ManApplicants /></ProtectedRoute>} />
+				<Route path='/admin/date' element={<ProtectedRoute><ManRecruitDate /></ProtectedRoute>} />
 			</Routes>
 		</>
 	)
