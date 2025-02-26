@@ -34,15 +34,13 @@ export const InputField: React.FC<InputFieldProps> = ({
 
 }) => {
 
-  // 📌 textarea 동적 높이 변화 
+  // textarea 크기 변환환
   const handleTextAreaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     e.target.style.height = 'auto'
     e.target.style.height = `${e.target.scrollHeight}px`
     onChange(e)
   }
 
-
-  // 📌 공통 스타일 변수
   const containerStyles = 'mb-4 p-3 shadow-[0px_2px_3px_rgba(255,255,255,0.2)] text-white text-[12px]'
   const baseInputStyles = 'w-full bg-mainBlack border-b border-white p-2 focus:outline-none text-[10px]'
   const inputStyles = 'w-4 h-4 bg-mainBlack border border-white focus:ring-white border-2 rounded-[3px] appearance-none checked:bg-white checked:border-white'
@@ -50,8 +48,8 @@ export const InputField: React.FC<InputFieldProps> = ({
   return (
     <div className={containerStyles}>
       <label className="block text-white mb-1">
-        {label.split(/(전화번호 마지막 4자리)/).map((part, index) => (
-          <span key={index} className={part === '전화번호 마지막 4자리' ? 'text-[#00B493]' : ''}>
+        {label.split(/(전화번호 마지막 4자리|학번)/).map((part, index) => (
+          <span key={index} className={['전화번호 마지막 4자리', '학번'].includes(part) ? 'text-[#00B493]' : ''}>
             {part}
 
           </span>

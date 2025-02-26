@@ -1,14 +1,12 @@
 import React, { JSX } from 'react'
 
 interface props {
-	time: string
-	/** 시간 선택 핸들러 */
-	onClick?: () => void
-	/** 선택 여부 */
-	isSelected?: boolean
+	time: string 
+	onClick?: () => void // 시간 선택 핸들러
+	isSelected?: boolean 
 }
 
-/** 면접 시간 선택 버튼 컴포넌트 */
+// 면접 시간 선택 버튼 컴포넌트 
 const MeetingTime = ({ time, onClick, isSelected }: props): JSX.Element => {
 	return (
 		<button
