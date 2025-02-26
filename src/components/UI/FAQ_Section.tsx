@@ -10,10 +10,11 @@ interface FAQItemProps {
 
 const FAQItem: React.FC<FAQItemProps> = ({ question, answer, alignment }) => {
   return (
-    <div className={` p-3 rounded-[11px] bg-[#26262D]  w-[275px] shadow-[0px_2px_3px_rgba(0,180,147,0.5)] ${alignment}`}>
-      <h3 className='font-pretendardBold text-[#00B493] text-[16px]'>{question}</h3>
-      <p className=" mt-2 text-[12px] leading-relaxed whitespace-pre-line">{answer}</p>
-    </div>
+    <div className={`p-3 rounded-[11px] bg-[#26262D] w-[275px] shadow-[0px_2px_3px_rgba(0,180,147,0.5)] 
+    ${alignment} transition-all duration-300 hover:scale-105 hover:bg-[#000]`}>
+        <h3 className='font-pretendardBold text-[#00B493] text-[16px] transition-all duration-300'>{question}</h3>
+        <p className="mt-2 text-[12px] leading-relaxed whitespace-pre-line">{answer}</p>
+      </div>
   )
 }
 
@@ -22,7 +23,7 @@ const FAQSection: React.FC = () => {
     <section className="font-pretendardRegular text-[#FFFFFF] p-4 rounded-lg shadow-lg mx-auto">
 
       {/* FAQ 리스트 */}
-    <div className="space-y-8 flex flex-col items-center">
+      <div className="space-y-8 flex flex-col items-center">
         <FAQItem
           question="Q. 팀 프로젝트는 어떻게 진행되나요?"
           answer={`동아리 내의 다른 멤버들과 팀 빌딩을 진행한 뒤, 
