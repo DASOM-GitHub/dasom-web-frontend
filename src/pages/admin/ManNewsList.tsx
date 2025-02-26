@@ -4,10 +4,10 @@ import AdminPagination from '../../components/UI/AdminPagination'
 import axios from 'axios'
 
 interface News {
-    id: number;
-    title: string;
-    createdAt: string;
-  }
+    id: number
+    title: string
+    createdAt: string
+}
 
 const ManNewsList: React.FC = () => {
     const navigate = useNavigate()
