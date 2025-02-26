@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import { toast, ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import AdminPagination from '../../components/UI/AdminPagination'
 
 const ManApplicants: React.FC = () => {
     const [applicants, setApplicants] = useState<any[]>([])             // 전체 조회 시 지원자 정보
@@ -206,30 +207,18 @@ const ManApplicants: React.FC = () => {
                         <th className='border border-gray-500 py-[4px]'>상세정보</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody className='overflow-y-auto max-h-[calc(100vh)]'>
                     {currentApplicants.map((applicant) => (
                         <ApplicantInfo key={applicant.id} applicant={applicant} />
                     ))}
                 </tbody>
             </table>
             {/* 페이지네이션 */}
-            <div className='mt-6 space-x-4'>
-                <button 
-                    className='px-4 py-2 bg-gray-700 text-white rounded-lg disabled:opacity-50' 
-                    onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))} 
-                    disabled={currentPage === 1}
-                >
-                    이전
-                </button>
-                <span className='text-lg font-bold'>{currentPage} / {totalPages}</span>
-                <button 
-                    className='px-4 py-2 bg-gray-700 text-white rounded-lg disabled:opacity-50' 
-                    onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))} 
-                    disabled={currentPage === totalPages}
-                >
-                    다음
-                </button>
-            </div>
+            <AdminPagination 
+                currentPage={currentPage} 
+                totalPages={totalPages} 
+                setCurrentPage={setCurrentPage} 
+            />
         </div>
     )
 }
