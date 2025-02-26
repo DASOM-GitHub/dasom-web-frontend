@@ -1,11 +1,13 @@
 import React, { useState } from 'react'
 import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
 
 
 const ManNewsPost: React.FC = () => {
     const [title, setTitle] = useState('')
     const [content, setContent] = useState('')
     const [images, setImages] = useState<string[]>([])
+    const navigate = useNavigate()
 
     // 본문 내용 담기
     const handleContentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -62,6 +64,7 @@ const ManNewsPost: React.FC = () => {
             })
 
             alert('새 소식이 성공적으로 저장되었습니다.')
+            navigate('/admin/news') // 소식 목록으로 돌아가기
         } catch (error: any) {
             console.error('소식 저장 오류:', error)
             alert('소식 저장 중 오류가 발생했습니다.')
