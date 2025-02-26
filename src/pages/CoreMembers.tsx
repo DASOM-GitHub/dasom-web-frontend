@@ -34,7 +34,7 @@ const containerVariants = {
 }
 
 const itemVariants = {
-  hidden: { opacity: 0, y: 30, willChange: 'transform, opacity' }, 
+  hidden: { opacity: 0, y: 20, willChange: 'transform, opacity' }, 
   visible: { opacity: 1, y: 0, transition: { duration: 0.7 } }
 }
 
