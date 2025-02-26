@@ -28,7 +28,7 @@ const ManNewsList: React.FC = () => {
                     id: item.id,
                     title: item.title,
                     createdAt: item.createdAt.split('T')[0],
-                }))
+                })).sort((a: News, b: News) => b.id - a.id)
                 console.log(response)
                 setNewsItems(formattedData)
             } catch (err: any) {
@@ -63,13 +63,13 @@ const ManNewsList: React.FC = () => {
                 <ul className='overflow-y-auto max-h-[calc(100vh-350px)]'>
                 {visibleNews.map((news) => (
                     <li
-                    key={news.id}
-                    className='flex p-4 border-b border-gray-600 cursor-pointer hover:bg-gray-900'
-                    onClick={() => navigate(`/admin/news/${news.id}`)}
+                        key={news.id}
+                        className='flex px-4 pb-3 pt-4 border-b border-gray-600 cursor-pointer hover:bg-gray-900'
+                        onClick={() => navigate(`/admin/news/${news.id}`)}
                     >
                         <span className='w-[70px]'>{news.id}</span>
                         <span className='w-[960px]'>{news.title}</span>
-                        <span className='text-gray-400 text-[12px]'>{news.createdAt}</span>
+                        <span className='text-gray-400 text-[14px]'>{news.createdAt}</span>
                     </li>
                 ))}
                 </ul>
