@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { useState } from 'react'
 import MobileLayout from '../components/layout/MobileLayout'
 import dasomLogo from '../assets/images/dasomLogo.svg'
+import { motion } from 'framer-motion'
 
 interface Profile {
   id: number;
@@ -21,30 +22,72 @@ const profiles: Profile[] = [
   { id: 9, name: '공석', roll: '부총무', github_username: '' },
 ]
 
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.15,
+      ease: 'easeOut',
+    }
+  }
+}
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 20, willChange: 'transform, opacity' }, 
+  visible: { opacity: 1, y: 0, transition: { duration: 0.7 } }
+}
+
+const ProfileCard = ({ member }: { member: Profile }) => {
+  const [isClicked, setIsClicked] = useState(false)
+
+  return (
+    <motion.div
+      key={member.id}
+      className={`flex mb-[16px] items-center justify-between pr-[12px] p-3 rounded-lg transition-all cursor-pointer
+        ${isClicked ? 'shadow-xl' : 'shadow-lg'}`} 
+      variants={itemVariants}
+      whileHover={{ scale: 1.05, boxShadow: '0px 4px 10px rgba(255, 255, 255, 0.2)' }}
+      whileTap={{ scale: 0.95 }}
+      onClick={() => setIsClicked(!isClicked)}
+    >
+      <div className="flex items-center">
+        <GitHubProfileImage username={member.github_username} width={40} height={40} />
+        <div className='font-pretendardSemiBold text-[16px] ml-[12px] w-[50px]'>{member.name}</div>
+        <div className='font-pretendardRegular text-[12px] ml-[12px] w-[50px]'>{member.roll}</div>
+      </div>
+      <GitHubLinkUrl username={member.github_username} />
+    </motion.div>
+  )
+}
+
 // 깃허브 프로필 사진
 const GitHubProfileImage = ({ username, width, height }: { username: string, width: number, height: number }) => {
   return username ? (
-    <img
+    <motion.img
       src={`https://github.com/${username}.png`}
       alt="gitHubProfile"
       width={width}
       height={height}
-      className='rounded-[50%]'
+      className='rounded-full'
+      whileHover={{ scale: 1.1 }}
+      whileTap={{ scale: 0.9 }}
     />
   ) : (
-    <div className='w-[40px] h-[40px] bg-black rounded-[50%] flex items-center justify-center'>
-      <img
-        className='w-[14px] h-[16px]'
-        src={dasomLogo}
-      />
+    <div className='w-[40px] h-[40px] bg-black rounded-full flex items-center justify-center'>
+      <img className='w-[14px] h-[16px]' src={dasomLogo} />
     </div>
   )
 }
 
-// 깃허브 링크 컴포넌트
+// 깃허브 링크 버튼
 const GitHubLinkUrl = ({ username }: { username: string }) => {
   return username ? (
-    <div className='flex bg-white hover:bg-gray-200 rounded-[6px] p-[4px]'>
+    <motion.div
+      className='flex bg-white rounded-[6px] p-[4px] transition-all'
+      whileHover={{ x: 3 }}
+      whileTap={{ x: 5 }}
+    >
       <GitHubProfileImage username={username} width={12} height={12} />
       <a
         className='block cursor-pointer text-black text-[8px] ml-[4px] font-pretendardSemiBold no-underline'
@@ -54,39 +97,32 @@ const GitHubLinkUrl = ({ username }: { username: string }) => {
       >
         {username}'s Github
       </a>
-    </div>
-  ) : (
-    <div />
-  )
+    </motion.div>
+  ) : <div />
 }
 
 const CoreMembers: React.FC = () => {
   return (
     <MobileLayout>
       <div className='mt-16 ml-[12px] flex'>
-          <img
-              className='w-[21px] h-[24px] cursor-pointer'
-              alt='logo'
-              src={dasomLogo}
-          />
-          <div className='font-pretendardSemiBold text-white text-[16px] ml-[9px]'>
-              다솜 운영진
-          </div>
+        <img className='w-[21px] h-[24px] cursor-pointer' alt='logo' src={dasomLogo} />
+        <div className='font-pretendardSemiBold text-white text-[16px] ml-[9px]'>
+          다솜 운영진
+        </div>
       </div>
       
-      {/* 멤버 프로필 리스트 */}
-      <div className='ml-[12px] mt-[20px] text-white'>
+      {/* 애니메이션 컨테이너 */}
+      <motion.div 
+        className='ml-[12px] mt-[20px] text-white'
+        variants={containerVariants} 
+        initial="hidden" 
+        animate="visible"
+      >
         {profiles.map((member) => (
-          <div key={member.id} className='flex mb-[20px] items-center justify-between pr-[12px]'>
-            <div className="flex items-center">
-              <GitHubProfileImage username={member.github_username} width={40} height={40} />
-              <div className='font-pretendardSemiBold text-[16px] ml-[12px] w-[50px]'>{member.name}</div>
-              <div className='font-pretendardRegular text-[12px] ml-[12px] w-[50px]'>{member.roll}</div>
-            </div>
-            <GitHubLinkUrl username={member.github_username} />
-          </div>
+          <ProfileCard key={member.id} member={member} />
         ))}
-      </div>
+      </motion.div>
+      <div className='flex w-full bg-mainBlack min-h-[100px]' />
     </MobileLayout>
   )
 }
