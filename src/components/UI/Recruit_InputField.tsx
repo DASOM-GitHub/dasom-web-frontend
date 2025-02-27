@@ -14,6 +14,7 @@ interface InputFieldProps {
   checked?: boolean
   onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => void
   onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => void
+  highlightLabels?: string[]
 }
 
 
@@ -30,8 +31,8 @@ export const InputField: React.FC<InputFieldProps> = ({
   value,
   checked,
   onChange,
-  onKeyDown
-
+  onKeyDown,
+  highlightLabels = ['전화번호 마지막 4자리', '학번']
 }) => {
 
   // textarea 크기 변환환
@@ -49,7 +50,7 @@ export const InputField: React.FC<InputFieldProps> = ({
     <div className={containerStyles}>
       <label className="block text-white mb-1">
         {label.split(/(전화번호 마지막 4자리|학번)/).map((part, index) => (
-          <span key={index} className={['전화번호 마지막 4자리', '학번'].includes(part) ? 'text-[#00B493]' : ''}>
+          <span key={index} className={highlightLabels.includes(part) ? 'text-[#00B493]' : ''}>
             {part}
 
           </span>

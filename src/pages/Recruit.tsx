@@ -134,7 +134,7 @@ const Recruit: React.FC = () => {
       <div className='flex flex-col items-center gap-6 mb-40'>
         <form className='mt-3 bg-mainBlack w-full px-2 font-pretendardRegular' onSubmit={handleSubmit} >
           <InputField label='이름' name='name' value={formData.name} onChange={handleInputChange} onKeyDown={handleKeyPress} required />
-          <InputField label='학번' name='studentNo' value={formData.studentNo} onChange={handleInputChange} required />
+          <InputField label='학번' name='studentNo' value={formData.studentNo} onChange={handleInputChange} highlightLabels={[]} required />
           <InputField label='연락처' name='contact' placeholder='ex) 010-0000-0000' value={formData.contact} onChange={handleInputChange} required />
           <InputField label='이메일' name='email' type='email' value={formData.email} onChange={handleInputChange} required />
           <InputField
