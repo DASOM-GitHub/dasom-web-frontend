@@ -10,7 +10,7 @@ interface RecruitUIProps {
 
 export const RecruitHeader: React.FC<RecruitHeaderProps> = ({ title }) => {
   return (
-    <div className="w-auto max-w-[375px] bg-[#00B493] text-white font-pretendardBold text-[13px] p-1 pl-2 mx-2 mt-16">
+    <div className="w-auto bg-[#00B493] text-white font-pretendardBold text-[13px] p-1 pl-2 mx-2 mt-16">
       {title}
     </div>
   )
@@ -56,7 +56,7 @@ export const RecruitUI: React.FC = () => {
   }
 
   return (
-    <div className="text-white font-pretendardRegular flex flex-col text-[12px] items-start w-auto max-w-[375px] shadow-[0px_2px_3px_rgba(255,255,255,0.2)] bg-#17171B] gap-2 mx-2">
+    <div className="text-white font-pretendardRegular flex flex-col text-[12px] items-start w-auto shadow-[0px_2px_3px_rgba(255,255,255,0.2)] bg-#17171B] gap-2 mx-2">
       <p className="pl-2 pt-2">
         <span className='font-pretendardBold'>다솜</span>에서 개발자로서 성장해 갈 <span className="font-pretendardBold">34기 멤버분들</span>을 찾습니다!
       </p>
