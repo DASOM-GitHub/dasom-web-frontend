@@ -62,7 +62,7 @@ function AppContent() {
 				<Route path='/admin' element={<ProtectedRoute><AdminMain /></ProtectedRoute>} />
 				<Route path='/admin/applicants' element={<ProtectedRoute><ManApplicants /></ProtectedRoute>} />
 				<Route path='/admin/date' element={<ProtectedRoute><ManRecruitDate /></ProtectedRoute>} />
-        <Route path='/admin/news' element={<ProtectedRoute><ManNewsList /></ProtectedRoute>} />
+        		<Route path='/admin/news' element={<ProtectedRoute><ManNewsList /></ProtectedRoute>} />
 				<Route path='/admin/news/:no' element={<ProtectedRoute><ManNewsDetail /></ProtectedRoute>} />
 				<Route path='/admin/news/post' element={<ProtectedRoute><ManNewsPost /></ProtectedRoute>} />
 			</Routes>
