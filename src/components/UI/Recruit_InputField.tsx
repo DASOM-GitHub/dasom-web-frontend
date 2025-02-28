@@ -34,7 +34,6 @@ export const InputField: React.FC<InputFieldProps> = ({
 
 }) => {
 
-  // textarea 크기 변환환
   const handleTextAreaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     e.target.style.height = 'auto'
     e.target.style.height = `${e.target.scrollHeight}px`
@@ -49,9 +48,15 @@ export const InputField: React.FC<InputFieldProps> = ({
     <div className={containerStyles}>
       <label className="block text-white mb-1">
         {label.split(/(전화번호 마지막 4자리|학번)/).map((part, index) => (
-          <span key={index} className={['전화번호 마지막 4자리', '학번'].includes(part) ? 'text-[#00B493]' : ''}>
+          <span
+            key={index}
+            className={
+              ['전화번호 마지막 4자리', '학번'].includes(part) && subLabel === 'ex) 20250001'
+                ? 'text-[#00B493]'
+                : ''
+            }
+          >
             {part}
-
           </span>
         ))}
         {required && <span className="text-[#C11100] pl-1">*</span>}
