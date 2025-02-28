@@ -10,7 +10,7 @@ interface RecruitUIProps {
 
 export const RecruitHeader: React.FC<RecruitHeaderProps> = ({ title }) => {
   return (
-    <div className=" w-full max-w-[375px] bg-[#00B493] text-white font-pretendardBold text-[13px] p-1 pl-2 ml-2.5 mt-16">
+    <div className="w-auto bg-[#00B493] text-white font-pretendardBold text-[13px] p-1 pl-2 mx-2 mt-16">
       {title}
     </div>
   )
@@ -56,12 +56,12 @@ export const RecruitUI: React.FC = () => {
   }
 
   return (
-    <div className="text-white font-pretendardRegular flex flex-col text-[12px] items-start max-w-[375px] shadow-[0px_2px_3px_rgba(255,255,255,0.2)] bg-#17171B] gap-2 ml-2.5">
+    <div className="text-white font-pretendardRegular flex flex-col text-[12px] items-start w-auto shadow-[0px_2px_3px_rgba(255,255,255,0.2)] bg-#17171B] gap-2 mx-2">
       <p className="pl-2 pt-2">
-        <span className='font-pretendardBold'>다솜</span>에서 개발자로서 성장해갈 <span className="text-yellow-400 font-pretendardBold">34기 멤버분들</span>을 찾습니다!
+        <span className='font-pretendardBold'>다솜</span>에서 개발자로서 성장해 갈 <span className="font-pretendardBold">34기 멤버분들</span>을 찾습니다!
       </p>
       <div className="mt-2 pl-2">
-        <p className="text-green-400 font-pretendardSemiBold">📅 모집 일정 :</p>
+        <p className="text-mainColor font-pretendardSemiBold">📅 모집 일정 :</p>
         {recruitmentData ? (
           <p>모집 폼 제출 : {formatDate(recruitmentData.RECRUITMENT_PERIOD_START)} ~ {formatDate(recruitmentData.RECRUITMENT_PERIOD_END)}</p>
         ) : (
@@ -80,17 +80,17 @@ export const RecruitUI: React.FC = () => {
       </div>
 
       <div className="mt-2 pl-2  flex items-center">
-        <p className="text-green-400 font-pretendardSemiBold">📝 모집 대상 :</p>
+        <p className="text-mainColor font-pretendardSemiBold">📝 모집 대상 :</p>
         <span className="text-white pl-1">25년도 1학기부터 다솜과 함께할 예비 다솜 멤버</span>
       </div>
 
       <div className="mt-2 pl-2  flex items-center">
-        <p className="text-green-400 font-pretendardSemiBold">🌿 신청 조건 :</p>
+        <p className="text-mainColor font-pretendardSemiBold">🌿 신청 조건 :</p>
         <span className="text-white pl-1 ">컴퓨터소프트웨어공학과 학생</span>
       </div>
 
       <div className="mt-2  pl-2">
-        <p className="text-green-400 font-pretendardSemiBold inline">🍀 회비 :</p>
+        <p className="text-mainColor font-pretendardSemiBold inline">🍀 회비 :</p>
         <span className="text-white pl-1 inline">20,000원</span>
         <p className="text-white mt-1">
           회비는 동아리 운영자금 및 프로젝트 서버비용 지원 등에 사용됩니다.
@@ -104,12 +104,12 @@ export const RecruitUI: React.FC = () => {
 
 export const RecruitUI_SUB: React.FC<RecruitUIProps> = ({name}) => {
   return (
-    <div className="whitespace-pre-line text-white flex flex-col items-start max-w-[375px] h-[auto] shadow-[0px_2px_3px_rgba(255,255,255,0.2)] bg-#17171B] gap-2 ml-2.5 font-pretendardRegular pl-2 pr-2 text-[12px] ">
+    <div className="whitespace-pre-line text-white flex flex-col items-start max-w-[375px] h-[auto] shadow-[0px_2px_3px_rgba(255,255,255,0.2)] bg-#17171B] gap-2 mx-2 font-pretendardRegular pl-2 pr-2 text-[12px] ">
 
       <p className="pt-3 ">
         {`${name}님 안녕하세요 컴퓨터공학부 전공동아리 다솜입니다.
         먼저 다솜 34기에 많은 관심을 갖고 지원해 주셔서 감사드리며, `}
-        <p><span className='text-green-400 font-pretendardBold'>1차 서류 합격</span>을 진심으로 축하드립니다!</p>
+        <p><span className='text-mainColor font-pretendardBold'>1차 서류 합격</span>을 진심으로 축하드립니다!</p>
       </p>
 
       <p >{`다음 전형인 대면 인터뷰에서 뵐 수 있게 되어 기쁜 마음을 담아
@@ -124,7 +124,7 @@ export const RecruitUI_SUB: React.FC<RecruitUIProps> = ({name}) => {
 
 export const RecruitUI_SUB2: React.FC<RecruitUIProps> = ({name}) => {
   return (
-    <div className="whitespace-pre-line text-white flex flex-col items-start max-w-[375px] h-[auto] shadow-[0px_2px_3px_rgba(255,255,255,0.2)] bg-#17171B] gap-2 ml-2.5 font-pretendardRegular pl-2 pr-2 text-[12px] ">
+    <div className="whitespace-pre-line text-white flex flex-col items-start max-w-[375px] h-[auto] shadow-[0px_2px_3px_rgba(255,255,255,0.2)] bg-#17171B] gap-2 mx-2 font-pretendardRegular pl-2 pr-2 text-[12px] ">
 
       <p className="pt-3 ">
         {`${name}님 안녕하세요 컴퓨터공학부 전공동아리 다솜입니다.
@@ -144,15 +144,15 @@ export const RecruitUI_SUB2: React.FC<RecruitUIProps> = ({name}) => {
 
 export const RecruitUI_FINAL: React.FC<RecruitUIProps> = ({name}) => {
   return (
-    <div className="whitespace-pre-line text-white flex flex-col items-start max-w-[375px] h-[auto] shadow-[0px_2px_3px_rgba(255,255,255,0.2)] bg-#17171B] gap-2 ml-2.5 font-pretendardRegular pl-2 pr-2 text-[12px] ">
+    <div className="whitespace-pre-line text-white flex flex-col items-start max-w-[375px] h-[auto] shadow-[0px_2px_3px_rgba(255,255,255,0.2)] bg-#17171B] gap-2 mx-2 font-pretendardRegular pl-2 pr-2 text-[12px] ">
 
       <p className="pt-3 font-pretendardBold ">
-        안녕하세요 {`${name}`}님, <br/> 다솜 34기에<span className='text-green-400 font-pretendardBold'> 최종합격</span> 되신 점 축하드립니다!
+        안녕하세요 {`${name}`}님, <br/> 다솜 34기에<span className='text-mainColor font-pretendardBold'> 최종합격</span> 되신 점 축하드립니다!
       </p>
 
       <p >{`길었던 면접 과정 간 고생 많으셨습니다.
       향후 활동 내용은 디스코드 및 카카오톡 단체 톡방을 통해
-      전달 될 예쩡이며, 카카오톡 단체 톡방은 금일 밤 중 초대드릴 예정입니다.`}
+      전달 될 예정이며, 카카오톡 단체 톡방은 금일 밤 중 초대해 드릴 예정입니다.`}
       </p>
 
       <p className='mb-3'>
@@ -166,7 +166,7 @@ export const RecruitUI_FINAL: React.FC<RecruitUIProps> = ({name}) => {
 
 export const RecruitUI_FINAL2: React.FC<RecruitUIProps> = ({name}) => {
   return (
-    <div className="whitespace-pre-line text-white flex flex-col items-start max-w-[375px] h-[auto] shadow-[0px_2px_3px_rgba(255,255,255,0.2)] bg-#17171B] gap-2 ml-2.5 font-pretendardRegular pl-2 pr-2 text-[12px] ">
+    <div className="whitespace-pre-line text-white flex flex-col items-start max-w-[375px] h-[auto] shadow-[0px_2px_3px_rgba(255,255,255,0.2)] bg-#17171B] gap-2 mx-2 font-pretendardRegular pl-2 pr-2 text-[12px] ">
 
       <p className="pt-3 ">
         {`${name}님 안녕하세요. 컴퓨터공학부 전공동아리 다솜입니다.
