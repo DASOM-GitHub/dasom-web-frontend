@@ -16,8 +16,8 @@
 
 | **분야** | **이름** | **포지션** |
 | --- | --- | --- |
-| PM | <a href="https://github.com/titeotty">최도현</a>  | **프론트엔드 리드**, 화면 UI 구현, 프론트 인프라 구축 & 서버 연동 및 배포,<br> UI/UX, GUI 디자인, 백엔드 API 및 DB 구축 |
-| 백엔드 | <a href="https://github.com/ysw789">유승완</a>  | **백엔드 리드**, 백엔드 인프라 구축, API 및 DB 구축, 백엔드 서버 연동 및 배포 |
+| PM | <a href="https://github.com/titeotty">최도현</a>  | **프론트엔드 리드**, 프론트 인프라 구축 & 서버 연동 및 배포, 화면 UI 구현, <br> UI/UX, GUI 디자인, 백엔드 API 및 DB 구축 |
+| 백엔드 | <a href="https://github.com/ysw789">유승완</a>  | **백엔드 리드**, 백엔드 인프라 구축 & 서버 연동 및 배포, API 및 DB 구축 |
 | 백엔드 | <a href="https://github.com/hodoon">윤도훈</a>  | **백엔드**, API 및 DB 구축 |
 | 프론트엔드 | <a href="https://github.com/sooh329">김수현</a>  | **프론트엔드**, 화면 UI 구현, API 연동 |
 | 프론트엔드 | <a href="https://github.com/kim3360">김태우</a>  | **프론트엔드**, 화면 UI 구현, API 연동 |
