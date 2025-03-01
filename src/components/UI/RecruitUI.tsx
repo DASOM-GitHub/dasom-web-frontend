@@ -21,7 +21,7 @@ export const RecruitUI: React.FC = () => {
   const [recruitmentData, setRecruitmentData] = useState<Record<string, string> | null>(null)
 
   useEffect(() => {
-    fetch('https://dmu-dasom.or.kr/api/recruit', {
+    fetch('https://dmu-dasom-api.or.kr/api/recruit', {
       method: 'GET',
       credentials: 'include'
     })

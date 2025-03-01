@@ -47,7 +47,14 @@ const Recruit: React.FC = () => {
         contact: formattedValue
       }))
     }
-    else if (name === 'studentNo') {
+    else if (name === 'name') {
+      if (value.length <= 16) {
+        setFormData((prevData) => ({
+          ...prevData,
+          name: value
+        }))
+      }
+    } else if (name === 'studentNo') {
       let formattedValue = value.replace(/[^0-9]/g, '')
       formattedValue = formattedValue.slice(0, 8)
 
@@ -133,7 +140,8 @@ const Recruit: React.FC = () => {
       <RecruitUI />
       <div className='flex flex-col items-center gap-6 mb-40'>
         <form className='mt-3 bg-mainBlack w-full px-2 font-pretendardRegular' onSubmit={handleSubmit} >
-          <InputField label='이름' name='name' value={formData.name} onChange={handleInputChange} onKeyDown={handleKeyPress} required />
+          <InputField label='이름' name='name' value={formData.name} onChange={handleInputChange} onKeyDown={handleKeyPress}
+            required minLength={1} maxLength={16} />
           <InputField label='학번' name='studentNo' value={formData.studentNo} onChange={handleInputChange} highlightLabels={[]} required />
           <InputField label='연락처' name='contact' placeholder='ex) 010-0000-0000' value={formData.contact} onChange={handleInputChange} required />
           <InputField label='이메일' name='email' type='email' value={formData.email} onChange={handleInputChange} required />
