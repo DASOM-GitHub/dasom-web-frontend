@@ -1,5 +1,4 @@
-![Slide 16_9 - 1](https://github.com/user-attachments/assets/614ecf9d-a2a5-4802-b873-2960ba02e141)
-
+![Slide 16_9 - 1](https://github.com/user-attachments/assets/ecb1ac70-0ee0-4383-bd15-fc8dba47b443)
 ## 2025학년도 다솜 홈페이지
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/a81b10db-e49b-44a5-b55e-650bc963fe63/deploy-status)](https://app.netlify.com/sites/dmu-dasom/deploys)
