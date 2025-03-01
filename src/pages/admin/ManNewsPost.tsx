@@ -1,77 +1,61 @@
 import React, { useState } from 'react'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
+import NewsFileUpload from '../../components/UI/NewsFileUpload'
+import NewsTextEditor from '../../components/UI/NewsTextEditor'
 
 
 const ManNewsPost: React.FC = () => {
     const [title, setTitle] = useState('')
     const [content, setContent] = useState('')
-    const [images, setImages] = useState<string[]>([])
+    const [files, setFiles] = useState<File[]>([])
     const navigate = useNavigate()
 
-    // 본문 내용 담기
-    const handleContentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-        setContent(e.target.value)
-    }
-
-    // 굵게, 다솜색 처리
-    const applyFormat = (tag: string, style?: string) => {
-        const formattedText = style
-            ? `<span style='${style}'></span>`
-            : `<${tag}></${tag}>`
-
-        setContent((prev) => prev + formattedText)
-    }
-
-    // FileReader로 이미지 인코딩
-    const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        if (!e.target.files) return
-        const files = Array.from(e.target.files)
-    
-        const imagePromises = files.map((file) => {
-            return new Promise<string>((resolve, reject) => {
-                const reader = new FileReader()
-                reader.readAsDataURL(file)
-                reader.onloadend = () => resolve(reader.result as string)
-                reader.onerror = reject
-            })
-        })
-    
-        Promise.all(imagePromises).then((imageUrls) => {
-            setImages((prevImages) => [...prevImages, ...imageUrls])
-        })
-    }
-
-    // 저장 버튼
+    // 뉴스 등록 및 이미지 업로드
     const handleSubmit = async () => {
+        if (!title.trim() || !content.trim()) {
+            alert('제목과 내용을 모두 입력해주세요.')
+            return
+        }
         try {
-            const formattedContent = content.replace(/\n/g, '<br />') // 본문 내용 중 enter br태그로 바꿈
             const token = localStorage.getItem('accessToken')
 
-            const payload = {
+            // 뉴스 등록 요청
+            const newsResponse = await axios.post('https://dmu-dasom-api.or.kr/api/news', {
                 title,
-                content: formattedContent,
-                imageUrls: images, // Base64로..... 인코딩된 이미지
-            }
-    
-            console.log('전송 데이터:', payload)
-    
-            await axios.post('https://dmu-dasom.or.kr/api/news', payload, {
+                content: content.replace(/\n/g, '<br />'),
+            }, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                     'Content-Type': 'application/json',
                 },
             })
 
-            alert('새 소식이 성공적으로 저장되었습니다.')
-            navigate('/admin/news') // 소식 목록으로 돌아가기
-        } catch (error: any) {
-            console.error('소식 저장 오류:', error)
-            alert('소식 저장 중 오류가 발생했습니다.')
+            const newsId = newsResponse.data.id
+            console.log('뉴스 등록 성공, ID:', newsId)
 
+            // 이미지 업로드 요청
+            const formData = new FormData()
+            files.forEach((file) => formData.append('files', file))
+            formData.append('fileType', 'NEWS')
+            formData.append('targetId', newsId)
+
+            await axios.post('https://dmu-dasom-api.or.kr/api/files/upload', formData, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    'Content-Type': 'multipart/form-data',
+                },
+            })
+
+            alert('새 소식이 성공적으로 등록되었습니다.')
+            navigate('/admin/news')
+        } catch (error:any) {
             const errorCode = error.response?.data?.code
-            if (errorCode === 'E003') {
-                console.log('소식 저장 중 오류: 유효하지 않은 입력입니다.')
+            if (errorCode === 'C028') {
+                alert('파일 인코딩에 실패하였습니다.')
+            } else {
+                console.error('소식 등록 오류:', error)
+                alert('소식 등록 중 오류가 발생했습니다.')
             }
         }
     }
@@ -85,7 +69,7 @@ const ManNewsPost: React.FC = () => {
 
     return (
         <div className='h-[100vh] w-[100vw] bg-mainBlack font-pretendardRegular text-white flex flex-col items-center overflow-auto'>
-            <div className='flex justify-between w-[1220px] mt-[155px] mb-[12px]'>
+            <div className='flex justify-between w-[1220px] mt-[155px] mb-[12px] font-pretendardSemiBold'>
                 <div className='text-[20px]'>소식 작성</div>
                 <button
                     onClick={handleSubmit}
@@ -96,50 +80,16 @@ const ManNewsPost: React.FC = () => {
             </div>
             
             <div className='flex flex-col w-[1220px]'>
-                <label className='block mb-2'>제목</label>
-                <textarea
-                    className='text-black w-full p-2 border rounded-[6px] mb-4'
-                    value={title}
-                    onChange={(e) => setTitle(e.target.value)}
-                    placeholder='제목을 입력하세요'
-                />
-                
-                
-                <div className='flex justify-between w-[1220px]'>
-                    <div className='w-[600px]'>
-                        <label className='block mb-2'>내용</label>
-                        <textarea
-                            className='text-black w-full p-2 border rounded-[6px] mb-2'
-                            value={content}
-                            onChange={handleContentChange}
-                            placeholder='내용을 입력하세요'
-                            onInput={autoResizeTextarea}
-                        />
-                        
-                        <div className='text-black mb-4 space-x-2'>
-                            <button onClick={() => applyFormat('b')} className='bg-gray-200 px-2 py-1 rounded-[6px]'>굵게</button>
-                            <button onClick={() => applyFormat('span', 'color:#00B493')} className='bg-gray-200 text-mainColor px-2 py-1 rounded-[6px]'>다솜색(#00B493)</button>
-                        </div>
-                    </div>
-                    {/* 미리보기 화면 */}
-                    <div className='mb-[20px] w-[600px]'>
-                        <div className='block mb-2'>미리보기</div>
-                        <div
-                            className='text-white p-4 border rounded-[6px] bg-gray-800 break-words'
-                            dangerouslySetInnerHTML={{
-                                __html: content.replace(/\n/g, '<br />'), // <br />로 줄바꿈 처리
-                            }}
-                        />
-                    </div>
-                </div>
 
-                <label className='block mt-4 mb-1'>이미지 첨부</label>
-                <input
-                    type='file'
-                    multiple
-                    onChange={handleImageChange}
-                    className='mb-8'
+                {/* 제목 및 내용 텍스트 편집 */}
+                <NewsTextEditor 
+                    title={title} 
+                    content={content} 
+                    setTitle={setTitle} 
+                    setContent={setContent} 
                 />
+
+                <NewsFileUpload files={files} setFiles={setFiles} />
             </div>
         </div>
     )

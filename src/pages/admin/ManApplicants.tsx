@@ -45,7 +45,7 @@ const ManApplicants: React.FC = () => {
                     return
                 }
         
-                const response = await axios.get('https://dmu-dasom.or.kr/api/admin/applicants', {
+                const response = await axios.get('https://dmu-dasom-api.or.kr/api/admin/applicants', {
                     headers: {
                         Authorization: `Bearer ${accessToken}`
                     }
@@ -76,7 +76,7 @@ const ManApplicants: React.FC = () => {
         }
     
         try {
-            const response = await axios.get(`https://dmu-dasom.or.kr/api/admin/applicants/${id}`, {
+            const response = await axios.get(`https://dmu-dasom-api.or.kr/api/admin/applicants/${id}`, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`
                 }
@@ -105,7 +105,7 @@ const ManApplicants: React.FC = () => {
         )
         setOpenDropdownId(null) // 드롭다운 닫기
 
-        axios.patch(`https://dmu-dasom.or.kr/api/admin/applicants/${id}/status`, { status: statusValue }, {
+        axios.patch(`https://dmu-dasom-api.or.kr/api/admin/applicants/${id}/status`, { status: statusValue }, {
             headers: { Authorization: `Bearer ${accessToken}` }
         })
         .then(() => {
