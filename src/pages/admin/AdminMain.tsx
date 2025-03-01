@@ -22,7 +22,7 @@ const AdminMain: React.FC = () => {
     const handleLogout = async () => {
         try {
             // 로그아웃
-            await axios.post('https://dmu-dasom.or.kr/api/auth/logout', {}, {
+            await axios.post('https://dmu-dasom-api.or.kr/api/auth/logout', {}, {
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
                 }

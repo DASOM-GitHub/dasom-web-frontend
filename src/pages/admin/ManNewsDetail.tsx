@@ -3,24 +3,32 @@ import MobileLayout from '../../components/layout/MobileLayout'
 import { useParams, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 
+interface Image {
+    id: number
+    fileFormat: string
+    encodedData: string
+}
+
 interface News {
     id: string
     title: string
     content: string
     createdAt: string
-    imageUrl?: string
+    images: Image[]
 }
 
 const ManNewsDetail: React.FC = () => {
     const { no } = useParams<{ no: string }>()
     const [news, setNews] = useState<News | null>(null)
+    const [images, setImages] = useState<Image[]>([])
     const navigate = useNavigate()
 
     useEffect(() => {
         const fetchNews = async () => {
             try {
-                const response = await axios.get<News>(`https://dmu-dasom.or.kr/api/news/${no}`)
+                const response = await axios.get<News>(`https://dmu-dasom-api.or.kr/api/news/${no}`)
                 setNews(response.data)
+                setImages(response.data.images)
                 console.log(response.data)
             } catch (err) {
                 console.error('Error fetching news:', err)
@@ -32,7 +40,7 @@ const ManNewsDetail: React.FC = () => {
     const handleDelete = async () => {
         if (window.confirm('정말 삭제하시겠습니까?')) {
             try {
-                await axios.delete(`https://dmu-dasom.or.kr/api/news/${no}`)
+                await axios.delete(`https://dmu-dasom-api.or.kr/api/news/${no}`)
                 alert('삭제되었습니다.')
                 navigate('/admin/news') // 삭제 후 목록 페이지로 이동
             } catch (err) {
@@ -48,7 +56,7 @@ const ManNewsDetail: React.FC = () => {
                 <div className='mt-[80px] mb-[20px] mr-[20px] flex justify-end'>
                     <div 
                         className='cursor-pointer border border-gray-600 px-2 py-1 rounded-[6px] bg-gray-800 hover:bg-gray-900 mr-[8px]'
-                        //onClick={}
+                        onClick={() => navigate(`/admin/news/edit/${no}`)}
                     >
                         수정
                     </div>
@@ -61,10 +69,26 @@ const ManNewsDetail: React.FC = () => {
                 </div>
             
                 <div>
-                    <h1>{news?.title}</h1>
-                    <p>{news?.createdAt ? new Date(news.createdAt).toLocaleDateString() : ''}</p>
-                    {news?.imageUrl && <img src={news.imageUrl} alt={news.title} />}
-                    <p>{news?.content}</p>
+                    <div>{news?.title}</div>
+                    <div>{news?.createdAt ? new Date(news.createdAt).toLocaleDateString() : ''}</div>
+                    {Array.isArray(images) && images.length > 0 ? ( // 이미지가 있을 때만 렌더링
+                        images.map((image) => (
+                            <div key={image.id} className="flex items-center">
+                                <img
+                                    src={`data:${image.fileFormat};base64,${image.encodedData}`}
+                                    alt={`image-${image.id}`}
+                                    className="w-max h-auto object-cover"
+                                />
+                            </div>
+                        ))
+                    ) : (
+                        <div className='text-[14px]'>업로드된 파일이 없습니다.</div>
+                    )}
+                    <div
+                        dangerouslySetInnerHTML={{
+                            __html: news?.content || ''
+                        }}
+                    />
                 </div>
             </MobileLayout>
         </div>

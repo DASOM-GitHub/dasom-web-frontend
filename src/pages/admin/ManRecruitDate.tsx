@@ -46,7 +46,7 @@ const ManRecruitDate = () => {
     useEffect(() => {
         const fetchDates = async () => {
             try {
-                const response = await axios.get('https://dmu-dasom.or.kr/api/recruit')
+                const response = await axios.get('https://dmu-dasom-api.or.kr/api/recruit')
                 const data = response.data
                 const defaultDates = dates
 
@@ -93,7 +93,7 @@ const ManRecruitDate = () => {
         console.log(token)
     
         try {
-            await axios.patch('https://dmu-dasom.or.kr/api/admin/recruit/schedule', formattedData, {
+            await axios.patch('https://dmu-dasom-api.or.kr/api/admin/recruit/schedule', formattedData, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'

@@ -23,7 +23,7 @@ const ManNewsList: React.FC = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get('https://dmu-dasom.or.kr/api/news')
+                const response = await axios.get('https://dmu-dasom-api.or.kr/api/news')
                 const formattedData = response.data.map((item: any) => ({
                     id: item.id,
                     title: item.title,

@@ -15,7 +15,7 @@ const Login: React.FC = () => {
         }
         
         try {
-            const response = await axios.post('https://dmu-dasom.or.kr/api/auth/login', {
+            const response = await axios.post('https://dmu-dasom-api.or.kr/api/auth/login', {
                 email,
                 password
             })
