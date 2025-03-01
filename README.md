@@ -5,6 +5,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 > <b>개발 기간 : 2025.02.05 - 2025.03.01 <br> 배포 주소 : <a href="https://dmu-dasom.or.kr">https://dmu-dasom.or.kr</a></b>
 > 
+<br>
 
 ## 2025 DASOM MAKERS
 
@@ -21,6 +22,7 @@
 | 프론트엔드 | <a href="https://github.com/sooh329">김수현</a> | **프론트엔드**, 화면 UI 구현, 서버 연동 |
 | 프론트엔드 | <a href="https://github.com/kim3360">김태우</a> | **프론트엔드**, 화면 UI 구현, 서버 연동 |
 | 프론트엔드 | <a href="https://github.com/limtjdghks">임성환</a> | **프론트엔드**, 화면 UI 구현, 서버 연동 |
+<br>
 
 ## 기술 스택
 
@@ -63,6 +65,7 @@
 ![Swagger](https://img.shields.io/badge/-Swagger-%23Clojure?style=for-the-badge&logo=swagger&logoColor=white)
 ![Notion](https://img.shields.io/badge/Notion-%23000000.svg?style=for-the-badge&logo=notion&logoColor=white)
 ![Discord](https://img.shields.io/badge/Discord-%235865F2.svg?style=for-the-badge&logo=discord&logoColor=white)
+<br>
 
 ## 컨벤션
 
