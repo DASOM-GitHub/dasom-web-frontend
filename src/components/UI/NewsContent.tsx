@@ -1,35 +1,84 @@
-import React, { JSX, useEffect, useState } from 'react'
-import defaultBanner from '../../assets/images/newsBannerExam.svg'
+import React, { useState, useMemo } from 'react'
+import { Swiper, SwiperSlide } from 'swiper/react'
+import { Pagination, Autoplay } from 'swiper/modules'
+import 'swiper/css'
+import 'swiper/css/pagination'
 
-interface news {
+interface NewsProps {
 	id: number
 	title: string
-	banner: string | null
-	date: string
+	image?: string | null
+	images?: { encodedData: string; fileFormat: string }[] | null
+	createdAt: string
 	onClick: () => void
+	isDetail?: boolean
 }
 
-/** 공지사항 컴포넌트 */
-const NewsContent = ({ title, banner, date, onClick }: news): JSX.Element => {
-	const [src, setSrc] = useState<string>(defaultBanner) // 기본 배너 이미지
+const NewsContent: React.FC<NewsProps> = React.memo(
+	({ id, title, image, images, createdAt, onClick, isDetail = false }) => {
+		const [loading, setLoading] = useState(true)
 
-	// 배너 이미지 있을 경우 src 변경
-	useEffect(() => {
-		if (banner) {
-			setSrc(banner)
-		}
-	}, [banner])
+		const formattedDate = useMemo(
+			() => new Date(createdAt).toISOString().split('T')[0].replace(/-/g, '.'),
+			[createdAt]
+		)
 
-	return (
-		<div className='mb-5 w-[90%] cursor-pointer' onClick={onClick}>
-			{/* 배너 이미지 */}
-			<img className='w-[350px] h-[140px]' src={src} />
-			{/* 제목 */}
-			<p className='font-pretendardBold text-white text-[20px]'>{title}</p>
-			{/* 날짜 */}
-			<p className='font-pretendardRegular text-[12px] text-subGrey2'>{date}</p>
-		</div>
-	)
-}
+		// Base64 → 이미지 URL 변환 (useMemo로 캐싱)
+		const imageUrls = useMemo(() => {
+			if (!images || images.length === 0) return null
+			return images.map((img) =>
+				img?.encodedData ? `data:${img.fileFormat};base64,${img.encodedData}` : null
+			)
+		}, [images])
+
+		return (
+			<div className='flex flex-col items-start mb-5 w-full cursor-pointer' onClick={onClick}>
+				{loading && (
+					<div className='w-full h-[140px] bg-gray-700 animate-pulse rounded-lg'></div>
+				)}
+
+				{isDetail && imageUrls ? (
+					<Swiper
+						key={`swiper-${id}-${imageUrls.length}`}
+						spaceBetween={10}
+						pagination={{ clickable: true }}
+						autoplay={{ delay: 3000, disableOnInteraction: false }}
+						loop={true}
+						observer={true}
+						observeParents={true}
+						modules={[Pagination, Autoplay]}
+						className='w-full'
+					>
+						{imageUrls.map((imageUrl, index) =>
+							imageUrl && (
+								<SwiperSlide key={index}>
+									<img
+										src={imageUrl}
+										className='w-full h-[140px] rounded-lg transition-opacity duration-500'
+										alt={`뉴스 이미지 ${index + 1}`}
+										onLoad={() => setLoading(false)}
+										loading='lazy'
+									/>
+								</SwiperSlide>
+							)
+						)}
+					</Swiper>
+				) : (
+					image && (
+						<img
+							src={image}
+							className='w-full h-[140px] rounded-lg transition-opacity duration-500'
+							alt='뉴스 대표 이미지'
+							onLoad={() => setLoading(false)}
+							loading='lazy'
+						/>
+					)
+				)}
+				<p className='font-pretendardBold text-white text-[16px] mt-2'>{title}</p>
+				<p className='text-[12px] text-subGrey2'>작성일: {formattedDate}</p>
+			</div>
+		)
+	}
+)
 
 export default NewsContent
