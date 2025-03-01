@@ -1,7 +1,7 @@
 ## 2025학년도 다솜 홈페이지
 [![Netlify Status](https://api.netlify.com/api/v1/badges/a81b10db-e49b-44a5-b55e-650bc963fe63/deploy-status)](https://app.netlify.com/sites/dmu-dasom/deploys)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-> <b>개발 기간 : 2025.02.05 - 2025.03.01 <br> 배포 주소 : <a href="https://dmu-dasom.or.kr">dmu-dasom.or.kr</a></b>
+> <b>개발 기간 : 2025.02.05 - 2025.03.01 <br> 배포 주소 : <a href="https://dmu-dasom.or.kr">https://dmu-dasom.or.kr</a></b>
 > 
 
 ## 2025 DASOM MAKERS
