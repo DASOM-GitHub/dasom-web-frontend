@@ -18,6 +18,7 @@ interface props {
 const MeetingTimeSelector = ({ onSelect, time }: props): JSX.Element => {
 	const [selectedTime, setSelectedTime] = useState<string>('')
 	const [meetingTimes, setMeetingTimes] = useState<timeInfo[]>([])
+	const [meetingAble, setMeeintgAble] = useState<boolean>(true)
 
 	// 면접 예약 시간 목록 가져오기
 	useEffect(()=> {
@@ -59,10 +60,10 @@ const MeetingTimeSelector = ({ onSelect, time }: props): JSX.Element => {
 		onSelect(formattedTime)
 	}
 
-	return (
+	return (	
 		<div className='grid grid-cols-4 gap-x-2 gap-y-5'>
 			{meetingTimes.map((meetingTime, index) => (
-				<MeetingTime key={index} {...meetingTime} onClick={() => handleTimeClick(meetingTime)} isSelected={selectedTime === `${meetingTime.time}`} />
+				<MeetingTime key={index} {...meetingTime} onClick={() => handleTimeClick(meetingTime)} isSelected={selectedTime === `${meetingTime.time}`} disabled={meetingAble} />
 			))}
 		</div>
 	)

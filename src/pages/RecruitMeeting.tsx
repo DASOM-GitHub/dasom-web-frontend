@@ -63,7 +63,7 @@ const RecruitMeeting: React.FC = () => {
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
-				const response = await axios.get<recruitData[]>('https://dmu-dasom.or.kr/api/recruit')
+				const response = await axios.get<recruitData[]>('https://dmu-dasom-api.or.kr/api/recruit')
 
 				// KEY값 검색하여 데이터 조회하여 각 변수에 저장
 				const periodData: interviewPeriod = {
@@ -85,6 +85,15 @@ const RecruitMeeting: React.FC = () => {
 		}
 		fetchData()
 	}, [])
+
+	// 음... 서버에서 예약 현황 받아와야함
+	// 페이지 맨 처음 들어와서는 시간 선택 불가능하게
+	// 날짜 선택하면 선택한 날짜에 예약 가능한 시간만 선택 가능하도록
+	// 날짜 선택 값에 따라 시간 버튼 on off 유무 필요함
+	// 예약 현황 데이터가 어떻게 들어오는지 모르겠는데... 데이터 형식 바꿔서 읽어야 될수도...
+	// 합격 조회시 학번 + 전화번호뒷자리 로 개인코드 생성
+	// 면접 예약 페이지 접근 시 코드 없으면 접근 불가
+	// 면접 예약시 이 코드도 함께 api에 전달
 
 	return (
 		<MobileLayout>
