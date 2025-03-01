@@ -11,6 +11,8 @@ interface InputFieldProps {
   checkboxLabel?: string
   phoneNumber?: boolean
   value: string | boolean
+  minLength?: number
+  maxLength?: number
   checked?: boolean
   onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => void
   onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => void
@@ -29,6 +31,8 @@ export const InputField: React.FC<InputFieldProps> = ({
   checkboxLabel = '확인했습니다.',
   phoneNumber = false,
   value,
+  minLength,
+  maxLength,
   checked,
   onChange,
   onKeyDown,
@@ -118,6 +122,8 @@ export const InputField: React.FC<InputFieldProps> = ({
           value={value as string}
           onChange={onChange}
           onKeyDown={onKeyDown}
+          minLength={minLength}
+          maxLength={maxLength}
           required={required}
           placeholder={placeholder}
           className={baseInputStyles}
