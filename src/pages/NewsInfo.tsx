@@ -1,41 +1,88 @@
-import React from 'react'
+import React, { useEffect, useState, useMemo, useRef } from 'react'
+import { useParams, useNavigate } from 'react-router-dom'
 import MobileLayout from '../components/layout/MobileLayout'
 import dasomLogo from '../assets/images/dasomLogo.svg'
 import NewsContent from '../components/UI/NewsContent'
 import NewsNotice from '../components/UI/NewsNotice'
 
-interface notice {
-	id: number
-	text: string
-	date: Date
+interface NewsDetail {
+  id: number 
+  title: string
+  content: string
+  images: { encodedData: string; fileFormat: string }[] | null
+  createdAt: string
 }
 
-/** 소식 상세페이지 */
 const NewsInfo: React.FC = () => {
-	return (
-		<MobileLayout>
-			<div className='mt-[65px] mb-2 ml-[12px] flex'>
-				<img className='w-[21px] h-[24px] cursor-pointer' alt='logo' src={dasomLogo} />
-				<div className='font-pretendardSemiBold text-white text-[16px] ml-[9px]'>다솜 소식</div>
-			</div>
-			<div className='flex flex-col items-center w-full mb-40'>
-				<NewsContent title='다솜 34기 신규 부원 모집!' banner={null} date='2월 25일(화) ~ 3월 14일(금)' onClick={() => {}} id={1} />
-				<NewsNotice text={examText} date={examDate} />
-			</div>
-		</MobileLayout>
-	)
+  const { no } = useParams<{ no: string }>() // 
+  const [news, setNews] = useState<NewsDetail | null>(() => {
+    const savedNews = sessionStorage.getItem(`news-${no}`)
+    return savedNews ? JSON.parse(savedNews) : null 
+  })
+  const [loading, setLoading] = useState<boolean>(!news) 
+  const navigate = useNavigate()
+  const isFetched = useRef(false) 
+
+  const handleNews = () => navigate('/news')
+
+  useEffect(() => {
+    if (!no || no === 'undefined' || isFetched.current || news) return
+
+    const fetchNewsDetail = async () => {
+      try {
+        const response = await fetch(`https://dmu-dasom-api.or.kr/api/news/${no}`)
+        if (!response.ok) throw new Error('데이터를 불러오지 못했습니다.')
+        const data: NewsDetail = await response.json()
+        console.log('API 응답:', data)
+
+        setNews(data)
+        sessionStorage.setItem(`news-${no}`, JSON.stringify(data)) 
+      } catch (error) {
+        console.error('API 요청 실패:', error)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchNewsDetail()
+    isFetched.current = true
+  }, [no, news])
+
+  if (!news && !loading) return <p className='text-white text-center mt-5'>뉴스를 찾을 수 없습니다.</p>
+
+  //  이미지 변환 (불필요한 리렌더링 방지)
+  const imageUrls = useMemo(() => {
+    if (!news?.images) return []
+    return news.images.map(img =>
+      img.encodedData ? `data:${img.fileFormat};base64,${img.encodedData}` : ''
+    )
+  }, [news])
+
+  return (
+    <MobileLayout>
+      <div className='mt-[65px] mb-2 ml-[12px] flex cursor-pointer' onClick={handleNews}>
+        <img className='w-[21px] h-[24px]' alt='logo' src={dasomLogo} />
+        <div className='font-pretendardSemiBold text-white text-[16px] ml-[9px]'>다솜 소식</div>
+      </div>
+
+      <div className='flex flex-col items-center mx-[12px] mb-40'>
+        {loading ? (
+          <div className='w-full h-[140px] bg-gray-700 animate-pulse rounded-lg'></div>
+        ) : (
+          <NewsContent
+            id={news!.id}
+            title={news!.title}
+            images={imageUrls.length > 0 ? news!.images : null}
+            createdAt={news!.createdAt}
+            onClick={() => {}}
+            isDetail={true}
+          />
+        )}
+
+        {news?.content && <NewsNotice text={news.content} />}
+      </div>
+    </MobileLayout>
+  )
 }
 
-/** DB에서 받아올 예시 데이터 */
-const examText: string =
-	'<p>컴퓨터공학부 전공 동아리 <span style="color:#00B493 ">다솜</span>은 1992년에 설립된, <strong>웹/앱 서비스 개발</strong>을 통해 개인의 개발 실력 향상을 도모하는 동아리입니다.</p>\n' +
-	'<p>다솜에서는 활발한 커뮤니티 형성을 목적으로 하며, 현직자 강의, 세미나와 스터디 및 팀 프로젝트 활동 등으로 비단 개인만이 아닌 <strong>팀과의 협업을 경험</strong>하고, <strong>실력과 인사이트 모두 한 단계 더 성장</strong>할 수 있게끔 지원해드리고 있습니다. ☺️</p>\n' +
-	'<p>또한, 다솜의 매력은 <strong>동료 개발자들과의 교류</strong>라고 생각하는데요, 하계, 동계 MT, 비어 네트워킹과 팀 프로젝트 등으로 <strong>친밀감을 쌓으며</strong> ' +
-	'여러분이 "<strong>함께 성장하는 개발자</strong>"가 될 수 있을 것이라고 생각합니다. 🌟</p>\n' +
-	'<p><strong>지금, 다솜에서 여러분의 가능성을 펼쳐보세요!\n' +
-	'더 큰 미래를 그릴 준비가 되셨나요? 다솜은 여러분과 함께합니다.</strong></p>'
-
-/** DB에서 받아올 예시 데이터 */
-const examDate: Date = new Date('2025-02-13')
-
-export default NewsInfo
+export default React.memo(NewsInfo) 

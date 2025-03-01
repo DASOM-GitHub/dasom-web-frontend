@@ -108,3 +108,22 @@
       scrollbar-width: none;  /* Firefox */
     }
   }
+
+
+
+.swiper-pagination-bullet {
+  width: 5px;
+  height: 5px;
+  background-color: #ffffffff !important;
+  opacity: 0.6;
+  border: 2px solid white;
+  transition: all 0.3s ease;
+}
+
+.swiper-pagination-bullet-active {
+  width: 5px;
+  height: 5px;
+  background-color: white; 
+  transform: scale(1.3); 
+}
+
