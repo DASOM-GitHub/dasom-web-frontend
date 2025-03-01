@@ -22,6 +22,7 @@
 | 프론트엔드 | <a href="https://github.com/sooh329">김수현</a> | **프론트엔드**, 화면 UI 구현, 서버 연동 |
 | 프론트엔드 | <a href="https://github.com/kim3360">김태우</a> | **프론트엔드**, 화면 UI 구현, 서버 연동 |
 | 프론트엔드 | <a href="https://github.com/limtjdghks">임성환</a> | **프론트엔드**, 화면 UI 구현, 서버 연동 |
+
 <br>
 
 ## 기술 스택
