@@ -86,6 +86,7 @@
 | rename | 파일, 클래스 등의 이름 변경 | `rename: UserController → AuthController 변경` |
 | remove | 파일, 클래스 등의 삭제 | `remove: 사용하지 않는 DTO 제거` |
 | cicd | CI/CD 관련 설정 | `cicd: Github Actions workflow 추가` |
+| design | 애니메이션, 컬러 등의 디자인 수정 | `design: hover 애니메이션 추가` |
 
 ### Issue Template
 
