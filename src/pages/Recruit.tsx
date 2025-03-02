@@ -125,7 +125,7 @@ const Recruit: React.FC = () => {
       })
 
       if (response.ok) {
-        navigate('/recruit-submit')
+        navigate('/recruit/submit')
       } else {
         const errorData = await response.json()
       }
