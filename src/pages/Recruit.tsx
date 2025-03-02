@@ -115,7 +115,7 @@ const Recruit: React.FC = () => {
     }
 
     try {
-      const response = await fetch('https://dmu-dasom.or.kr/api/recruit/apply', {
+      const response = await fetch('https://dmu-dasom-api.or.kr/api/recruit/apply', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -162,8 +162,8 @@ const Recruit: React.FC = () => {
           <InputField label='지원동기 (500자 이내)' name='reasonForApply' type='textarea' value={formData.reasonForApply} onChange={handleInputChange} required />
           <InputField label='동아리 내에서 하고 싶은 활동이 있다면 적어주세요!' name='activityWish' type='textarea' value={formData.activityWish} onChange={handleInputChange} required />
           <InputField
-            label='🫧 면접 일자는 3월 15일(토)에 개별 연락처로 안내 후,'
-            subLabel='3월 19일부터 3월 21일까지 대면으로 진행됩니다.'
+            label='🫧 면접 일자는 3월 11일(토)에 개별 연락처로 안내 후,'
+            subLabel='3월 12일부터 3월 14일까지 대면으로 진행됩니다.'
             type='checkbox'
             name='isMessageAgreed'
             value={formData.isMessageAgreed}
