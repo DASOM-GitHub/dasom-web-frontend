@@ -1,14 +1,21 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import MobileLayout from '../components/layout/MobileLayout'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { RecruitHeader, RecruitUI_SUB, RecruitUI_SUB2 } from '../components/UI/RecruitUI'
 import { Button } from '../components/UI/Recruit_Button'
 
-
 const RecruitCheck: React.FC = () => {
     const navigate = useNavigate()
     const location = useLocation()
-    const {name, isPassed} = location.state as {name:string, isPassed:boolean}
+    const {name, isPassed, studentNo, contactLastDigit} = location.state as {name:string, isPassed:boolean, studentNo:string, contactLastDigit:string}
+
+    // 1차 합격시 개인 코드 생성 후 session에 저장
+    useEffect(()=> {
+        if(isPassed) {
+            const reservationCode = studentNo + contactLastDigit
+            sessionStorage.setItem('reservationCode', reservationCode)
+        }
+    },[])
 
     return (
         <MobileLayout>

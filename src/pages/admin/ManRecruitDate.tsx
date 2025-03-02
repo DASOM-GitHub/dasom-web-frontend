@@ -80,6 +80,22 @@ const ManRecruitDate = () => {
         }
     }
 
+    const handleCreateSchedule = async () => {
+        try {
+            const response = await axios.post('https://dmu-dasom-api.or.kr/api/recruit/interview/schedule', {
+                startDate: dates.INTERVIEW_PERIOD_START.format('YYYY-MM-DD'),
+                endDate: dates.INTERVIEW_PERIOD_END.format('YYYY-MM-DD'),
+                startTime: dates.INTERVIEW_TIME_START.format('HH:mm'),
+                endTime: dates.INTERVIEW_TIME_END.format('HH:mm')
+            })
+
+            console.log('생성된 면접 일정 : ', response.data)
+        } catch (e: any) {
+            console.log(e)
+            alert('면접 일정 생성 중 오류가 발생했습니다.')
+        }
+    }
+
     // 일정 저장
     const handleSave = async (key: keyof typeof dates) => {
         const formattedData = {
@@ -146,6 +162,7 @@ const ManRecruitDate = () => {
                     </div>
                 </div>
             </LocalizationProvider>
+            <button className='w-[140px] h-[40px] bg-mainColor mt-[15px] font-pretendardBold' onClick={handleCreateSchedule}>면접 일정 생성하기</button>
         </div>
     )
 }

@@ -13,9 +13,10 @@ interface interviewTime {
 interface props {
 	onSelect: (time: string) => void
 	time: interviewTime // 면접 시간 
+	disabledSelectTime: boolean
 }
 
-const MeetingTimeSelector = ({ onSelect, time }: props): JSX.Element => {
+const MeetingTimeSelector = ({ onSelect, time, disabledSelectTime }: props): JSX.Element => {
 	const [selectedTime, setSelectedTime] = useState<string>('')
 	const [meetingTimes, setMeetingTimes] = useState<timeInfo[]>([])
 
@@ -37,13 +38,13 @@ const MeetingTimeSelector = ({ onSelect, time }: props): JSX.Element => {
 		const endMinutes = parseTime(time.timeEnd)
 		const timeArray: timeInfo[] = []
 
-		// 20분 간격으로 time 추가
+		// 20분 간격으로 time 추가, 각 시간별로 고유 ID 부여
 		for (let minutes = startMinutes; minutes <= endMinutes; minutes += 20) {
-			timeArray.push({time:formatTime(minutes)})
+			timeArray.push({ time: formatTime(minutes) })
 			/*
 			meetingTimes[
-				{time:'12:00'},
-				{time:'12:20'},
+				{time: '12:00'},
+				{time: '12:20'},
 				...
 			]
 			*/
@@ -54,15 +55,14 @@ const MeetingTimeSelector = ({ onSelect, time }: props): JSX.Element => {
 
 	// 시간 클릭 핸들러 (부모컴포넌트에 state값 반환)
 	const handleTimeClick = (meetingTime: timeInfo) => {
-		const formattedTime = `${meetingTime.time}`
-		setSelectedTime(formattedTime)
-		onSelect(formattedTime)
+		setSelectedTime(meetingTime.time)
+		onSelect(meetingTime.time)
 	}
 
-	return (
+	return (	
 		<div className='grid grid-cols-4 gap-x-2 gap-y-5'>
-			{meetingTimes.map((meetingTime, index) => (
-				<MeetingTime key={index} {...meetingTime} onClick={() => handleTimeClick(meetingTime)} isSelected={selectedTime === `${meetingTime.time}`} />
+			{meetingTimes.map((meetingTime, index ) => (
+				<MeetingTime key={index} {...meetingTime} onClick={() => handleTimeClick(meetingTime)} isSelected={selectedTime === `${meetingTime.time}`} disabled={disabledSelectTime} />
 			))}
 		</div>
 	)
