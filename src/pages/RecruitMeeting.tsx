@@ -35,28 +35,34 @@ const RecruitMeeting: React.FC = () => {
 		timeEnd: '',
 	})
 	const [selectedDate, setSelectedDate] = useState<string | null>(null)
-	const [selectedTime, setSelectedTime] = useState<{ id: number | null; time: string | null }>({ id: null, time: '' })
+	const [selectedTime, setSelectedTime] = useState<string | null >('')
 	const [activebtn, setActivebtn] = useState<boolean>(false)
 	const reservationCode = sessionStorage.getItem('reservationCode')
 	const [disableSelectTime, setDisableSelectTime] = useState<boolean>(true)
-	const [ids, setIds] = useState<number[]>([])
+	const [interviewSlots, setInterviewSlots] = useState<any[]>([])
+	const [slotId, setSlotId] = useState<number>()
 
 	// 날짜 선택 핸들러
 	const handleDateSelect = (date: string) => {
 		setSelectedDate(date)
-		setDisableSelectTime(false)
+
+		const slotsForDate = interviewSlots.filter((slot) => slot.interviewDate === date)
+
+		const hasActiveSlots = slotsForDate.some((slot) => slot.interviewStatus === 'ACTIVE')
+
+		setDisableSelectTime(!hasActiveSlots)
 	}
 
 	// 시간 선택 핸들러
-	const handleTimeSelect = (selectedTime: { id: number; time: string }) => {
-		setSelectedTime(selectedTime)
+	const handleTimeSelect = ( time: string ) => {
+		setSelectedTime(time)
 	}
 
 	// 면접 일정 폼 제출 핸들러
 	const handleSubmit = async () => {
 		try {
 			await axios.post('https://dmu-dasom-api.or.kr/api/recruit/interview/reserve', {
-				slotId: selectedTime.id,	// 면접 예약할 슬롯 ID
+				slotId: slotId,	// 면접 예약할 슬롯 ID
 				reservationCode: reservationCode,	// 예약코드
 			})
 			// 선택된 날짜와 시간 state값 전달하여 페이지 이동
@@ -68,9 +74,9 @@ const RecruitMeeting: React.FC = () => {
 				alert('지원자를 조회할 수 없습니다.')
 			} else if (errorCode === 'C021') {
 				alert('해당 면접 슬롯을 찾을 수 없습니다.')
-			} else if (errorCode === 'ALREADY_RESERVED') {
+			} else if (errorCode === 'C023') {
 				alert('이미 면접을 예약하였습니다.')
-			} else if (errorCode === 'SLOT_FULL') {
+			} else if (errorCode === 'C025') {
 				alert('해당 시간대에 가능한 면접 예약자 수가 가득 찼습니다.')
 			} else {
 				alert('면접 예약에 실패했습니다.')
@@ -90,13 +96,6 @@ const RecruitMeeting: React.FC = () => {
 		// 날짜와 시간이 선택되면 버튼 활성화
 		selectedDate && selectedTime ? setActivebtn(true) : setActivebtn(false)
 	}, [selectedDate, selectedTime])
-
-	useEffect(() => {
-		const fetchHealthCheck = async () => {
-			await axios.get('https://dmu-dasom-api.or.kr/api/health-check')
-		}
-		fetchHealthCheck()
-	}, [])
 
 	// 면접 일정 조회
 	useEffect(() => {
@@ -125,33 +124,33 @@ const RecruitMeeting: React.FC = () => {
 		fetchData()
 	}, [])
 
-	// 면접 일정 생성
 	useEffect(() => {
-		if (!interviewPeriodData.periodStart || !interviewPeriodData.periodEnd || 
-			!interviewTimeData.timeStart || !interviewTimeData.timeEnd) return
-	
-		const createSchedule = async () => {
+		const searchSchedule = async () => {
 			try {
-				const response = await axios.post('https://dmu-dasom-api.or.kr/api/recruit/interview/schedule', {
-					startDate: interviewPeriodData.periodStart,
-					endDate: interviewPeriodData.periodEnd,
-					startTime: interviewTimeData.timeStart,
-					endTime: interviewTimeData.timeEnd
-				})
-				// 응답에서 id 값을 추출
-				const createdSchedules = response.data 
-            
-				// id를 배열로 추출
-				const ids = createdSchedules.map((schedule: { id: number }) => schedule.id)
-				console.log('Created Schedule IDs:', ids)
-				setIds(ids)
-			} catch (e: any) {
+				const response = await axios.get('https://dmu-dasom-api.or.kr/api/recruit/interview/all')
+				setInterviewSlots(response.data)
+				console.log(interviewSlots)
+			} catch (e:any) {
 				console.log(e)
-				alert('면접 일정 생성 중 오류가 발생했습니다.')
+				alert('면접 일정을 조회할 수 없습니다')
 			}
 		}
-		//createSchedule()
-	}, [interviewPeriodData, interviewTimeData])
+		searchSchedule()
+	},[])
+
+	useEffect(() => {
+		console.log('인터뷰 슬롯 -> ',interviewSlots)
+		if (selectedDate && selectedTime) {
+			const matchedSlots = interviewSlots.filter((slot) => slot.interviewDate === selectedDate && slot.startTime === `${selectedTime}:00`)
+			setSlotId(matchedSlots[0].id)
+		}
+	}, [selectedDate, selectedTime])
+
+	useEffect(() => {
+		console.log('선택한 날짜 ->', selectedDate)
+		console.log('선택한 시간 ->', selectedTime)
+		console.log('슬롯 id 체크 -> ', slotId)
+	}, [selectedDate, selectedTime, slotId])
 	
 	return (
 		<MobileLayout>
@@ -166,7 +165,7 @@ const RecruitMeeting: React.FC = () => {
 					<p className='font-pretendardBold text-white mb-4'>면접일</p>
 					<MeetingDateSelector onSelect={handleDateSelect} period={interviewPeriodData} />
 					<p className='font-pretendardBold text-white mt-14 mb-4'>시간</p>
-					<MeetingTimeSelector onSelect={handleTimeSelect} time={interviewTimeData} disabledSelectTime={disableSelectTime} scheduleId={ids} />
+					<MeetingTimeSelector onSelect={handleTimeSelect} time={interviewTimeData} disabledSelectTime={disableSelectTime} />
 				</div>
 
 				<Button className={`text-center p-1   ${activebtn ? 'bg-mainColor' : 'bg-subGrey3 opacity-30'}`} onClick={handleSubmit} disabled={!activebtn} text='면접일정 예약하기' />
