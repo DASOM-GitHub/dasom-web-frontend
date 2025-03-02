@@ -56,8 +56,8 @@ const RecruitMeeting: React.FC = () => {
 	const handleSubmit = async () => {
 		try {
 			await axios.post('https://dmu-dasom-api.or.kr/api/recruit/interview/reserve', {
-				slotId: selectedTime.id,
-				reservationCode: reservationCode,
+				slotId: selectedTime.id,	// 면접 예약할 슬롯 ID
+				reservationCode: reservationCode,	// 예약코드
 			})
 			// 선택된 날짜와 시간 state값 전달하여 페이지 이동
 			navigate('/recruit/meeting/submit', { state: { date: selectedDate, time: selectedTime } })
@@ -139,7 +139,7 @@ const RecruitMeeting: React.FC = () => {
 					endTime: interviewTimeData.timeEnd
 				})
 				// 응답에서 id 값을 추출
-				const createdSchedules = response.data  // 예시: [{ id: 865, interviewDate: "2025-03-12", ... }]
+				const createdSchedules = response.data 
             
 				// id를 배열로 추출
 				const ids = createdSchedules.map((schedule: { id: number }) => schedule.id)
@@ -150,7 +150,7 @@ const RecruitMeeting: React.FC = () => {
 				alert('면접 일정 생성 중 오류가 발생했습니다.')
 			}
 		}
-		createSchedule()
+		//createSchedule()
 	}, [interviewPeriodData, interviewTimeData])
 	
 	return (
