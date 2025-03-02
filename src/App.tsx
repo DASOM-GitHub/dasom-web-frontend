@@ -14,6 +14,7 @@ import ManNewsDetail from './pages/admin/ManNewsDetail'
 import ManNewsPost from './pages/admin/ManNewsPost'
 import ManNewsEdit from './pages/admin/ManNewsEdit'
 import ManRecruitDate from './pages/admin/ManRecruitDate'
+import ManInterviewee from './pages/admin/ManInterviewee'
 import UserMain from './pages/UserMain'
 import Recruit from './pages/Recruit'
 import CoreMembers from './pages/CoreMembers'
@@ -62,6 +63,7 @@ function AppContent() {
 				{/* 관리자 페이지 */}
 				<Route path='/admin' element={<ProtectedRoute><AdminMain /></ProtectedRoute>} />
 				<Route path='/admin/applicants' element={<ProtectedRoute><ManApplicants /></ProtectedRoute>} />
+				<Route path='/admin/applicants/interviewee' element={<ProtectedRoute><ManInterviewee /></ProtectedRoute>} />
 				<Route path='/admin/date' element={<ProtectedRoute><ManRecruitDate /></ProtectedRoute>} />
         		<Route path='/admin/news' element={<ProtectedRoute><ManNewsList /></ProtectedRoute>} />
 				<Route path='/admin/news/:no' element={<ProtectedRoute><ManNewsDetail /></ProtectedRoute>} />

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import { toast, ToastContainer } from 'react-toastify'
+import { useNavigate } from 'react-router-dom'
 import 'react-toastify/dist/ReactToastify.css'
 import AdminPagination from '../../components/UI/AdminPagination'
 
@@ -9,6 +10,7 @@ const ManApplicants: React.FC = () => {
     const [count, setCount] = useState<number>(0)                       // 지원자 수
     const [detailInfo, setDetailInfo] = useState<any>(null)             // 특정 지원자 상세정보
     const [selectedId, setSelectedId] = useState<number | null>(null)   // 상태 변경 시 선택된 지원자id
+    const navigate = useNavigate()
 
     const accessToken = localStorage.getItem('accessToken')
     
@@ -190,10 +192,16 @@ const ManApplicants: React.FC = () => {
     
 
     return (
-        <div className='h-[100vh] w-[100vw] bg-mainBlack font-pretendardRegular text-white flex flex-col items-center'>
+        <div className='h-[100vh] w-[100vw] bg-mainBlack font-pretendardRegular text-white flex flex-col items-center overflow-y-auto'>
             <ToastContainer />
-            <div className='mb-[4px] mt-[155px] justify-start w-[1220px]'>
-                <span className='font-pretendardBold text-mainColor'>{count}</span>명의 지원자가 있습니다.
+            <div className='mb-[4px] mt-[155px] flex justify-between w-[1220px]'>
+                <div><span className='font-pretendardBold text-mainColor'>{count}</span>명의 지원자가 있습니다.</div>
+                <div 
+                    className='cursor-pointer px-2 py-1 bg-gray-700 text-white rounded-lg'
+                    onClick={() => {navigate('/admin/applicants/interviewee')}}
+                >
+                    면접자 조회
+                </div>
             </div>
 
             {/* 지원자 목록 테이블 */}
@@ -207,7 +215,7 @@ const ManApplicants: React.FC = () => {
                         <th className='border border-gray-500 py-[4px]'>상세정보</th>
                     </tr>
                 </thead>
-                <tbody className='overflow-y-auto max-h-[calc(100vh)]'>
+                <tbody>
                     {currentApplicants.map((applicant) => (
                         <ApplicantInfo key={applicant.id} applicant={applicant} />
                     ))}
