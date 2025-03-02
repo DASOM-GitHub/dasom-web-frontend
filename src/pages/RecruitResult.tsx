@@ -56,7 +56,6 @@ export const RecruitResult: React.FC = () => {
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault()
 
-
 		if (!checkInput.studentNo.trim()) {
 			alert('학번을 입력해주세요.')
 			return
@@ -86,11 +85,13 @@ export const RecruitResult: React.FC = () => {
 				isPassed: response.data.isPassed,
 			}
 
-			// 조회 type에 따라 이동 url 다르게 
+			// 조회 type에 따라 이동 url 다르게
 			navigate(`/recruit/${pass === 'DOCUMENT_PASS' ? 'check' : 'check/final'}`, {
 				state: {
 					name: resData.name,
 					isPassed: resData.isPassed,
+					studentNo: checkInput.studentNo,
+					contactLastDigit: checkInput.contact
 				},
 			})
 		} catch (e) {
@@ -109,13 +110,9 @@ export const RecruitResult: React.FC = () => {
 			const elements = Array.from(form.elements) as (HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement)[]
 			const index = elements.indexOf(e.currentTarget)
 
-
 			for (let i = index + 1; i < elements.length; i++) {
 				const nextElement = elements[i]
-				if (
-					(nextElement instanceof HTMLInputElement || nextElement instanceof HTMLTextAreaElement) &&
-					nextElement.readOnly
-				) {
+				if ((nextElement instanceof HTMLInputElement || nextElement instanceof HTMLTextAreaElement) && nextElement.readOnly) {
 					continue
 				}
 
@@ -140,7 +137,15 @@ export const RecruitResult: React.FC = () => {
 					onChange={handleInputChange}
 					onKeyDown={handleKeyPress}
 				/>
-				<InputField label='전화번호 마지막 4자리를 입력해주세요.' subLabel='ex) 0542' type='text' name='contact' value={checkInput.contact} onChange={handleInputChange} onKeyDown={handleKeyPress} />
+				<InputField
+					label='전화번호 마지막 4자리를 입력해주세요.'
+					subLabel='ex) 0542'
+					type='text'
+					name='contact'
+					value={checkInput.contact}
+					onChange={handleInputChange}
+					onKeyDown={handleKeyPress}
+				/>
 				<Button text='결과 확인하기' />
 			</form>
 		</MobileLayout>

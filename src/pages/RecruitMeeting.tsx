@@ -35,29 +35,68 @@ const RecruitMeeting: React.FC = () => {
 		timeEnd: '',
 	})
 	const [selectedDate, setSelectedDate] = useState<string | null>(null)
-	const [selectedTime, setSelectedTime] = useState<string | null>(null)
+	const [selectedTime, setSelectedTime] = useState<{ id: number | null; time: string | null }>({ id: null, time: '' })
 	const [activebtn, setActivebtn] = useState<boolean>(false)
+	const reservationCode = sessionStorage.getItem('reservationCode')
+	const [disableSelectTime, setDisableSelectTime] = useState<boolean>(true)
+	const [ids, setIds] = useState<number[]>([])
 
-	// 날짜 선택 핸들러 
+	// 날짜 선택 핸들러
 	const handleDateSelect = (date: string) => {
 		setSelectedDate(date)
+		setDisableSelectTime(false)
 	}
 
-	// 시간 선택 핸들러 
-	const handleTimeSelect = (time: string) => {
-		setSelectedTime(time)
+	// 시간 선택 핸들러
+	const handleTimeSelect = (selectedTime: { id: number; time: string }) => {
+		setSelectedTime(selectedTime)
 	}
 
-	// 면접 일정 폼 제출 핸들러러
-	const handleSubmit = () => {
-		// 선택된 날짜와 시간 state값 전달하여 페이지 이동
-		navigate('/recruit/meeting/submit', { state: { date: selectedDate, time: selectedTime } })
+	// 면접 일정 폼 제출 핸들러
+	const handleSubmit = async () => {
+		try {
+			await axios.post('https://dmu-dasom-api.or.kr/api/recruit/interview/reserve', {
+				slotId: selectedTime.id,
+				reservationCode: reservationCode,
+			})
+			// 선택된 날짜와 시간 state값 전달하여 페이지 이동
+			navigate('/recruit/meeting/submit', { state: { date: selectedDate, time: selectedTime } })
+		} catch (e: any) {
+			console.log(e)
+			const errorCode = e.response?.data?.code
+			if (errorCode === 'APPLICANT_NOT_FOUND') {
+				alert('지원자를 조회할 수 없습니다.')
+			} else if (errorCode === 'C021') {
+				alert('해당 면접 슬롯을 찾을 수 없습니다.')
+			} else if (errorCode === 'ALREADY_RESERVED') {
+				alert('이미 면접을 예약하였습니다.')
+			} else if (errorCode === 'SLOT_FULL') {
+				alert('해당 시간대에 가능한 면접 예약자 수가 가득 찼습니다.')
+			} else {
+				alert('면접 예약에 실패했습니다.')
+			}
+		}
 	}
+
+	// 확인코드 없으면 메인페이지로 이동
+	useEffect(() => {
+		if (!reservationCode) {
+			alert('잘못된 접근입니다.')
+			navigate('/')
+		}
+	}, [reservationCode])
 
 	useEffect(() => {
 		// 날짜와 시간이 선택되면 버튼 활성화
 		selectedDate && selectedTime ? setActivebtn(true) : setActivebtn(false)
 	}, [selectedDate, selectedTime])
+
+	useEffect(() => {
+		const fetchHealthCheck = async () => {
+			await axios.get('https://dmu-dasom-api.or.kr/api/health-check')
+		}
+		fetchHealthCheck()
+	}, [])
 
 	// 면접 일정 조회
 	useEffect(() => {
@@ -67,17 +106,17 @@ const RecruitMeeting: React.FC = () => {
 
 				// KEY값 검색하여 데이터 조회하여 각 변수에 저장
 				const periodData: interviewPeriod = {
-					periodStart: response.data.find((item) => item.key === 'INTERVIEW_PERIOD_START')?.value.substring(0,10) || '',
-					periodEnd: response.data.find((item) => item.key === 'INTERVIEW_PERIOD_END')?.value.substring(0,10) || '',
+					periodStart: response.data.find((item) => item.key === 'INTERVIEW_PERIOD_START')?.value.substring(0, 10) || '',
+					periodEnd: response.data.find((item) => item.key === 'INTERVIEW_PERIOD_END')?.value.substring(0, 10) || '',
 				}
 				const timeData: interviewTime = {
-					timeStart: response.data.find((item) => item.key === 'INTERVIEW_TIME_START')?.value || '',
-					timeEnd: response.data.find((item) => item.key === 'INTERVIEW_TIME_END')?.value || '',
+					timeStart: response.data.find((item) => item.key === 'INTERVIEW_TIME_START')?.value.substring(0, 5) || '',
+					timeEnd: response.data.find((item) => item.key === 'INTERVIEW_TIME_END')?.value.substring(0, 5) || '',
 				}
 
 				// 저장한 데이터 state에 반영
-				setInterviewPeriodData(periodData)
-				setInterviewTimeData(timeData)
+				setInterviewPeriodData(periodData) // '2025-03-12'
+				setInterviewTimeData(timeData) // '17:00'
 			} catch (e: any) {
 				console.log(e)
 				alert('데이터 불러오기 오류')
@@ -86,15 +125,34 @@ const RecruitMeeting: React.FC = () => {
 		fetchData()
 	}, [])
 
-	// 음... 서버에서 예약 현황 받아와야함
-	// 페이지 맨 처음 들어와서는 시간 선택 불가능하게
-	// 날짜 선택하면 선택한 날짜에 예약 가능한 시간만 선택 가능하도록
-	// 날짜 선택 값에 따라 시간 버튼 on off 유무 필요함
-	// 예약 현황 데이터가 어떻게 들어오는지 모르겠는데... 데이터 형식 바꿔서 읽어야 될수도...
-	// 합격 조회시 학번 + 전화번호뒷자리 로 개인코드 생성
-	// 면접 예약 페이지 접근 시 코드 없으면 접근 불가
-	// 면접 예약시 이 코드도 함께 api에 전달
-
+	// 면접 일정 생성
+	useEffect(() => {
+		if (!interviewPeriodData.periodStart || !interviewPeriodData.periodEnd || 
+			!interviewTimeData.timeStart || !interviewTimeData.timeEnd) return
+	
+		const createSchedule = async () => {
+			try {
+				const response = await axios.post('https://dmu-dasom-api.or.kr/api/recruit/interview/schedule', {
+					startDate: interviewPeriodData.periodStart,
+					endDate: interviewPeriodData.periodEnd,
+					startTime: interviewTimeData.timeStart,
+					endTime: interviewTimeData.timeEnd
+				})
+				// 응답에서 id 값을 추출
+				const createdSchedules = response.data  // 예시: [{ id: 865, interviewDate: "2025-03-12", ... }]
+            
+				// id를 배열로 추출
+				const ids = createdSchedules.map((schedule: { id: number }) => schedule.id)
+				console.log('Created Schedule IDs:', ids)
+				setIds(ids)
+			} catch (e: any) {
+				console.log(e)
+				alert('면접 일정 생성 중 오류가 발생했습니다.')
+			}
+		}
+		createSchedule()
+	}, [interviewPeriodData, interviewTimeData])
+	
 	return (
 		<MobileLayout>
 			<RecruitHeader title='컴퓨터 소프트웨어 공학과 전공 동아리 다솜 34기 모집 폼' />
@@ -108,7 +166,7 @@ const RecruitMeeting: React.FC = () => {
 					<p className='font-pretendardBold text-white mb-4'>면접일</p>
 					<MeetingDateSelector onSelect={handleDateSelect} period={interviewPeriodData} />
 					<p className='font-pretendardBold text-white mt-14 mb-4'>시간</p>
-					<MeetingTimeSelector onSelect={handleTimeSelect} time={interviewTimeData} />
+					<MeetingTimeSelector onSelect={handleTimeSelect} time={interviewTimeData} disabledSelectTime={disableSelectTime} scheduleId={ids} />
 				</div>
 
 				<Button className={`text-center p-1   ${activebtn ? 'bg-mainColor' : 'bg-subGrey3 opacity-30'}`} onClick={handleSubmit} disabled={!activebtn} text='면접일정 예약하기' />
