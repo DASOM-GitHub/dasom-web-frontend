@@ -41,7 +41,7 @@ const MeetingDateSelector = ({ onSelect, period }: props): JSX.Element => {
 
 			dateArray.push(getFormattedDate(date))
 			/* meetingDates[
-				{month: '1', day: '15', week: '수요일'},
+				{date: '2025-03-12'},
 				...
 			]
 			*/

@@ -58,9 +58,6 @@ const MeetingTimeSelector = ({ onSelect, time, disabledSelectTime }: props): JSX
 		setSelectedTime(meetingTime.time)
 		onSelect(meetingTime.time)
 	}
-	useEffect(() => {
-		console.log('meetingTimes:', meetingTimes) // 여기서 meetingTimes 배열이 제대로 설정되었는지 확인
-	}, [meetingTimes])
 
 	return (	
 		<div className='grid grid-cols-4 gap-x-2 gap-y-5'>

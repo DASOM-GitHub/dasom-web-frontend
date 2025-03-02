@@ -42,7 +42,7 @@ const RecruitMeeting: React.FC = () => {
 	const [interviewSlots, setInterviewSlots] = useState<any[]>([])
 	const [slotId, setSlotId] = useState<number>()
 
-	// 날짜 선택 핸들러
+	// 날짜 선택 핸들러, 날짜 선택 후 시간 선택 가능
 	const handleDateSelect = (date: string) => {
 		setSelectedDate(date)
 
@@ -97,7 +97,7 @@ const RecruitMeeting: React.FC = () => {
 		selectedDate && selectedTime ? setActivebtn(true) : setActivebtn(false)
 	}, [selectedDate, selectedTime])
 
-	// 면접 일정 조회
+	// 일정 조회
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
@@ -124,6 +124,7 @@ const RecruitMeeting: React.FC = () => {
 		fetchData()
 	}, [])
 
+	// 생성된 면접 예약 일정 조회회
 	useEffect(() => {
 		const searchSchedule = async () => {
 			try {
@@ -145,12 +146,6 @@ const RecruitMeeting: React.FC = () => {
 			setSlotId(matchedSlots[0].id)
 		}
 	}, [selectedDate, selectedTime])
-
-	useEffect(() => {
-		console.log('선택한 날짜 ->', selectedDate)
-		console.log('선택한 시간 ->', selectedTime)
-		console.log('슬롯 id 체크 -> ', slotId)
-	}, [selectedDate, selectedTime, slotId])
 	
 	return (
 		<MobileLayout>
