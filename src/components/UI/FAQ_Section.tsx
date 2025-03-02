@@ -51,12 +51,12 @@ const FAQSection: React.FC = () => {
         <FAQItem
           question="Q. 팀 프로젝트는 어떻게 진행되나요?"
           answer={`동아리 내의 다른 멤버들과 팀 빌딩을 진행한 뒤, 
-          팀별로 각자 작업을 만들고, 추후 데모데이를 통해 
+          팀별로 각자 작업물을 만들고, 추후 데모데이를 통해 
           각 팀의 작업물을 발표하는 방식으로 진행됩니다.`}
           alignment='self-start'
         />
         <FAQItem
-          question="Q. 가입은 어떻게 하나요?"
+          question="Q. 동아리 지원은 어떻게 하나요?"
           answer={`우측 상단 메뉴에 34기 지원하기 클릭 후 지원 폼 
           작성을 통해 지원이 가능합니다.`}
           alignment='self-end'
@@ -70,7 +70,7 @@ const FAQSection: React.FC = () => {
         />
         <FAQItem
           question="Q. 복학생도 가입이 가능한가요?"
-          answer={`네, 컴퓨터공학과 학생이라면 누구나 가입이 가능해요. 
+          answer={`네, 컴퓨터소프트웨어공학과 학생이라면 누구나 가입이 가능해요. 
           복학생 역시 가능합니다.`}
           alignment='self-end'
         />
