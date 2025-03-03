@@ -4,6 +4,7 @@ import { toast, ToastContainer } from 'react-toastify'
 import { useNavigate } from 'react-router-dom'
 import 'react-toastify/dist/ReactToastify.css'
 import AdminPagination from '../../components/UI/AdminPagination'
+import MailButtons from '../../components/UI/MailButtons'
 
 const ManApplicants: React.FC = () => {
     const [applicants, setApplicants] = useState<any[]>([])             // 전체 조회 시 지원자 정보
@@ -222,6 +223,9 @@ const ManApplicants: React.FC = () => {
                     ))}
                 </tbody>
             </table>
+            <div className='w-[1220px]'>
+                <MailButtons />
+            </div>
             {/* 페이지네이션 */}
             <AdminPagination 
                 currentPage={currentPage} 
