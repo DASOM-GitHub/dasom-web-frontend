@@ -4,6 +4,7 @@ import { toast, ToastContainer } from 'react-toastify'
 import { useNavigate } from 'react-router-dom'
 import 'react-toastify/dist/ReactToastify.css'
 import AdminPagination from '../../components/UI/AdminPagination'
+import MailButtons from '../../components/UI/MailButtons'
 
 const ManApplicants: React.FC = () => {
     const [applicants, setApplicants] = useState<any[]>([])             // 전체 조회 시 지원자 정보
@@ -181,6 +182,7 @@ const ManApplicants: React.FC = () => {
             <div className='flex flex-col space-y-[4px]'>
                 <DetailItem label="연락처" value={applicant.contact} />
                 <DetailItem label="이메일" value={applicant.email} />
+                <DetailItem label='학년' value={applicant.grade} />
                 <DetailItem label="지원 동기" value={applicant.reasonForApply} />
                 <DetailItem label="희망 활동" value={applicant.activityWish} />
                 <DetailItem label="개인정보 동의" value={applicant.isPrivacyPolicyAgreed ? 'O' : 'X'} />
@@ -221,6 +223,9 @@ const ManApplicants: React.FC = () => {
                     ))}
                 </tbody>
             </table>
+            <div className='w-[1220px]'>
+                <MailButtons />
+            </div>
             {/* 페이지네이션 */}
             <AdminPagination 
                 currentPage={currentPage} 
