@@ -8,7 +8,7 @@ interface PaginationProps {
 
 const AdminPagination: React.FC<PaginationProps> = ({ currentPage, totalPages, setCurrentPage }) => {
     return (
-        <div className='mt-6 space-x-4'>
+        <div className='my-6 space-x-4'>
             <button 
                 className='px-4 py-2 bg-gray-700 text-white rounded-lg disabled:opacity-50' 
                 onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))} 
