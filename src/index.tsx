@@ -7,6 +7,6 @@ const root = ReactDOM.createRoot(
 )
 root.render(
   <React.StrictMode>
-    <App overflow-auto no-scrollbar />
+    <App />
   </React.StrictMode>
 )
