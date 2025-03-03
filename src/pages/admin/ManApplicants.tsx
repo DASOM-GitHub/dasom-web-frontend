@@ -181,6 +181,7 @@ const ManApplicants: React.FC = () => {
             <div className='flex flex-col space-y-[4px]'>
                 <DetailItem label="연락처" value={applicant.contact} />
                 <DetailItem label="이메일" value={applicant.email} />
+                <DetailItem label='학년' value={applicant.grade} />
                 <DetailItem label="지원 동기" value={applicant.reasonForApply} />
                 <DetailItem label="희망 활동" value={applicant.activityWish} />
                 <DetailItem label="개인정보 동의" value={applicant.isPrivacyPolicyAgreed ? 'O' : 'X'} />
