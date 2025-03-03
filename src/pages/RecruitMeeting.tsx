@@ -41,16 +41,14 @@ const RecruitMeeting: React.FC = () => {
 	const [disableSelectTime, setDisableSelectTime] = useState<boolean>(true)
 	const [interviewSlots, setInterviewSlots] = useState<any[]>([])
 	const [slotId, setSlotId] = useState<number>()
+	const [slotsForDate, setSlotsForDate] = useState<any[]>([])
 
 	// 날짜 선택 핸들러, 날짜 선택 후 시간 선택 가능
 	const handleDateSelect = (date: string) => {
 		setSelectedDate(date)
-
-		const slotsForDate = interviewSlots.filter((slot) => slot.interviewDate === date)
-
-		const hasActiveSlots = slotsForDate.some((slot) => slot.interviewStatus === 'ACTIVE')
-
-		setDisableSelectTime(!hasActiveSlots)
+		// 선택한 날짜의 time슬롯 저장
+		setSlotsForDate(interviewSlots.filter((slot) => slot.interviewDate === date))
+		setDisableSelectTime(false)
 	}
 
 	// 시간 선택 핸들러
@@ -124,23 +122,21 @@ const RecruitMeeting: React.FC = () => {
 		fetchData()
 	}, [])
 
-	// 생성된 면접 예약 일정 조회회
+	// 생성된 면접 예약 일정 조회
 	useEffect(() => {
 		const searchSchedule = async () => {
 			try {
 				const response = await axios.get('https://dmu-dasom-api.or.kr/api/recruit/interview/all')
 				setInterviewSlots(response.data)
-				console.log(interviewSlots)
 			} catch (e:any) {
 				console.log(e)
 				alert('면접 일정을 조회할 수 없습니다')
 			}
 		}
 		searchSchedule()
-	},[])
+	},[interviewPeriodData, interviewTimeData])
 
 	useEffect(() => {
-		console.log('인터뷰 슬롯 -> ',interviewSlots)
 		if (selectedDate && selectedTime) {
 			const matchedSlots = interviewSlots.filter((slot) => slot.interviewDate === selectedDate && slot.startTime === `${selectedTime}:00`)
 			setSlotId(matchedSlots[0].id)
@@ -160,7 +156,7 @@ const RecruitMeeting: React.FC = () => {
 					<p className='font-pretendardBold text-white mb-4'>면접일</p>
 					<MeetingDateSelector onSelect={handleDateSelect} period={interviewPeriodData} />
 					<p className='font-pretendardBold text-white mt-14 mb-4'>시간</p>
-					<MeetingTimeSelector onSelect={handleTimeSelect} time={interviewTimeData} disabledSelectTime={disableSelectTime} />
+					<MeetingTimeSelector onSelect={handleTimeSelect} time={interviewTimeData} disabledSelectTime={disableSelectTime} slotsForDate={slotsForDate} />
 				</div>
 
 				<Button className={`text-center p-1   ${activebtn ? 'bg-mainColor' : 'bg-subGrey3 opacity-30'}`} onClick={handleSubmit} disabled={!activebtn} text='면접일정 예약하기' />
