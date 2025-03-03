@@ -115,25 +115,68 @@ const Recruit: React.FC = () => {
     }
 
     try {
+
+      let requestBody = {
+        ...formData,
+        isFirstRoundPassed: false,
+        isSecondRoundPassed: false,
+        isOverwriteConfirmed: false
+      }
+
       const response = await fetch('https://dmu-dasom-api.or.kr/api/recruit/apply', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json'
         },
-        body: JSON.stringify({ ...formData, isFirstRoundPassed: false, isSecondRoundPassed: false })
+        body: JSON.stringify(requestBody)
       })
+
+      if (response.status === 400) {
+        const errorData = await response.json()
+        if (errorData.code === 'C013') {
+          const confirmOverwrite = window.confirm(
+            '이미 지원한 학번이 존재합니다. 기존 정보를 덮어쓰시겠습니까?'
+          )
+
+          if (confirmOverwrite) {
+            requestBody.isOverwriteConfirmed = true
+
+            const overwriteResponse = await fetch('https://dmu-dasom-api.or.kr/api/recruit/apply', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+              },
+              body: JSON.stringify(requestBody)
+            })
+
+            if (overwriteResponse.ok) {
+              navigate('/recruit/submit')
+              return
+            } else {
+              const overwriteError = await overwriteResponse.json()
+              alert(overwriteError.message || '덮어쓰기 요청 중 오류가 발생했습니다.')
+              return
+            }
+          } else {
+            alert('지원이 취소되었습니다.')
+            return
+          }
+        }
+      }
 
       if (response.ok) {
         navigate('/recruit/submit')
       } else {
         const errorData = await response.json()
+        alert(errorData.message || '오류가 발생했습니다.')
       }
     } catch (error) {
       console.error('API 요청 중 오류 발생:', error)
+      alert('네트워크 오류가 발생했습니다.')
     }
   }
-
   return (
     <MobileLayout>
       <RecruitHeader title='컴퓨터 소프트웨어 공학과 전공 동아리 다솜 34기 모집 폼' />
@@ -160,7 +203,7 @@ const Recruit: React.FC = () => {
             ]}
           />
           <InputField label='지원동기 (500자 이내)' name='reasonForApply' type='textarea' value={formData.reasonForApply} onChange={handleInputChange} required />
-          <InputField label='동아리 내에서 하고 싶은 활동이 있다면 적어주세요!' name='activityWish' type='textarea' value={formData.activityWish} onChange={handleInputChange} required />
+          <InputField label='동아리 내에서 하고 싶은 활동이 있다면 적어주세요!' name='activityWish' type='textarea' value={formData.activityWish} onChange={handleInputChange} />
           <InputField
             label='🫧 면접 일자는 3월 11일(토)에 개별 연락처로 안내 후,'
             subLabel='3월 12일부터 3월 14일까지 대면으로 진행됩니다.'
