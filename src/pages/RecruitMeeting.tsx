@@ -82,6 +82,7 @@ const RecruitMeeting: React.FC = () => {
 		}
 	}
 
+	/*
 	// 확인코드 없으면 메인페이지로 이동
 	useEffect(() => {
 		if (!reservationCode) {
@@ -89,6 +90,7 @@ const RecruitMeeting: React.FC = () => {
 			navigate('/')
 		}
 	}, [reservationCode])
+	*/
 
 	useEffect(() => {
 		// 날짜와 시간이 선택되면 버튼 활성화
@@ -147,11 +149,11 @@ const RecruitMeeting: React.FC = () => {
 		<MobileLayout>
 			<RecruitHeader title='컴퓨터 소프트웨어 공학과 전공 동아리 다솜 34기 모집 폼' />
 			<RecruitUI />
+			<Recruit_InfoBanner
+				message={`1차 서류에 합격되신 점 다시 한번 축하드리며,
+				편하신 날짜의 시간대를 선택해주시길 바랍니다.`}
+			/>
 			<div className='flex flex-col items-center w-full mb-40'>
-				<Recruit_InfoBanner
-					message={`1차 서류에 합격되신 점 다시 한번 축하드리며,
-				 편하신 날짜의 시간대를 선택해주시길 바랍니다.`}
-				/>
 				<div className='mt-8 max-w-[90%]'>
 					<p className='font-pretendardBold text-white mb-4'>면접일</p>
 					<MeetingDateSelector onSelect={handleDateSelect} period={interviewPeriodData} />
