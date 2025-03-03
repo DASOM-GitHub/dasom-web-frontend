@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import MobileLayout from '../components/layout/MobileLayout'
 import { useNavigate } from 'react-router-dom'
 import { RecruitUI, RecruitHeader } from '../components/UI/RecruitUI'
@@ -8,6 +8,8 @@ import { Button } from '../components/UI/Recruit_Button'
 const Recruit: React.FC = () => {
   const navigate = useNavigate()
   const [contact, setContact] = useState('')
+  const [isRecruiting, setIsRecruiting] = useState<boolean | null>(null)
+  const alertShown = useRef(false)
 
   const [formData, setFormData] = useState({
     name: '',
@@ -20,6 +22,47 @@ const Recruit: React.FC = () => {
     isMessageAgreed: false,
     isPrivacyPolicyAgreed: false,
   })
+
+  useEffect(() => {
+    const checkRecruitmentPeriod = async () => {
+      try {
+        const response = await fetch('https://dmu-dasom-api.or.kr/api/recruit')
+        const data = await response.json()
+
+        const recruitmentStart = data.find((item: any) => item.key === 'RECRUITMENT_PERIOD_START')?.value
+        const recruitmentEnd = data.find((item: any) => item.key === 'RECRUITMENT_PERIOD_END')?.value
+
+        const startDate = new Date(recruitmentStart)
+        const endDate = new Date(recruitmentEnd)
+        const now = new Date()
+
+
+        if (now >= startDate && now <= endDate) {
+          setIsRecruiting(true) 
+        } else {
+          setIsRecruiting(false)
+          if (!alertShown.current) { 
+            alertShown.current = true
+            alert('현재 모집 기간이 아닙니다.')
+            navigate('/')
+          }
+        }
+      } catch (error) {
+        console.error('모집 기간 확인 중 오류 발생:', error)
+        setIsRecruiting(false)
+        if (!alertShown.current) {
+          alertShown.current = true
+          alert('네트워크 오류가 발생했습니다.')
+          navigate('/')
+        }
+      }
+    }
+
+    checkRecruitmentPeriod()
+  }, [navigate])
+
+  if (isRecruiting === false) return null
+
 
   // 입력값들 제약조건 설정 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -134,6 +177,7 @@ const Recruit: React.FC = () => {
 
       if (response.status === 400) {
         const errorData = await response.json()
+
         if (errorData.code === 'C013') {
           const confirmOverwrite = window.confirm(
             '이미 지원한 학번이 존재합니다. 기존 정보를 덮어쓰시겠습니까?'
