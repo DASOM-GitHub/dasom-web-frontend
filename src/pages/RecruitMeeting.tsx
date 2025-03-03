@@ -82,7 +82,6 @@ const RecruitMeeting: React.FC = () => {
 		}
 	}
 
-	/*
 	// 확인코드 없으면 메인페이지로 이동
 	useEffect(() => {
 		if (!reservationCode) {
@@ -90,7 +89,6 @@ const RecruitMeeting: React.FC = () => {
 			navigate('/')
 		}
 	}, [reservationCode])
-	*/
 
 	useEffect(() => {
 		// 날짜와 시간이 선택되면 버튼 활성화
