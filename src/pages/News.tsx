@@ -35,13 +35,13 @@ const News: React.FC = () => {
 				throw new Error(`API 오류: ${response.status}`)
 			}
 			const data: NewsItem[] = await response.json()
-			console.log('API 응답 데이터:', data)
+			//console.log('API 응답 데이터:', data)
 
 
 			const sortedData = data.map(item => ({
 				...item,
 				no: item.id 
-			})).sort((a, b) => a.no - b.no)
+			})).sort((a, b) => b.no - a.no)
 			setNewsList(sortedData)
 			sessionStorage.setItem('newsList', JSON.stringify(sortedData))
 		} catch (error) {

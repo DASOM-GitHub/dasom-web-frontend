@@ -40,7 +40,7 @@ export const RecruitResult: React.FC = () => {
 				const interviewPass = new Date(response.data.find((item) => item.key === 'INTERVIEW_PASS_ANNOUNCEMENT')?.value.substring(0, 10) || '')
 				const documentPass = new Date(response.data.find((item) => item.key === 'DOCUMENT_PASS_ANNOUNCEMENT')?.value.substring(0, 10) || '')
 				const today = new Date()
-				console.log(response.data)
+				//console.log(response.data)
 
 				// 현재 날짜에 따른 조회 type 지정
 				setPass(today >= interviewPass ? 'INTERVIEW_PASS' : today >= documentPass ? 'DOCUMENT_PASS' : null)
