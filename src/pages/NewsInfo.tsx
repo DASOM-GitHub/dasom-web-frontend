@@ -33,7 +33,7 @@ const NewsInfo: React.FC = () => {
         const response = await fetch(`https://dmu-dasom-api.or.kr/api/news/${no}`)
         if (!response.ok) throw new Error('데이터를 불러오지 못했습니다.')
         const data: NewsDetail = await response.json()
-        console.log('API 응답:', data)
+        //console.log('API 응답:', data)
 
         setNews(data)
         sessionStorage.setItem(`news-${no}`, JSON.stringify(data)) 

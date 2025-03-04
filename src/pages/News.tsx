@@ -35,7 +35,7 @@ const News: React.FC = () => {
 				throw new Error(`API 오류: ${response.status}`)
 			}
 			const data: NewsItem[] = await response.json()
-			console.log('API 응답 데이터:', data)
+			//console.log('API 응답 데이터:', data)
 
 
 			const sortedData = data.map(item => ({
