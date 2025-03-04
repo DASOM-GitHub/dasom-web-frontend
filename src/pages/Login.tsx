@@ -30,7 +30,7 @@ const Login: React.FC = () => {
             console.log('로그인 성공:', response.data)
 
             const authority = response.headers['authority']
-            console.log(authority)
+            //console.log(authority)
             if (authority === 'ROLE_ADMIN') {
                 navigate('/admin')
             } else {
