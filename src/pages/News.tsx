@@ -41,7 +41,7 @@ const News: React.FC = () => {
 			const sortedData = data.map(item => ({
 				...item,
 				no: item.id 
-			})).sort((a, b) => a.no - b.no)
+			})).sort((a, b) => b.no - a.no)
 			setNewsList(sortedData)
 			sessionStorage.setItem('newsList', JSON.stringify(sortedData))
 		} catch (error) {
