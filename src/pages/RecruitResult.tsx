@@ -26,10 +26,22 @@ export const RecruitResult: React.FC = () => {
 
 	const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
 		const { name, value } = e.target
-		setCheckInput((prevState) => ({
-			...prevState,
-			[name]: value,
-		}))
+
+		const onlyNumbers = value.replace(/\D/g, '')
+		
+		setCheckInput((prevState) => {
+			let newValue = onlyNumbers
+	
+			if (name === 'studentNo') {
+				newValue = onlyNumbers.slice(0, 8) // 학번은 최대 8자리
+			} else if (name === 'contact') {
+				newValue = onlyNumbers.slice(0, 4) // 전화번호 마지막 4자리는 최대 4자리
+			}
+	
+			return {
+				...prevState,
+				[name]: newValue,
+		}})
 	}
 
 	// 합격여부 조회 일정 확인 후 검색 type 지정
