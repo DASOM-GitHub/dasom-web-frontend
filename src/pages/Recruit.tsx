@@ -6,7 +6,6 @@ import { RecruitUI, RecruitHeader } from '../components/UI/RecruitUI'
 import { InputField } from '../components/UI/Recruit_InputField'
 import { Button } from '../components/UI/Recruit_Button'
 
-
 interface RecruitFormData {
   name: string;
   studentNo: string;
@@ -21,6 +20,7 @@ interface RecruitFormData {
   isSecondRoundPassed?: boolean;
   isOverwriteConfirmed?: boolean;
 }
+
 const Recruit: React.FC = () => {
   const navigate = useNavigate()
   const [contact, setContact] = useState('')
@@ -39,8 +39,6 @@ const Recruit: React.FC = () => {
     isPrivacyPolicyAgreed: false,
   })
 
-
-
   useEffect(() => {
     const checkRecruitmentPeriod = async () => {
       try {
@@ -53,7 +51,6 @@ const Recruit: React.FC = () => {
         const startDate = new Date(recruitmentStart)
         const endDate = new Date(recruitmentEnd)
         const now = new Date()
-
 
         if (now >= startDate && now <= endDate) {
           setIsRecruiting(true)
@@ -81,7 +78,6 @@ const Recruit: React.FC = () => {
 
   if (isRecruiting === false) return null
 
-
   // 입력값들 제약조건 설정 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value, type } = e.target
@@ -94,7 +90,6 @@ const Recruit: React.FC = () => {
       if (formattedValue.length > 11) {
         formattedValue = formattedValue.slice(0, 11)
       }
-
 
       if (formattedValue.length === 10) {
         formattedValue = formattedValue.replace(/^(\d{3})(\d{3})(\d{4})$/, '$1-$2-$3')
