@@ -1,10 +1,26 @@
 import React, { useState, useEffect, useRef } from 'react'
+import axios from 'axios'
 import MobileLayout from '../components/layout/MobileLayout'
 import { useNavigate } from 'react-router-dom'
 import { RecruitUI, RecruitHeader } from '../components/UI/RecruitUI'
 import { InputField } from '../components/UI/Recruit_InputField'
 import { Button } from '../components/UI/Recruit_Button'
 
+
+interface RecruitFormData {
+  name: string;
+  studentNo: string;
+  contact: string;
+  email: string;
+  grade: number;
+  reasonForApply: string;
+  activityWish: string;
+  isMessageAgreed: boolean;
+  isPrivacyPolicyAgreed: boolean;
+  isFirstRoundPassed?: boolean;
+  isSecondRoundPassed?: boolean;
+  isOverwriteConfirmed?: boolean;
+}
 const Recruit: React.FC = () => {
   const navigate = useNavigate()
   const [contact, setContact] = useState('')
@@ -23,11 +39,13 @@ const Recruit: React.FC = () => {
     isPrivacyPolicyAgreed: false,
   })
 
+
+
   useEffect(() => {
     const checkRecruitmentPeriod = async () => {
       try {
-        const response = await fetch('https://dmu-dasom-api.or.kr/api/recruit')
-        const data = await response.json()
+        const response = await axios.get('https://dmu-dasom-api.or.kr/api/recruit')
+        const data = response.data
 
         const recruitmentStart = data.find((item: any) => item.key === 'RECRUITMENT_PERIOD_START')?.value
         const recruitmentEnd = data.find((item: any) => item.key === 'RECRUITMENT_PERIOD_END')?.value
@@ -38,10 +56,10 @@ const Recruit: React.FC = () => {
 
 
         if (now >= startDate && now <= endDate) {
-          setIsRecruiting(true) 
+          setIsRecruiting(true)
         } else {
           setIsRecruiting(false)
-          if (!alertShown.current) { 
+          if (!alertShown.current) {
             alertShown.current = true
             alert('현재 모집 기간이 아닙니다.')
             navigate('/')
@@ -157,70 +175,57 @@ const Recruit: React.FC = () => {
       return
     }
 
+    let requestBody: RecruitFormData = {
+      ...formData,
+      isFirstRoundPassed: false,
+      isSecondRoundPassed: false,
+      isOverwriteConfirmed: false
+    }
+
     try {
-
-      let requestBody = {
-        ...formData,
-        isFirstRoundPassed: false,
-        isSecondRoundPassed: false,
-        isOverwriteConfirmed: false
-      }
-
-      const response = await fetch('https://dmu-dasom-api.or.kr/api/recruit/apply', {
-        method: 'POST',
+      const response = await axios.post('https://dmu-dasom-api.or.kr/api/recruit/apply', requestBody, {
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json'
-        },
-        body: JSON.stringify(requestBody)
+        }
       })
 
-      if (response.status === 400) {
-        const errorData = await response.json()
+      navigate('/recruit/submit')
+    } catch (error: any) {
+      if (error.response) {
+        const errorData = error.response.data
 
-        if (errorData.code === 'C013') {
+        if (error.response.status === 400 && errorData.code === 'C013') {
           const confirmOverwrite = window.confirm(
             '이미 지원한 학번이 존재합니다. 기존 정보를 덮어쓰시겠습니까?'
           )
 
           if (confirmOverwrite) {
-            requestBody.isOverwriteConfirmed = true
+            try {
+              requestBody.isOverwriteConfirmed = true
 
-            const overwriteResponse = await fetch('https://dmu-dasom-api.or.kr/api/recruit/apply', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-              },
-              body: JSON.stringify(requestBody)
-            })
+              await axios.post('https://dmu-dasom-api.or.kr/api/recruit/apply', requestBody, {
+                headers: {
+                  'Content-Type': 'application/json',
+                  'Accept': 'application/json'
+                }
+              })
 
-            if (overwriteResponse.ok) {
               navigate('/recruit/submit')
-              return
-            } else {
-              const overwriteError = await overwriteResponse.json()
-              alert(overwriteError.message || '덮어쓰기 요청 중 오류가 발생했습니다.')
-              return
+            } catch (overwriteError: any) {
+              alert(overwriteError.response?.data?.message || '덮어쓰기 요청 중 오류가 발생했습니다.')
             }
           } else {
             alert('지원이 취소되었습니다.')
-            return
           }
         }
-      }
-
-      if (response.ok) {
-        navigate('/recruit/submit')
       } else {
-        const errorData = await response.json()
-        alert(errorData.message || '오류가 발생했습니다.')
+        console.error('API 요청 중 오류 발생:', error)
+        alert('네트워크 오류가 발생했습니다.')
       }
-    } catch (error) {
-      console.error('API 요청 중 오류 발생:', error)
-      alert('네트워크 오류가 발생했습니다.')
     }
   }
+
   return (
     <MobileLayout>
       <RecruitHeader title='컴퓨터 소프트웨어 공학과 전공 동아리 다솜 34기 모집 폼' />
