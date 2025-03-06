@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useMemo, useRef } from 'react'
+import axios from 'axios'
 import { useParams, useNavigate } from 'react-router-dom'
 import MobileLayout from '../components/layout/MobileLayout'
 import dasomLogo from '../assets/images/dasomLogo.svg'
@@ -14,7 +15,7 @@ interface NewsDetail {
 }
 
 const NewsInfo: React.FC = () => {
-  const { no } = useParams<{ no: string }>() // 
+  const { no } = useParams<{ no: string }>() 
   const [news, setNews] = useState<NewsDetail | null>(() => {
     const savedNews = sessionStorage.getItem(`news-${no}`)
     return savedNews ? JSON.parse(savedNews) : null 
@@ -30,11 +31,9 @@ const NewsInfo: React.FC = () => {
 
     const fetchNewsDetail = async () => {
       try {
-        const response = await fetch(`https://dmu-dasom-api.or.kr/api/news/${no}`)
-        if (!response.ok) throw new Error('데이터를 불러오지 못했습니다.')
-        const data: NewsDetail = await response.json()
-        //console.log('API 응답:', data)
-
+        const response = await axios.get(`https://dmu-dasom-api.or.kr/api/news/${no}`)
+        const data: NewsDetail = response.data
+        
         setNews(data)
         sessionStorage.setItem(`news-${no}`, JSON.stringify(data)) 
       } catch (error) {
@@ -85,4 +84,4 @@ const NewsInfo: React.FC = () => {
   )
 }
 
-export default React.memo(NewsInfo) 
+export default React.memo(NewsInfo)

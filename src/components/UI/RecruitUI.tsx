@@ -101,7 +101,6 @@ export const RecruitUI: React.FC = () => {
   )
 }
 
-
 export const RecruitUI_SUB: React.FC<RecruitUIProps> = ({ name }) => {
   return (
     <div className="whitespace-pre-line text-white flex flex-col items-start w-auto h-[auto] shadow-[0px_2px_3px_rgba(255,255,255,0.2)] bg-#17171B] gap-2 mx-2 font-pretendardRegular pl-2 text-[12px] ">
