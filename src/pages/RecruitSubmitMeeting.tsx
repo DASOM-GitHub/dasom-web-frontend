@@ -22,7 +22,7 @@ const RecruitSubmitMeeting: React.FC = () => {
 			<RecruitUI />
 			<Recruit_InfoBanner 
 			message={`면접일 제출이 완료되었습니다. 
-			${getDisplatyDate(date)} ${time} 에 만나뵙겠습니다. 감사합니다.`} />
+			${getDisplatyDate(date)} ${time} 에 3호관 511호에서 만나뵙겠습니다. 감사합니다.`} />
 		</MobileLayout>
 	)
 }
