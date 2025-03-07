@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef, useMemo } from 'react'
+import axios from 'axios'
 import MobileLayout from '../components/layout/MobileLayout'
 import dasomLogo from '../assets/images/dasomLogo.svg'
 import NewsContent from '../components/UI/NewsContent'
@@ -30,13 +31,8 @@ const News: React.FC = () => {
 				return
 			}
 
-			const response = await fetch('https://dmu-dasom-api.or.kr/api/news')
-			if (!response.ok) {
-				throw new Error(`API 오류: ${response.status}`)
-			}
-			const data: NewsItem[] = await response.json()
-			//console.log('API 응답 데이터:', data)
-
+			const response = await axios.get('https://dmu-dasom-api.or.kr/api/news')
+			const data: NewsItem[] = response.data
 
 			const sortedData = data.map(item => ({
 				...item,

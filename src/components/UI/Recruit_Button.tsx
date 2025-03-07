@@ -21,7 +21,3 @@ export const Button: React.FC<ButtonProps> = ({ text, className, onClick, disabl
     </div>
   )
 }
-
-
-
-
