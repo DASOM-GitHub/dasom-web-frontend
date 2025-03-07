@@ -18,4 +18,3 @@ export const RecruitSubmit: React.FC = () => {
     </MobileLayout>
   )
 }
-

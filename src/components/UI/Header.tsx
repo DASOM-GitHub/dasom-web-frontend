@@ -1,5 +1,4 @@
-import React, { JSX, useState, useEffect, use } from 'react'
-import MobileLayout from '../layout/MobileLayout'
+import React, { JSX, useState, useEffect } from 'react'
 import headerMenu from '../../assets/images/headerMenu.svg'
 import headerMenuUndo from '../../assets/images/headerMenuUndo.svg'
 import { useNavigate } from 'react-router-dom'
@@ -66,7 +65,8 @@ export const Header = (): JSX.Element => {
           <ul className='flex flex-col items-center space-y-6 text-center'>
             <li
               className='font-pretendardBlack text-mainColor text-[20px] cursor-pointer hover:text-white'
-              onClick={() => {console.log('About 이동')
+              onClick={() => {
+                // console.log('About 이동')
                 navigate('/')
                 toggleMenu()
               }}
@@ -75,7 +75,8 @@ export const Header = (): JSX.Element => {
             </li>
             <li
               className='font-pretendardBlack text-mainColor text-[20px] cursor-pointer hover:text-white'
-              onClick={() => {console.log('News 이동')
+              onClick={() => {
+                // console.log('News 이동')
                 navigate('/news')
                 toggleMenu()
               }}
@@ -84,7 +85,8 @@ export const Header = (): JSX.Element => {
             </li>
             <li
               className='font-pretendardBlack text-mainColor text-[20px] cursor-pointer hover:text-white'
-              onClick={() =>{console.log('Members 이동')
+              onClick={() =>{
+                // console.log('Members 이동')
                 navigate('/coremember')
                 toggleMenu()
               }}
@@ -93,7 +95,8 @@ export const Header = (): JSX.Element => {
             </li>
             <li
               className='font-pretendardBlack text-mainColor text-[20px] cursor-pointer hover:text-white'
-              onClick={() => {console.log('FAQ 이동')
+              onClick={() => {
+                // console.log('FAQ 이동')
                 navigate('/faq')
                 toggleMenu()
               }}
@@ -102,7 +105,8 @@ export const Header = (): JSX.Element => {
             </li>
             <li
               className='font-pretendardBlack text-white text-[20px] cursor-pointer hover:scale-110'
-              onClick={() => {console.log('form 이동')
+              onClick={() => {
+                // console.log('form 이동')
                 navigate('/recruit')
                 toggleMenu()
               }}
@@ -111,7 +115,8 @@ export const Header = (): JSX.Element => {
             </li>
             <li
               className='font-pretendardBlack text-white text-[20px] cursor-pointer hover:scale-110'
-              onClick={() => {console.log('합격여부 이동')
+              onClick={() => {
+                // console.log('합격여부 이동')
                 navigate('/recruit/result')
                 toggleMenu()
               }}
