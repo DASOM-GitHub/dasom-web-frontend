@@ -86,7 +86,7 @@ export const RecruitUI: React.FC = () => {
 
       <div className="mt-2 pl-2  flex items-center">
         <p className="text-mainColor font-pretendardSemiBold">🌿 신청 조건 :</p>
-        <span className="text-white pl-1 ">컴퓨터소프트웨어공학과 학생</span>
+        <span className="text-white pl-1 ">컴퓨터공학부 학생</span>
       </div>
 
       <div className="mt-2  pl-2">
