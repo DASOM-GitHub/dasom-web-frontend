@@ -30,13 +30,9 @@ const ManApplicants: React.FC = () => {
     const [openDropdownId, setOpenDropdownId] = useState<number | null>(null)
 
     // 페이지네이션
-    const [currentPage, setCurrentPage] = useState<number>(1)              // 현재 페이지
-    const applicantsPerPage = 20                                           // 페이지 당 지원자 수
-    const LastApplicant = currentPage * applicantsPerPage                  // 페이지에서 마지막 지원자
-    const FirstApplicant = LastApplicant - applicantsPerPage               // 페이지에서 첫번째 지원자
-    const currentApplicants = applicants.slice(FirstApplicant, LastApplicant) // 현재 페이지에서 지원자
-    const totalPages = Math.ceil(applicants.length / applicantsPerPage)       // 총 페이지 수수
-
+    const [currentPage, setCurrentPage] = useState<number>(1)
+    const [totalPages, setTotalPages] = useState<number>(1)
+    const [page, setPage] = useState<number>(0)
 
 
     // 지원자 전체 조회
@@ -47,8 +43,8 @@ const ManApplicants: React.FC = () => {
                     alert('로그인이 필요합니다.')
                     return
                 }
-        
                 const response = await axios.get('https://dmu-dasom-api.or.kr/api/admin/applicants', {
+                    params : { page },
                     headers: {
                         Authorization: `Bearer ${accessToken}`
                     }
@@ -56,6 +52,7 @@ const ManApplicants: React.FC = () => {
                 console.log(response.data)
                 setApplicants(response.data.content)
                 setCount(response.data.totalElements)
+                setTotalPages(response.data.totalPages)
             } catch (err: any) {
                 console.error(err)
                 const errorCode = err.response?.data?.code
@@ -68,7 +65,7 @@ const ManApplicants: React.FC = () => {
         }
 
         fetchData()
-    }, [])
+    }, [page])
 
     // 상세정보 조회 및 토글
     const toggleDetail = async (id: number) => {
@@ -218,7 +215,7 @@ const ManApplicants: React.FC = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {currentApplicants.map((applicant) => (
+                    {applicants.map((applicant) => (
                         <ApplicantInfo key={applicant.id} applicant={applicant} />
                     ))}
                 </tbody>
@@ -230,7 +227,8 @@ const ManApplicants: React.FC = () => {
             <AdminPagination 
                 currentPage={currentPage} 
                 totalPages={totalPages} 
-                setCurrentPage={setCurrentPage} 
+                setCurrentPage={setCurrentPage}
+                setPage={setPage} 
             />
         </div>
     )
