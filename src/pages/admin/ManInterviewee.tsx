@@ -106,11 +106,8 @@ const ManInterviewee: React.FC = () => {
 
     // 페이지네이션
     const [currentPage, setCurrentPage] = useState<number>(1)
-    const [itemsPerPage] = useState<number>(20)
-    const indexOfLastApplicant = currentPage * itemsPerPage
-    const indexOfFirstApplicant = indexOfLastApplicant - itemsPerPage
-    const currentApplicants = filteredApplicants.slice(indexOfFirstApplicant, indexOfLastApplicant)
-    const totalPages = Math.ceil(filteredApplicants.length / itemsPerPage)
+    const [totalPages, setTotalPages] = useState<number>(1)
+    const [page, setPage] = useState<number>(0)
 
     return (
         <div className='h-[100vh] w-[100vw] bg-mainBlack font-pretendardRegular text-white flex flex-col items-center overflow-y-auto'>
@@ -147,7 +144,7 @@ const ManInterviewee: React.FC = () => {
             </tr>
             </thead>
             <tbody>
-            {currentApplicants.map((applicant) => (
+            {applicants.map((applicant) => (
                 <tr key={applicant.applicantId} className='py-[4px]'>
                 <td className='border border-gray-500 p-1 text-center'>{applicant.applicantName}</td>
                 <td className='border border-gray-500 p-1 text-center'>{applicant.studentNo}</td>
@@ -176,6 +173,7 @@ const ManInterviewee: React.FC = () => {
             currentPage={currentPage} 
             totalPages={totalPages} 
             setCurrentPage={setCurrentPage} 
+            setPage={setPage}
         />
         </div>
     )
