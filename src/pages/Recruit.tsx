@@ -170,6 +170,11 @@ const Recruit: React.FC = () => {
       return
     }
 
+    if (!formData.isMessageAgreed || !formData.isPrivacyPolicyAgreed) { 
+      alert('모든 필수 체크박스를 선택해주세요.') 
+      return
+    }
+
     let requestBody: RecruitFormData = {
       ...formData,
       isFirstRoundPassed: false,
