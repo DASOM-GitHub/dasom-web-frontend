@@ -19,6 +19,7 @@ const ManNewsList: React.FC = () => {
     const totalPages = Math.ceil(newsItems.length / itemsPerPage)
     const startIndex = (currentPage - 1) * itemsPerPage
     const visibleNews = newsItems.slice(startIndex, startIndex + itemsPerPage)
+    const [page, setPage] = useState<number>(0)
     
     useEffect(() => {
         const fetchData = async () => {
@@ -79,6 +80,7 @@ const ManNewsList: React.FC = () => {
                 currentPage={currentPage}
                 totalPages={totalPages}
                 setCurrentPage={setCurrentPage}
+                setPage={setPage}
             />
         </div>
     )

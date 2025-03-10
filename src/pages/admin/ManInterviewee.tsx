@@ -107,10 +107,11 @@ const ManInterviewee: React.FC = () => {
     // 페이지네이션
     const [currentPage, setCurrentPage] = useState<number>(1)
     const [itemsPerPage] = useState<number>(20)
-    const indexOfLastApplicant = currentPage * itemsPerPage
-    const indexOfFirstApplicant = indexOfLastApplicant - itemsPerPage
-    const currentApplicants = filteredApplicants.slice(indexOfFirstApplicant, indexOfLastApplicant)
+    const lastApplicant = currentPage * itemsPerPage
+    const firstApplicant = lastApplicant - itemsPerPage
+    const currentApplicants = filteredApplicants.slice(firstApplicant, lastApplicant)
     const totalPages = Math.ceil(filteredApplicants.length / itemsPerPage)
+    const [page, setPage] = useState<number>(0)
 
     return (
         <div className='h-[100vh] w-[100vw] bg-mainBlack font-pretendardRegular text-white flex flex-col items-center overflow-y-auto'>
@@ -176,6 +177,7 @@ const ManInterviewee: React.FC = () => {
             currentPage={currentPage} 
             totalPages={totalPages} 
             setCurrentPage={setCurrentPage} 
+            setPage={setPage}
         />
         </div>
     )
