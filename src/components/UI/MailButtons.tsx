@@ -8,7 +8,7 @@ const sendResultMail = async (mailType : any) => {
     const accessToken = localStorage.getItem('accessToken')
 
     try {
-        await axios.post('https://dmu-dasom-api.or.kr/api/admin/applicants/send-mail', { mailType }, {
+        await axios.post('https://dmu-dasom-api.or.kr/api/admin/applicants/send-email', { mailType }, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`
                 }
