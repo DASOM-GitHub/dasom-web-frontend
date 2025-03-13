@@ -66,7 +66,7 @@ const RecruitMeeting: React.FC = () => {
 			// 선택된 날짜와 시간 state값 전달하여 페이지 이동
 			navigate('/recruit/meeting/submit', { state: { date: selectedDate, time: selectedTime } })
 		} catch (e: any) {
-			console.log(e)
+			//console.log(e)
 			const errorCode = e.response?.data?.code
 			if (errorCode === 'APPLICANT_NOT_FOUND') {
 				alert('지원자를 조회할 수 없습니다.')
@@ -115,7 +115,7 @@ const RecruitMeeting: React.FC = () => {
 				setInterviewPeriodData(periodData) // '2025-03-12'
 				setInterviewTimeData(timeData) // '17:00'
 			} catch (e: any) {
-				console.log(e)
+				//console.log(e)
 				alert('데이터 불러오기 오류')
 			}
 		}
@@ -129,7 +129,7 @@ const RecruitMeeting: React.FC = () => {
 				const response = await axios.get('https://dmu-dasom-api.or.kr/api/recruit/interview/all')
 				setInterviewSlots(response.data)
 			} catch (e:any) {
-				console.log(e)
+				//console.log(e)
 				alert('면접 일정을 조회할 수 없습니다')
 			}
 		}

@@ -32,7 +32,7 @@ const ManNewsPost: React.FC = () => {
             })
 
             const newsId = newsResponse.data.id
-            console.log('뉴스 등록 성공, ID:', newsId)
+            //console.log('뉴스 등록 성공, ID:', newsId)
 
             // 이미지 업로드 요청
             const formData = new FormData()
