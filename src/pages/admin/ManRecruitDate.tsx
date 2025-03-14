@@ -89,9 +89,9 @@ const ManRecruitDate = () => {
                 endTime: dates.INTERVIEW_TIME_END.format('HH:mm')
             })
 
-            console.log('생성된 면접 일정 : ', response.data)
+            //console.log('생성된 면접 일정 : ', response.data)
         } catch (e: any) {
-            console.log(e)
+            //console.log(e)
             alert('면접 일정 생성 중 오류가 발생했습니다.')
         }
     }
@@ -106,7 +106,7 @@ const ManRecruitDate = () => {
         }
          
         const token = localStorage.getItem('accessToken')
-        console.log(token)
+        //console.log(token)
     
         try {
             await axios.patch('https://dmu-dasom-api.or.kr/api/admin/recruit/schedule', formattedData, {
@@ -116,15 +116,15 @@ const ManRecruitDate = () => {
                 }
             })
     
-            console.log(`${key} updated successfully`)
+            //console.log(`${key} updated successfully`)
             alert(`'${statusMap[key as keyof typeof statusMap]}' 업데이트 되었습니다!`)
         } catch (err : any) {
-            console.error(`Failed to update ${key}:`, err)
+            //console.error(`Failed to update ${key}:`, err)
             alert(`'${statusMap[key as keyof typeof statusMap]}' 업데이트 에러`)
 
             const errorCode = err.response?.data?.code
             if (errorCode === 'C016') {
-                console.log('날짜 업데이트 중 오류: 날짜 형식이 올바르지 않습니다.')
+                //console.log('날짜 업데이트 중 오류: 날짜 형식이 올바르지 않습니다.')
             }
         }
     }    

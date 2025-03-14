@@ -57,7 +57,7 @@ export const RecruitResult: React.FC = () => {
 				// 현재 날짜에 따른 조회 type 지정
 				setPass(today >= interviewPass ? 'INTERVIEW_PASS' : today >= documentPass ? 'DOCUMENT_PASS' : null)
 			} catch (e) {
-				console.log(e)
+				//console.log(e)
 				alert('발표 일정을 조회할 수 없습니다')
 			}
 		}
@@ -107,7 +107,7 @@ export const RecruitResult: React.FC = () => {
 				},
 			})
 		} catch (e) {
-			console.log(e)
+			//console.log(e)
 			alert('데이터 검색 불가')
 		}
 	}
