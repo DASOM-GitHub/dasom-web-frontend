@@ -30,7 +30,7 @@ const ManNewsList: React.FC = () => {
                     title: item.title,
                     createdAt: item.createdAt.split('T')[0],
                 })).sort((a: News, b: News) => b.id - a.id)
-                console.log(response)
+                //console.log(response)
                 setNewsItems(formattedData)
             } catch (err: any) {
                 console.error(err)

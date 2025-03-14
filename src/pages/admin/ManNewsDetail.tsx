@@ -29,7 +29,7 @@ const ManNewsDetail: React.FC = () => {
                 const response = await axios.get<News>(`https://dmu-dasom-api.or.kr/api/news/${no}`)
                 setNews(response.data)
                 setImages(response.data.images)
-                console.log(response.data)
+                //console.log(response.data)
             } catch (err) {
                 console.error('Error fetching news:', err)
             }

@@ -49,7 +49,7 @@ const ManApplicants: React.FC = () => {
                         Authorization: `Bearer ${accessToken}`
                     }
                 })
-                console.log(response.data)
+                //console.log(response.data)
                 setApplicants(response.data.content)
                 setCount(response.data.totalElements)
                 setTotalPages(response.data.totalPages)
@@ -109,7 +109,7 @@ const ManApplicants: React.FC = () => {
             headers: { Authorization: `Bearer ${accessToken}` }
         })
         .then(() => {
-            console.log('상태 변경 성공:', newStatus)
+            //console.log('상태 변경 성공:', newStatus)
             toast.success('상태 변경이 완료되었습니다!')
         })
         .catch((err) => console.error('상태 변경 실패:', err))
