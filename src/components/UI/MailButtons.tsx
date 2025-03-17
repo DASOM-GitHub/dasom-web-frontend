@@ -3,7 +3,7 @@ import axios from 'axios'
 import { toast } from 'react-toastify'
 
 const sendResultMail = async (mailType : any) => {
-    const confirmation = window.confirm(`${mailType === 'DOCUMENT_RESULT' ? '서류' : '면접접'} 합격자에게 메일을 보낼까요?`)
+    const confirmation = window.confirm(`${mailType === 'DOCUMENT_RESULT' ? '서류' : '면접'} 합격자에게 메일을 보낼까요?`)
     if (!confirmation) return
     const accessToken = localStorage.getItem('accessToken')
 
