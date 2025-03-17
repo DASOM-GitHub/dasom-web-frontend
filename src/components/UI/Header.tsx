@@ -1,16 +1,47 @@
-import React, { JSX, useState, useEffect } from 'react'
+import React, { JSX, useState, useEffect, useRef } from 'react'
 import headerMenu from '../../assets/images/headerMenu.svg'
 import headerMenuUndo from '../../assets/images/headerMenuUndo.svg'
 import { useNavigate } from 'react-router-dom'
+import axios from 'axios'
 
 export const Header = (): JSX.Element => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [windowWidth, setWindowWidth] = useState(window.innerWidth)
+  const [isRecruiting, setIsRecruiting] = useState(false)
   const navigate = useNavigate()
+  const alertShown = useRef(false)
 
   const toggleMenu = () => {
     setIsMenuOpen((prev) => !prev)
   }
+
+  // 모집 기간 확인
+  useEffect(() => {
+    const checkRecruitmentPeriod = async () => {
+      try {
+        const response = await axios.get('https://dmu-dasom-api.or.kr/api/recruit')
+        const data = response.data
+
+        const recruitmentStart = data.find((item: any) => item.key === 'RECRUITMENT_PERIOD_START')?.value
+        const recruitmentEnd = data.find((item: any) => item.key === 'RECRUITMENT_PERIOD_END')?.value
+
+        const startDate = new Date(recruitmentStart)
+        const endDate = new Date(recruitmentEnd)
+        const now = new Date()
+
+        if (now >= startDate && now <= endDate) {
+          setIsRecruiting(true)
+        } else {
+          setIsRecruiting(false)
+        }
+      } catch (error) {
+        console.error('모집 기간 확인 중 오류 발생:', error)
+        setIsRecruiting(false)
+      }
+    }
+
+    checkRecruitmentPeriod()
+  }, [])
 
   // window width 변경 상태관리
   useEffect(() => {
@@ -38,8 +69,10 @@ export const Header = (): JSX.Element => {
         >
           <div className='font-pretendardBlack text-mainColor text-2xl cursor-pointer' onClick={() => {
             navigate('/')
-            isMenuOpen? toggleMenu() : null
-            }}>DASOM</div>
+            isMenuOpen ? toggleMenu() : null
+          }}>
+            DASOM
+          </div>
 
           {/* 메뉴 버튼 */}
           <img
@@ -66,7 +99,6 @@ export const Header = (): JSX.Element => {
             <li
               className='font-pretendardBlack text-mainColor text-[20px] cursor-pointer hover:text-white'
               onClick={() => {
-                // console.log('About 이동')
                 navigate('/')
                 toggleMenu()
               }}
@@ -76,7 +108,6 @@ export const Header = (): JSX.Element => {
             <li
               className='font-pretendardBlack text-mainColor text-[20px] cursor-pointer hover:text-white'
               onClick={() => {
-                // console.log('News 이동')
                 navigate('/news')
                 toggleMenu()
               }}
@@ -85,8 +116,7 @@ export const Header = (): JSX.Element => {
             </li>
             <li
               className='font-pretendardBlack text-mainColor text-[20px] cursor-pointer hover:text-white'
-              onClick={() =>{
-                // console.log('Members 이동')
+              onClick={() => {
                 navigate('/coremember')
                 toggleMenu()
               }}
@@ -96,33 +126,35 @@ export const Header = (): JSX.Element => {
             <li
               className='font-pretendardBlack text-mainColor text-[20px] cursor-pointer hover:text-white'
               onClick={() => {
-                // console.log('FAQ 이동')
                 navigate('/faq')
                 toggleMenu()
               }}
             >
               FAQ
             </li>
-            <li
-              className='font-pretendardBlack text-white text-[20px] cursor-pointer hover:scale-110'
-              onClick={() => {
-                // console.log('form 이동')
-                navigate('/recruit')
-                toggleMenu()
-              }}
-            >
-              34기 지원하기
-            </li>
-            <li
-              className='font-pretendardBlack text-white text-[20px] cursor-pointer hover:scale-110'
-              onClick={() => {
-                // console.log('합격여부 이동')
-                navigate('/recruit/result')
-                toggleMenu()
-              }}
-            >
-              합격여부 확인하기
-            </li>
+
+            {/* 모집 기간에 따라 버튼 다르게 표시 */}
+            {isRecruiting ? (
+              <li
+                className='font-pretendardBlack text-white text-[20px] cursor-pointer hover:scale-110'
+                onClick={() => {
+                  navigate('/recruit')
+                  toggleMenu()
+                }}
+              >
+                34기 지원하기
+              </li>
+            ) : (
+              <li
+                className='font-pretendardBlack text-white text-[20px] cursor-pointer hover:scale-110'
+                onClick={() => {
+                  navigate('/recruit/result')
+                  toggleMenu()
+                }}
+              >
+                34기 합격여부 확인하기
+              </li>
+            )}
           </ul>
         </div>
       )}
