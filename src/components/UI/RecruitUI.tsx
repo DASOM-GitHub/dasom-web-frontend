@@ -189,3 +189,37 @@ export const RecruitUI_FINAL2: React.FC<RecruitUIProps> = ({ name }) => {
     </div>
   )
 }
+
+export const SomRecruitUI: React.FC = () => {
+  return(
+    <div className="text-white font-pretendardRegular flex flex-col text-[12px] items-start w-auto shadow-[0px_2px_3px_rgba(255,255,255,0.2)] bg-#17171B] gap-2 mx-2">
+      <p className="pl-2 pt-2">
+        <span className='font-pretendardBold'>솜커톤</span>에서 멋진 프로젝트를 만들어주실 학우 여러분들을 모집합니다!
+      </p>
+      <div className="mt-2 pl-2 flex">
+        <p className="text-mainColor font-pretendardSemiBold">📅 모집 일정 :</p>
+        <span className="text-white pl-1">4월 11일 (금) ~ 4월 16일 (수)</span>
+      </div>
+
+      <div className="mt-2 pl-2  flex items-center">
+        <p className="text-mainColor font-pretendardSemiBold">📝 모집 대상 :</p>
+        <span className="text-white pl-1">25년도 1학기 솜커톤에 참가하는 학우 여러분</span>
+      </div>
+
+      <div className="mt-2 pl-2  flex items-center">
+        <p className="text-mainColor font-pretendardSemiBold">🌿 신청 조건 :</p>
+        <span className="text-white pl-1 ">컴퓨터공학부 학생, 시각디자인과 동아리 구미래 부원</span>
+      </div>
+
+      <div className="mt-2  pl-2">
+        <p className="text-mainColor font-pretendardSemiBold inline">🍀 참가비 :</p>
+        <span className="text-white pl-1 inline">10,000원</span>
+        <p className="text-white mt-1">
+          참가비는 솜커톤 행사 운영 자금으로 사용됩니다.
+          납부 방법은 추후 안내드리겠습니다.
+        </p>
+      </div>
+      <p className="pl-2 mb-4 ">👀 의지가 있으며 교류를 중시하는 분을 기다립니다.</p>
+    </div>
+  )
+}
