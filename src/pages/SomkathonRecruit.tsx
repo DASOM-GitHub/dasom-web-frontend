@@ -116,7 +116,6 @@ const SomkathonRecruit: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    console.log(formData)
     if (!formData.participantName || !formData.studentId || !formData.contact || !formData.email || !formData.department) {
       alert('모든 필수 정보를 입력해주세요.')
       return
