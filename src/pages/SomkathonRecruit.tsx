@@ -17,7 +17,7 @@ const SomkathonRecruit: React.FC = () => {
     participantName: '',
     studentId: '',
     department: '',
-    grade: '',
+    grade: '1',
     contact: '',
     email: '',
   })
@@ -130,14 +130,14 @@ const SomkathonRecruit: React.FC = () => {
         }
       })
 
-      navigate('/somkathon/result')
+      navigate('/somkathon/submit')
     } catch (error: any) {
       if (error.response) {
         const errorData = error.response.data
 
-        if (error.response.status === 400 && errorData.code === 'C001') {
+        if (error.response.status === 400 && errorData.code === 'C001' || errorData.code === 'C007') {
             alert('입력 정보를 다시 확인해주세요.')
-        } else if (error.response.status === 400 && errorData.code === 'C002'){
+        } else if (error.response.status === 400 && errorData.code === 'C013'){
             alert('이미 등록된 학번입니다.')
         }
       } else {

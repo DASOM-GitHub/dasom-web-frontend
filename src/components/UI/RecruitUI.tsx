@@ -194,7 +194,7 @@ export const SomRecruitUI: React.FC = () => {
   return(
     <div className="text-white font-pretendardRegular flex flex-col text-[12px] items-start w-auto shadow-[0px_2px_3px_rgba(255,255,255,0.2)] bg-#17171B] gap-2 mx-2">
       <p className="pl-2 pt-2">
-        <span className='font-pretendardBold'>솜커톤</span>에서 멋진 프로젝트를 만들어주실 학우 여러분들을 모집합니다!
+        <span className='font-pretendardBold'>솜커톤</span>에서 멋진 프로젝트를 만들어 주실 학우 여러분들을 모집합니다!
       </p>
       <div className="mt-2 pl-2 flex">
         <p className="text-mainColor font-pretendardSemiBold">📅 모집 일정 :</p>
@@ -208,7 +208,7 @@ export const SomRecruitUI: React.FC = () => {
 
       <div className="mt-2 pl-2  flex items-center">
         <p className="text-mainColor font-pretendardSemiBold">🌿 신청 조건 :</p>
-        <span className="text-white pl-1 ">컴퓨터공학부 학생, 시각디자인과 동아리 구미래 부원</span>
+        <span className="text-white pl-1 ">컴퓨터공학부 학생</span>
       </div>
 
       <div className="mt-2  pl-2">
