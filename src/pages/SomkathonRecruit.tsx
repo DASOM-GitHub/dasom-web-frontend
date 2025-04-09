@@ -156,7 +156,7 @@ const SomkathonRecruit: React.FC = () => {
             required minLength={1} maxLength={16} />
           <InputField label='학번' name='studentId' value={formData.studentId} onChange={handleInputChange} highlightLabels={[]} required />
           <InputField label='학과' name='department' value={formData.department} onChange={handleInputChange} required />
-          <InputField label='연락처' name='contact' placeholder='ex) 숫자만 입력해주세요' value={formData.contact} onChange={handleInputChange} required />
+          <InputField label='연락처' name='contact' placeholder='숫자만 입력해주세요' value={formData.contact} onChange={handleInputChange} required />
           <InputField label='이메일' name='email' type='email' value={formData.email} onChange={handleInputChange} required />
           <InputField
             label='학년'
