@@ -42,6 +42,7 @@ const AdminMain: React.FC = () => {
                 <AdminMenuBtn text='지원자 관리' link='/admin/applicants' />
                 <AdminMenuBtn text='일정 관리' link='/admin/date' />
                 <AdminMenuBtn text='공지사항 관리' link='/admin/news' />
+                <AdminMenuBtn text='솜커톤 지원자 관리' link='/admin/somkathon' />
                 <div 
                     className='cursor-pointer text-[14px] font-pretendardRegular text-white'
                     onClick={handleLogout}
