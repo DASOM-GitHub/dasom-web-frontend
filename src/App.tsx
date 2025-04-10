@@ -24,7 +24,10 @@ import FAQ from './pages/FAQ'
 import { RecruitSubmit } from './pages/RecruitSubmit'
 import RecruitCheck from './pages/RecruitCheck'
 import RecruitCheckFinal from './pages/RecruitCheckFinal'
+import SomkathonRecruit from './pages/SomkathonRecruit'
+import SomkathonSubmit from './pages/SomkathonSubmit'
 import ProtectedRoute from './components/layout/ProtectRoute'
+import SomkatonApplicants from './pages/admin/SomkatonApplicants'
 
 function App() {
 	return (
@@ -59,6 +62,8 @@ function AppContent() {
 				<Route path='/recruit/check/final' element={<RecruitCheckFinal />} />
 				<Route path='/recruit/meeting' element={<RecruitMeeting />} />
 				<Route path='/recruit/meeting/submit' element={<RecruitSubmitMeeting />} />
+				<Route path='/somkathon' element={<SomkathonRecruit />} />
+				<Route path='/somkathon/submit' element={<SomkathonSubmit />} />
 
 				{/* 관리자 페이지 */}
 				<Route path='/admin' element={<ProtectedRoute><AdminMain /></ProtectedRoute>} />
@@ -69,6 +74,7 @@ function AppContent() {
 				<Route path='/admin/news/:no' element={<ProtectedRoute><ManNewsDetail /></ProtectedRoute>} />
 				<Route path='/admin/news/post' element={<ProtectedRoute><ManNewsPost /></ProtectedRoute>} />
 				<Route path='/admin/news/edit/:no' element={<ProtectedRoute><ManNewsEdit /></ProtectedRoute>} />
+				<Route path='/admin/somkathon' element={<ProtectedRoute><SomkatonApplicants/></ProtectedRoute>}/>
 			</Routes>
 		</>
 	)
