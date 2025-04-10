@@ -132,29 +132,15 @@ export const Header = (): JSX.Element => {
             >
               FAQ
             </li>
-
-            {/* 모집 기간에 따라 버튼 다르게 표시 */}
-            {isRecruiting ? (
-              <li
-                className='font-pretendardBlack text-white text-[20px] cursor-pointer hover:scale-110'
-                onClick={() => {
-                  navigate('/recruit')
-                  toggleMenu()
-                }}
-              >
-                34기 지원하기
-              </li>
-            ) : (
-              <li
-                className='font-pretendardBlack text-white text-[20px] cursor-pointer hover:scale-110'
-                onClick={() => {
-                  navigate('/recruit/result')
-                  toggleMenu()
-                }}
-              >
-                34기 합격여부 확인하기
-              </li>
-            )}
+            <li
+              className='font-pretendardBlack text-white text-[20px] cursor-pointer hover:scale-110'
+              onClick={() => {
+                navigate('/somkathon')
+                toggleMenu()
+              }}
+            >
+              솜커톤 지원하기
+            </li>
           </ul>
         </div>
       )}
