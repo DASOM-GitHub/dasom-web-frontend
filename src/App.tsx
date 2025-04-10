@@ -25,6 +25,7 @@ import { RecruitSubmit } from './pages/RecruitSubmit'
 import RecruitCheck from './pages/RecruitCheck'
 import RecruitCheckFinal from './pages/RecruitCheckFinal'
 import ProtectedRoute from './components/layout/ProtectRoute'
+import SomkatonApplicants from './pages/admin/SomkatonApplicants'
 
 function App() {
 	return (
@@ -69,6 +70,7 @@ function AppContent() {
 				<Route path='/admin/news/:no' element={<ProtectedRoute><ManNewsDetail /></ProtectedRoute>} />
 				<Route path='/admin/news/post' element={<ProtectedRoute><ManNewsPost /></ProtectedRoute>} />
 				<Route path='/admin/news/edit/:no' element={<ProtectedRoute><ManNewsEdit /></ProtectedRoute>} />
+				<Route path='/admin/somkathon' element={<ProtectedRoute><SomkatonApplicants/></ProtectedRoute>}/>
 			</Routes>
 		</>
 	)
