@@ -163,8 +163,8 @@ const SomkathonRecruit: React.FC = () => {
           onChange={handleInputChange} 
           options={[
             { value: '웹응용소프트웨어공학과', label: '웹응용소프트웨어공학과' },
-            { value: '컴퓨터소프트웨어공학과',  label: '컴퓨터소프트웨어공학과' },
-            { value: '인공지능소프트웨어공학과', label: '인공지능소프트웨어공학과' }
+            { value: '컴퓨터소프트웨어공학과', label: '컴퓨터소프트웨어공학과' },
+            { value: '인공지능소프트웨어학과', label: '인공지능소프트웨어학과' }
           ]}
           required />
           <InputField label='연락처' name='contact' placeholder='숫자만 입력해주세요' value={formData.contact} onChange={handleInputChange} required />
