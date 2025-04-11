@@ -17,7 +17,7 @@ const Main: React.FC = () => {
   }
 
   const handleClick = () => {
-    navigate('/recruit')
+    navigate('/somkathon')
   }
 
   return (
@@ -39,8 +39,8 @@ const Main: React.FC = () => {
         <div className='flex w-full bg-stone-900 min-h-[1px] mb-20' />
         <ActivityStatus year="2024" />
 
-        <div className='flex items-center justify-center w-full text-[20px] mt-[20px] font-pretendardBlack text-white text-center cursor-pointer' onClick={handleClick}>
-          DASOM 34기 지원하기
+        <div className='flex items-center justify-center w-full text-[20px] mt-[20px] font-pretendardBold text-white text-center cursor-pointer' onClick={handleClick}>
+        [ 다솜 X 구미래 ]<br/> ✨ 솜커톤 지원하기 ✨
         </div>
         <div className='w-[30px] bg-white min-h-[1px] mb-[20px] mt-[48px] mx-auto' />
         <div className='flex items-center justify-center w-full text-[12px] font-pretendardRegular text-white text-center'>
