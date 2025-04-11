@@ -12,7 +12,7 @@ const SomkathonSubmit: React.FC = () => {
             <SomRecruitUI />
             <Recruit_InfoBanner
                 message={`솜커톤에 지원해주셔서 감사합니다. 
-                모집 완료 후 카카오톡 단체 톡방으로 초대해드리겠습니다.`}
+                모집 완료 및 인원 집계 후 확정자에 한해 개별 연락드리겠습니다.`}
             />
         </MobileLayout>
     )
