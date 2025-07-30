@@ -21,7 +21,7 @@ jobs:
           API_TOKEN_GITHUB: ${{ secrets.HYEON_GITHUB_KEY }}
         with:
           source-directory: 'output'
-          destination-github-username: titeotty
+          destination-github-username: dohy-eon
           destination-repository-name: dasom-web-frontend
           user-email: ${{ secrets.HYEON_ACCOUNT_EMAIL }}
           commit-message: ${{ github.event.commits[0].message }}
