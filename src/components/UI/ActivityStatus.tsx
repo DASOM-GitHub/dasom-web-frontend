@@ -15,7 +15,9 @@ type ActivitySection = {
 }
 
 // Fade In & Move up
-const FadeInSection: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+const FadeInSection: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -35,9 +37,9 @@ const ActivityStatus: React.FC<{ year: string }> = ({ year }) => {
       items: [
         {
           award: '장려상',
-          subtitle: '2024 동양미래 EXPO'
-        }
-      ]
+          subtitle: '2024 동양미래 EXPO',
+        },
+      ],
     },
     {
       category: '외부 경진대회 / 전시회',
@@ -45,8 +47,8 @@ const ActivityStatus: React.FC<{ year: string }> = ({ year }) => {
         {
           award: '동상',
           subtitle: '교육장비 개발 및 아이디어 경진대회',
-        }
-      ]
+        },
+      ],
     },
     {
       category: '교내 경진대회',
@@ -54,15 +56,15 @@ const ActivityStatus: React.FC<{ year: string }> = ({ year }) => {
         {
           award: '최우수상',
           subtitle: '컴퓨터 공학부 경진대회',
-        }
-      ]
+        },
+      ],
     },
     {
       category: '세미나 실적',
       items: [
         { title: '현직 백엔드 개발자 특강 - ', subtitle: '20명 대상' },
-        { title: '웹 개발 세미나 - ', subtitle: '10명 대상' }
-      ]
+        { title: '웹 개발 세미나 - ', subtitle: '10명 대상' },
+      ],
     },
     {
       category: '기타 활동',
@@ -72,9 +74,9 @@ const ActivityStatus: React.FC<{ year: string }> = ({ year }) => {
         { title: 'DASOM MAKERS 스터디 및 홈페이지 제작' },
         { title: '시험기간 간식 행사' },
         { title: '할로윈 행사' },
-        { title: '동계, 하계 MT' }
-      ]
-    }
+        { title: '동계, 하계 MT' },
+      ],
+    },
   ]
 
   return (
@@ -84,12 +86,18 @@ const ActivityStatus: React.FC<{ year: string }> = ({ year }) => {
           <img src={DasomLogo} className='w-7 h-7' alt='Dasom Icon' />
           <div>
             <div className='text-[16px] font-pretendardBold'>활동 현황</div>
-            <div className='text-mainColor text-[13px] font-pretendardSemiBold'>{year}</div>
+            <div className='text-mainColor text-[13px] font-pretendardSemiBold'>
+              {year}
+            </div>
           </div>
         </div>
-        <div className="flex items-start gap-3">
-          <img src={ActivityBar} className="w-4 h-[300px] mt-1.5" alt="Activitybar" />
-          <div className="space-y-3">
+        <div className='flex items-start gap-3'>
+          <img
+            src={ActivityBar}
+            className='w-4 h-[300px] mt-1.5'
+            alt='Activitybar'
+          />
+          <div className='space-y-3'>
             {activityData.map((section, index) => (
               <FadeInSection key={index}>
                 <div>
@@ -98,15 +106,25 @@ const ActivityStatus: React.FC<{ year: string }> = ({ year }) => {
                   </div>
                   <ul className='space-y-1'>
                     {section.items.map((activity, idx) => (
-                      <li key={idx} className='flex flex-wrap text-[10.5px] leading-tight'>
+                      <li
+                        key={idx}
+                        className='flex flex-wrap text-[10.5px] leading-tight'
+                      >
                         {activity.title && (
-                          <span className='font-pretendardRegular'>{activity.title}</span>
+                          <span className='font-pretendardRegular'>
+                            {activity.title}
+                          </span>
                         )}
                         {activity.award && (
-                          <span className='font-pretendardBold text-mainColor mr-1'>{activity.award}</span>
+                          <span className='font-pretendardBold text-mainColor mr-1'>
+                            {activity.award}
+                          </span>
                         )}
                         {activity.subtitle && (
-                          <span className='text-subGrey font-pretendardRegular'>{' '}{activity.subtitle}</span>
+                          <span className='text-subGrey font-pretendardRegular'>
+                            {' '}
+                            {activity.subtitle}
+                          </span>
                         )}
                       </li>
                     ))}

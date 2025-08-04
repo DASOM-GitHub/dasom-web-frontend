@@ -5,8 +5,7 @@ import { Header } from '../components/UI/Header'
 const UserMain: React.FC = () => {
   return (
     <MobileLayout>
-      <Header/>
-      
+      <Header />
     </MobileLayout>
   )
 }

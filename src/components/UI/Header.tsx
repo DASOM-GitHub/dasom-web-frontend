@@ -12,18 +12,24 @@ export const Header = (): JSX.Element => {
   const alertShown = useRef(false)
 
   const toggleMenu = () => {
-    setIsMenuOpen((prev) => !prev)
+    setIsMenuOpen(prev => !prev)
   }
 
   // 모집 기간 확인
   useEffect(() => {
     const checkRecruitmentPeriod = async () => {
       try {
-        const response = await axios.get('https://dmu-dasom-api.or.kr/api/recruit')
+        const response = await axios.get(
+          'https://dmu-dasom-api.or.kr/api/recruit'
+        )
         const data = response.data
 
-        const recruitmentStart = data.find((item: any) => item.key === 'RECRUITMENT_PERIOD_START')?.value
-        const recruitmentEnd = data.find((item: any) => item.key === 'RECRUITMENT_PERIOD_END')?.value
+        const recruitmentStart = data.find(
+          (item: any) => item.key === 'RECRUITMENT_PERIOD_START'
+        )?.value
+        const recruitmentEnd = data.find(
+          (item: any) => item.key === 'RECRUITMENT_PERIOD_END'
+        )?.value
 
         const startDate = new Date(recruitmentStart)
         const endDate = new Date(recruitmentEnd)
@@ -67,10 +73,13 @@ export const Header = (): JSX.Element => {
             margin: '0 auto',
           }}
         >
-          <div className='font-pretendardBlack text-mainColor text-2xl cursor-pointer' onClick={() => {
-            navigate('/')
-            isMenuOpen ? toggleMenu() : null
-          }}>
+          <div
+            className='font-pretendardBlack text-mainColor text-2xl cursor-pointer'
+            onClick={() => {
+              navigate('/')
+              isMenuOpen ? toggleMenu() : null
+            }}
+          >
             DASOM
           </div>
 
