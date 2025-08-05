@@ -11,9 +11,10 @@ jobs:
       - name: Login
         uses: atlassian/gajira-login@v3
         env:
-          JIRA_BASE_URL: ${{ secrets.JIRA_BASE_URL }}
+          JIRA_URL: ${{ secrets.JIRA_URL }}
           JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
-          JIRA_USER_EMAIL: ${{ secrets.JIRA_USER_EMAIL }}
+          JIRA_EMAIL: ${{ secrets.JIRA_EMAIL }}
+
 
       - name: Checkout main code
         uses: actions/checkout@v4
@@ -87,4 +88,5 @@ jobs:
           actions: 'create-comment'
           token: ${{ secrets.GITHUB_TOKEN }}
           issue-number: ${{ github.event.issue.number }}
-          body: 'Jira Issue Created: [${{ steps.create.outputs.issue }}](${{ secrets.JIRA_BASE_URL }}/browse/${{ steps.create.outputs.issue }})'
+          body: 'Jira Issue Created: [${{ steps.create.outputs.issue }}](${{ secrets.JIRA_URL }}/browse/${{ steps.create.outputs.issue }})'
+
