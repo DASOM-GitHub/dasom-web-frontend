@@ -40,4 +40,4 @@ jobs:
         env:
           JIRA_URL: ${{ secrets.JIRA_URL }}
           JIRA_EMAIL: ${{ secrets.JIRA_EMAIL }}
-          JIRA_API_TOKEN: ${{ secrets.JIRA_API_TO KEN }}
+          JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
