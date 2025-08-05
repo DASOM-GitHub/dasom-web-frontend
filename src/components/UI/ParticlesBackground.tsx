@@ -11,7 +11,8 @@ const ParticlesBackground: React.FC = () => {
       style={{
         opacity, // 스크롤 시 점점 사라지게 적용
         maskImage: 'linear-gradient(to bottom, rgba(0,0,0,1), rgba(0,0,0,0))', // 아래쪽으로 갈수록 페이드아웃
-        WebkitMaskImage: 'linear-gradient(to bottom, rgba(0,0,0,1), rgba(0,0,0,0))'
+        WebkitMaskImage:
+          'linear-gradient(to bottom, rgba(0,0,0,1), rgba(0,0,0,0))',
       }}
       animate={{ opacity: [0.9, 1, 0.9] }}
       transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}

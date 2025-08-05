@@ -4,10 +4,10 @@ import dasomLogo from '../assets/images/dasomLogo.svg'
 import { motion } from 'framer-motion'
 
 interface Profile {
-  id: number;
-  name: string;
-  roll: string;
-  github_username: string;
+  id: number
+  name: string
+  roll: string
+  github_username: string
 }
 
 const profiles: Profile[] = [
@@ -29,13 +29,13 @@ const containerVariants = {
     transition: {
       staggerChildren: 0.15,
       ease: 'easeOut',
-    }
-  }
+    },
+  },
 }
 
 const itemVariants = {
-  hidden: { opacity: 0, y: 20, willChange: 'transform, opacity' }, 
-  visible: { opacity: 1, y: 0, transition: { duration: 0.7 } }
+  hidden: { opacity: 0, y: 20, willChange: 'transform, opacity' },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.7 } },
 }
 
 const ProfileCard = ({ member }: { member: Profile }) => {
@@ -45,16 +45,27 @@ const ProfileCard = ({ member }: { member: Profile }) => {
     <motion.div
       key={member.id}
       className={`flex mb-[16px] items-center justify-between pr-[12px] p-3 rounded-lg transition-all cursor-pointer
-        ${isClicked ? 'shadow-xl' : 'shadow-lg'}`} 
+        ${isClicked ? 'shadow-xl' : 'shadow-lg'}`}
       variants={itemVariants}
-      whileHover={{ scale: 1.05, boxShadow: '0px 4px 10px rgba(255, 255, 255, 0.2)' }}
+      whileHover={{
+        scale: 1.05,
+        boxShadow: '0px 4px 10px rgba(255, 255, 255, 0.2)',
+      }}
       whileTap={{ scale: 0.95 }}
       onClick={() => setIsClicked(!isClicked)}
     >
-      <div className="flex items-center">
-        <GitHubProfileImage username={member.github_username} width={40} height={40} />
-        <div className='font-pretendardSemiBold text-[16px] ml-[12px] w-[50px]'>{member.name}</div>
-        <div className='font-pretendardRegular text-[12px] ml-[12px] w-[50px]'>{member.roll}</div>
+      <div className='flex items-center'>
+        <GitHubProfileImage
+          username={member.github_username}
+          width={40}
+          height={40}
+        />
+        <div className='font-pretendardSemiBold text-[16px] ml-[12px] w-[50px]'>
+          {member.name}
+        </div>
+        <div className='font-pretendardRegular text-[12px] ml-[12px] w-[50px]'>
+          {member.roll}
+        </div>
       </div>
       <GitHubLinkUrl username={member.github_username} />
     </motion.div>
@@ -62,11 +73,19 @@ const ProfileCard = ({ member }: { member: Profile }) => {
 }
 
 // 깃허브 프로필 사진
-const GitHubProfileImage = ({ username, width, height }: { username: string, width: number, height: number }) => {
+const GitHubProfileImage = ({
+  username,
+  width,
+  height,
+}: {
+  username: string
+  width: number
+  height: number
+}) => {
   return username ? (
     <motion.img
       src={`https://github.com/${username}.png`}
-      alt="gitHubProfile"
+      alt='gitHubProfile'
       width={width}
       height={height}
       className='rounded-full'
@@ -93,32 +112,38 @@ const GitHubLinkUrl = ({ username }: { username: string }) => {
         className='block cursor-pointer text-black text-[8px] ml-[4px] font-pretendardSemiBold no-underline'
         href={`https://github.com/${username}`}
         target='_blank'
-        rel="noopener noreferrer"
+        rel='noopener noreferrer'
       >
         {username}'s Github
       </a>
     </motion.div>
-  ) : <div />
+  ) : (
+    <div />
+  )
 }
 
 const CoreMembers: React.FC = () => {
   return (
     <MobileLayout>
       <div className='mt-16 ml-[12px] flex'>
-        <img className='w-[21px] h-[24px] cursor-pointer' alt='logo' src={dasomLogo} />
+        <img
+          className='w-[21px] h-[24px] cursor-pointer'
+          alt='logo'
+          src={dasomLogo}
+        />
         <div className='font-pretendardSemiBold text-white text-[16px] ml-[9px]'>
           다솜 운영진
         </div>
       </div>
-      
+
       {/* 애니메이션 컨테이너 */}
-      <motion.div 
+      <motion.div
         className='ml-[12px] mt-[20px] text-white'
-        variants={containerVariants} 
-        initial="hidden" 
-        animate="visible"
+        variants={containerVariants}
+        initial='hidden'
+        animate='visible'
       >
-        {profiles.map((member) => (
+        {profiles.map(member => (
           <ProfileCard key={member.id} member={member} />
         ))}
       </motion.div>

@@ -7,18 +7,18 @@ import { InputField } from '../components/UI/Recruit_InputField'
 import { Button } from '../components/UI/Recruit_Button'
 
 interface RecruitFormData {
-  name: string;
-  studentNo: string;
-  contact: string;
-  email: string;
-  grade: number;
-  reasonForApply: string;
-  activityWish: string;
-  isMessageAgreed: boolean;
-  isPrivacyPolicyAgreed: boolean;
-  isFirstRoundPassed?: boolean;
-  isSecondRoundPassed?: boolean;
-  isOverwriteConfirmed?: boolean;
+  name: string
+  studentNo: string
+  contact: string
+  email: string
+  grade: number
+  reasonForApply: string
+  activityWish: string
+  isMessageAgreed: boolean
+  isPrivacyPolicyAgreed: boolean
+  isFirstRoundPassed?: boolean
+  isSecondRoundPassed?: boolean
+  isOverwriteConfirmed?: boolean
 }
 
 const Recruit: React.FC = () => {
@@ -42,11 +42,17 @@ const Recruit: React.FC = () => {
   useEffect(() => {
     const checkRecruitmentPeriod = async () => {
       try {
-        const response = await axios.get('https://dmu-dasom-api.or.kr/api/recruit')
+        const response = await axios.get(
+          'https://dmu-dasom-api.or.kr/api/recruit'
+        )
         const data = response.data
 
-        const recruitmentStart = data.find((item: any) => item.key === 'RECRUITMENT_PERIOD_START')?.value
-        const recruitmentEnd = data.find((item: any) => item.key === 'RECRUITMENT_PERIOD_END')?.value
+        const recruitmentStart = data.find(
+          (item: any) => item.key === 'RECRUITMENT_PERIOD_START'
+        )?.value
+        const recruitmentEnd = data.find(
+          (item: any) => item.key === 'RECRUITMENT_PERIOD_END'
+        )?.value
 
         const startDate = new Date(recruitmentStart)
         const endDate = new Date(recruitmentEnd)
@@ -78,70 +84,82 @@ const Recruit: React.FC = () => {
 
   if (isRecruiting === false) return null
 
-  // 입력값들 제약조건 설정 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  // 입력값들 제약조건 설정
+  const handleInputChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
+  ) => {
     const { name, value, type } = e.target
-    let newValue = type === 'checkbox' ? (e.target as HTMLInputElement).checked : value
+    let newValue =
+      type === 'checkbox' ? (e.target as HTMLInputElement).checked : value
 
     if (name === 'contact') {
       let formattedValue = value.replace(/[^0-9]/g, '')
-
 
       if (formattedValue.length > 11) {
         formattedValue = formattedValue.slice(0, 11)
       }
 
       if (formattedValue.length === 10) {
-        formattedValue = formattedValue.replace(/^(\d{3})(\d{3})(\d{4})$/, '$1-$2-$3')
+        formattedValue = formattedValue.replace(
+          /^(\d{3})(\d{3})(\d{4})$/,
+          '$1-$2-$3'
+        )
       } else if (formattedValue.length === 11) {
-        formattedValue = formattedValue.replace(/^(\d{3})(\d{4})(\d{4})$/, '$1-$2-$3')
+        formattedValue = formattedValue.replace(
+          /^(\d{3})(\d{4})(\d{4})$/,
+          '$1-$2-$3'
+        )
       }
 
       setContact(formattedValue)
-      setFormData((prevData) => ({
+      setFormData(prevData => ({
         ...prevData,
-        contact: formattedValue
+        contact: formattedValue,
       }))
-    }
-    else if (name === 'name') {
+    } else if (name === 'name') {
       if (value.length <= 16) {
-        setFormData((prevData) => ({
+        setFormData(prevData => ({
           ...prevData,
-          name: value
+          name: value,
         }))
       }
     } else if (name === 'studentNo') {
       let formattedValue = value.replace(/[^0-9]/g, '')
       formattedValue = formattedValue.slice(0, 8)
 
-      setFormData((prevData) => ({
+      setFormData(prevData => ({
         ...prevData,
-        studentNo: formattedValue
+        studentNo: formattedValue,
       }))
     } else if (name === 'reasonForApply') {
       if (value.length <= 500) {
-        setFormData((prevData) => ({
+        setFormData(prevData => ({
           ...prevData,
-          reasonForApply: value
+          reasonForApply: value,
         }))
       }
-    }
-    else if (name === 'activityWish') {
+    } else if (name === 'activityWish') {
       if (value.length <= 200) {
-        setFormData((prevData) => ({
+        setFormData(prevData => ({
           ...prevData,
-          activityWish: value
+          activityWish: value,
         }))
       }
     } else {
-      setFormData((prevData) => ({
+      setFormData(prevData => ({
         ...prevData,
-        [name]: newValue
+        [name]: newValue,
       }))
     }
   }
 
-  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const handleKeyPress = (
+    e: React.KeyboardEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
+  ) => {
     if (e.key === 'Enter') {
       e.preventDefault()
 
@@ -151,10 +169,13 @@ const Recruit: React.FC = () => {
       const elements = Array.from(form.elements) as HTMLElement[]
       const index = elements.indexOf(e.currentTarget)
 
-
       for (let i = index + 1; i < elements.length; i++) {
         const nextElement = elements[i]
-        if (nextElement instanceof HTMLInputElement || nextElement instanceof HTMLTextAreaElement || nextElement instanceof HTMLSelectElement) {
+        if (
+          nextElement instanceof HTMLInputElement ||
+          nextElement instanceof HTMLTextAreaElement ||
+          nextElement instanceof HTMLSelectElement
+        ) {
           nextElement.focus()
           break
         }
@@ -165,13 +186,19 @@ const Recruit: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
-    if (!formData.name || !formData.studentNo || !formData.contact || !formData.email || !formData.reasonForApply) {
+    if (
+      !formData.name ||
+      !formData.studentNo ||
+      !formData.contact ||
+      !formData.email ||
+      !formData.reasonForApply
+    ) {
       alert('모든 필수 정보를 입력해주세요.')
       return
     }
 
-    if (!formData.isMessageAgreed || !formData.isPrivacyPolicyAgreed) { 
-      alert('모든 필수 체크박스를 선택해주세요.') 
+    if (!formData.isMessageAgreed || !formData.isPrivacyPolicyAgreed) {
+      alert('모든 필수 체크박스를 선택해주세요.')
       return
     }
 
@@ -179,16 +206,20 @@ const Recruit: React.FC = () => {
       ...formData,
       isFirstRoundPassed: false,
       isSecondRoundPassed: false,
-      isOverwriteConfirmed: false
+      isOverwriteConfirmed: false,
     }
 
     try {
-      const response = await axios.post('https://dmu-dasom-api.or.kr/api/recruit/apply', requestBody, {
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
+      const response = await axios.post(
+        'https://dmu-dasom-api.or.kr/api/recruit/apply',
+        requestBody,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+          },
         }
-      })
+      )
 
       navigate('/recruit/submit')
     } catch (error: any) {
@@ -204,16 +235,23 @@ const Recruit: React.FC = () => {
             try {
               requestBody.isOverwriteConfirmed = true
 
-              await axios.post('https://dmu-dasom-api.or.kr/api/recruit/apply', requestBody, {
-                headers: {
-                  'Content-Type': 'application/json',
-                  'Accept': 'application/json'
+              await axios.post(
+                'https://dmu-dasom-api.or.kr/api/recruit/apply',
+                requestBody,
+                {
+                  headers: {
+                    'Content-Type': 'application/json',
+                    Accept: 'application/json',
+                  },
                 }
-              })
+              )
 
               navigate('/recruit/submit')
             } catch (overwriteError: any) {
-              alert(overwriteError.response?.data?.message || '덮어쓰기 요청 중 오류가 발생했습니다.')
+              alert(
+                overwriteError.response?.data?.message ||
+                  '덮어쓰기 요청 중 오류가 발생했습니다.'
+              )
             }
           } else {
             alert('지원이 취소되었습니다.')
@@ -231,12 +269,44 @@ const Recruit: React.FC = () => {
       <RecruitHeader title='컴퓨터 소프트웨어 공학과 전공 동아리 다솜 34기 모집 폼' />
       <RecruitUI />
       <div className='flex flex-col items-center gap-6 mb-40'>
-        <form className='mt-3 bg-mainBlack w-full px-2 font-pretendardRegular' onSubmit={handleSubmit} >
-          <InputField label='이름' name='name' value={formData.name} onChange={handleInputChange} onKeyDown={handleKeyPress}
-            required minLength={1} maxLength={16} />
-          <InputField label='학번' name='studentNo' value={formData.studentNo} onChange={handleInputChange} highlightLabels={[]} required />
-          <InputField label='연락처' name='contact' placeholder='ex) 010-0000-0000' value={formData.contact} onChange={handleInputChange} required />
-          <InputField label='이메일' name='email' type='email' value={formData.email} onChange={handleInputChange} required />
+        <form
+          className='mt-3 bg-mainBlack w-full px-2 font-pretendardRegular'
+          onSubmit={handleSubmit}
+        >
+          <InputField
+            label='이름'
+            name='name'
+            value={formData.name}
+            onChange={handleInputChange}
+            onKeyDown={handleKeyPress}
+            required
+            minLength={1}
+            maxLength={16}
+          />
+          <InputField
+            label='학번'
+            name='studentNo'
+            value={formData.studentNo}
+            onChange={handleInputChange}
+            highlightLabels={[]}
+            required
+          />
+          <InputField
+            label='연락처'
+            name='contact'
+            placeholder='ex) 010-0000-0000'
+            value={formData.contact}
+            onChange={handleInputChange}
+            required
+          />
+          <InputField
+            label='이메일'
+            name='email'
+            type='email'
+            value={formData.email}
+            onChange={handleInputChange}
+            required
+          />
           <InputField
             label='학년'
             name='grade'
@@ -248,11 +318,24 @@ const Recruit: React.FC = () => {
               { value: '1', label: '1학년' },
               { value: '2', label: '2학년' },
               { value: '3', label: '3학년' },
-              { value: '4', label: '4학년' }
+              { value: '4', label: '4학년' },
             ]}
           />
-          <InputField label='지원동기 (500자 이내)' name='reasonForApply' type='textarea' value={formData.reasonForApply} onChange={handleInputChange} required />
-          <InputField label='동아리 내에서 하고 싶은 활동이 있다면 적어주세요!' name='activityWish' type='textarea' value={formData.activityWish} onChange={handleInputChange} />
+          <InputField
+            label='지원동기 (500자 이내)'
+            name='reasonForApply'
+            type='textarea'
+            value={formData.reasonForApply}
+            onChange={handleInputChange}
+            required
+          />
+          <InputField
+            label='동아리 내에서 하고 싶은 활동이 있다면 적어주세요!'
+            name='activityWish'
+            type='textarea'
+            value={formData.activityWish}
+            onChange={handleInputChange}
+          />
           <InputField
             label='🫧 면접 일자는 3월 11일(화)에 개별 연락처로 안내 후,'
             subLabel='3월 12일부터 3월 14일까지 대면으로 진행됩니다.'
