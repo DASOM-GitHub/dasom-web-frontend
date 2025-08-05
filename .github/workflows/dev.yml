@@ -3,6 +3,8 @@ name: git push into another repo to deploy to vercel
 on:
   push:
     branches: dev
+  issues:
+    types: [opened, closed]
 
 jobs:
   build:
@@ -28,3 +30,34 @@ jobs:
           target-branch: dev
       - name: Test get variable exported by push-to-another-repository
         run: echo $DESTINATION_CLONED_DIRECTORY
+
+      - name: Create Jira Issue
+        if: github.event_name == 'issues' && github.event.action == 'opened'
+        uses: atlassian/gajira-create-issue@v3
+        with:
+          issueType: '10001'
+          projectKey: 'DASOMFE'
+          summary: ${{ github.event.issue.title }}
+          description: |
+            GitHub Issue: ${{ github.event.issue.html_url }}
+
+            ${{ github.event.issue.body }}
+          fields: |
+            {
+              "customfield_10014": "${{ github.event.issue.number }}"
+            }
+        env:
+          JIRA_URL: ${{ secrets.JIRA_URL }}
+          JIRA_EMAIL: ${{ secrets.JIRA_EMAIL }}
+          JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
+
+      - name: Close Jira Issue
+        if: github.event_name == 'issues' && github.event.action == 'closed'
+        uses: atlassian/gajira-transition-issue@v3
+        with:
+          issueKey: DASOMFE-${{ github.event.issue.number }}
+          transition: 'Done'
+        env:
+          JIRA_URL: ${{ secrets.JIRA_URL }}
+          JIRA_EMAIL: ${{ secrets.JIRA_EMAIL }}
+          JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
