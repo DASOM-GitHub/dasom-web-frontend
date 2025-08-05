@@ -16,7 +16,7 @@ jobs:
           JIRA_URL: ${{ secrets.JIRA_URL }}
           JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
           JIRA_EMAIL: ${{ secrets.JIRA_EMAIL }}
-
+          
       - name: Extract Jira issue key from GitHub issue title
         id: extract-key
         run: |
