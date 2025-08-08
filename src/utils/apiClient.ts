@@ -1,7 +1,9 @@
 import axios, { AxiosRequestConfig, InternalAxiosRequestConfig } from 'axios'
 
 const API_BASE_URL =
-  process.env.REACT_APP_API_BASE_URL || 'https://dmu-dasom-api.or.kr/api'
+  (process.env.DASOM_BASE_URL as string) ||
+  (process.env.REACT_APP_API_BASE_URL as string) ||
+  'https://dmu-dasom-api.or.kr/api'
 
 const apiClient = axios.create({
   baseURL: API_BASE_URL,
