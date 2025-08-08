@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import apiClient from '../../utils/apiClient'
 
 interface RecruitHeaderProps {
   title: string
@@ -23,25 +24,24 @@ export const RecruitUI: React.FC = () => {
   > | null>(null)
 
   useEffect(() => {
-    fetch('https://dmu-dasom-api.or.kr/api/recruit', {
-      method: 'GET',
-      credentials: 'include',
-    })
-      .then(res => res.json())
-      .then(data => {
+    const fetchRecruit = async () => {
+      try {
+        const res = await apiClient.get('/recruit')
+        const data = res.data
         if (Array.isArray(data)) {
           const formattedData: Record<string, string> = {}
-          data.forEach(item => {
+          data.forEach((item: any) => {
             formattedData[item.key] = item.value
           })
           setRecruitmentData(formattedData)
         } else {
           console.error('예상하지 못한 응답 형식:', data)
         }
-      })
-      .catch(error => {
+      } catch (error) {
         console.error('API 요청 오류:', error)
-      })
+      }
+    }
+    fetchRecruit()
   }, [])
 
   {

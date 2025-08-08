@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import axios from 'axios'
+import apiClient from '../../utils/apiClient'
 import { toast, ToastContainer } from 'react-toastify'
 import { useNavigate } from 'react-router-dom'
 import 'react-toastify/dist/ReactToastify.css'
@@ -42,15 +42,12 @@ const ManApplicants: React.FC = () => {
           alert('로그인이 필요합니다.')
           return
         }
-        const response = await axios.get(
-          'https://dmu-dasom-api.or.kr/api/admin/applicants',
-          {
-            params: { page },
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-            },
-          }
-        )
+        const response = await apiClient.get('/admin/applicants', {
+          params: { page },
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        })
         //console.log(response.data)
         setApplicants(response.data.content)
         setCount(response.data.totalElements)
@@ -78,8 +75,8 @@ const ManApplicants: React.FC = () => {
     }
 
     try {
-      const response = await axios.get(
-        `https://dmu-dasom-api.or.kr/api/admin/applicants/${id}`,
+      const response = await apiClient.get(
+        `/admin/applicants/${id}`,
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,
@@ -110,9 +107,9 @@ const ManApplicants: React.FC = () => {
     )
     setOpenDropdownId(null) // 드롭다운 닫기
 
-    axios
+    apiClient
       .patch(
-        `https://dmu-dasom-api.or.kr/api/admin/applicants/${id}/status`,
+        `/admin/applicants/${id}/status`,
         { status: statusValue },
         {
           headers: { Authorization: `Bearer ${accessToken}` },

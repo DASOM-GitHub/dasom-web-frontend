@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import MobileLayout from '../../components/layout/MobileLayout'
 import { useParams, useNavigate } from 'react-router-dom'
-import axios from 'axios'
+import apiClient from '../../utils/apiClient'
 
 interface Image {
   id: number
@@ -26,9 +26,7 @@ const ManNewsDetail: React.FC = () => {
   useEffect(() => {
     const fetchNews = async () => {
       try {
-        const response = await axios.get<News>(
-          `https://dmu-dasom-api.or.kr/api/news/${no}`
-        )
+        const response = await apiClient.get<News>(`/news/${no}`)
         setNews(response.data)
         setImages(response.data.images)
         //console.log(response.data)
@@ -42,7 +40,7 @@ const ManNewsDetail: React.FC = () => {
   const handleDelete = async () => {
     if (window.confirm('정말 삭제하시겠습니까?')) {
       try {
-        await axios.delete(`https://dmu-dasom-api.or.kr/api/news/${no}`)
+        await apiClient.delete(`/news/${no}`)
         alert('삭제되었습니다.')
         navigate('/admin/news') // 삭제 후 목록 페이지로 이동
       } catch (err) {

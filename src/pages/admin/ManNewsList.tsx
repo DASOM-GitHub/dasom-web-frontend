@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import AdminPagination from '../../components/UI/AdminPagination'
-import axios from 'axios'
+import apiClient from '../../utils/apiClient'
 
 interface News {
   id: number
@@ -24,7 +24,7 @@ const ManNewsList: React.FC = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('https://dmu-dasom-api.or.kr/api/news')
+        const response = await apiClient.get('/news')
         const formattedData = response.data
           .map((item: any) => ({
             id: item.id,

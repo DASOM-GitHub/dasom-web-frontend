@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef, useMemo } from 'react'
-import axios from 'axios'
+import apiClient from '../utils/apiClient'
 import MobileLayout from '../components/layout/MobileLayout'
 import dasomLogo from '../assets/images/dasomLogo.svg'
 import NewsContent from '../components/UI/NewsContent'
@@ -31,7 +31,7 @@ const News: React.FC = () => {
         return
       }
 
-      const response = await axios.get('https://dmu-dasom-api.or.kr/api/news')
+      const response = await apiClient.get('/news')
       const data: NewsItem[] = response.data
 
       const sortedData = data

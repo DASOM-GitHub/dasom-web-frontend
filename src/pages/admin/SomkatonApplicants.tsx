@@ -1,4 +1,4 @@
-import axios from 'axios'
+import apiClient from '../../utils/apiClient'
 import React, { useEffect, useState } from 'react'
 
 const SomkatonApplicants: React.FC = () => {
@@ -15,9 +15,7 @@ const SomkatonApplicants: React.FC = () => {
         alert('로그인이 필요합니다.')
         return
       }
-      const response = await axios.get(
-        'https://dmu-dasom-api.or.kr/api/somkathon/participants'
-      )
+      const response = await apiClient.get('/somkathon/participants')
       console.log(response.data)
       setApplicants(response.data)
       setCount(response.data.length)
@@ -40,8 +38,8 @@ const SomkatonApplicants: React.FC = () => {
     }
 
     try {
-      const response = await axios.get(
-        `https://dmu-dasom-api.or.kr/api/somkathon/participants/${id}`
+      const response = await apiClient.get(
+        `/somkathon/participants/${id}`
       )
       setDetailInfo(response.data)
       setSelectedId(id)
@@ -53,9 +51,7 @@ const SomkatonApplicants: React.FC = () => {
 
   const handleDelete = async (id: number) => {
     try {
-      await axios.delete(
-        `https://dmu-dasom-api.or.kr/api/somkathon/participants/${id}`
-      )
+      await apiClient.delete(`/somkathon/participants/${id}`)
       setDetailInfo(null)
       getData()
     } catch (e: any) {

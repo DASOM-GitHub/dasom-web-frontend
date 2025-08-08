@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import { Button } from '../components/UI/Recruit_Button'
 import { RecruitHeader } from '../components/UI/RecruitUI'
 import { InputField } from '../components/UI/Recruit_InputField'
-import axios from 'axios'
+import apiClient from '../utils/apiClient'
 
 interface recruitData {
   key: string
@@ -53,9 +53,7 @@ export const RecruitResult: React.FC = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get<recruitData[]>(
-          'https://dmu-dasom-api.or.kr/api/recruit'
-        )
+        const response = await apiClient.get<recruitData[]>('/recruit')
         const interviewPass = new Date(
           response.data
             .find(item => item.key === 'INTERVIEW_PASS_ANNOUNCEMENT')
@@ -105,16 +103,13 @@ export const RecruitResult: React.FC = () => {
     }
 
     try {
-      const response = await axios.get(
-        'https://dmu-dasom-api.or.kr/api/recruit/result',
-        {
-          params: {
-            type: pass, // 현재 날짜에 따른 검색 type
-            studentNo: checkInput.studentNo,
-            contactLastDigit: checkInput.contact,
-          },
-        }
-      )
+      const response = await apiClient.get('/recruit/result', {
+        params: {
+          type: pass,
+          studentNo: checkInput.studentNo,
+          contactLastDigit: checkInput.contact,
+        },
+      })
 
       const resData: responseData = {
         name: response.data.name,
