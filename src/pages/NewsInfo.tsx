@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useMemo, useRef } from 'react'
-import axios from 'axios'
+import apiClient from '../utils/apiClient'
 import { useParams, useNavigate } from 'react-router-dom'
 import MobileLayout from '../components/layout/MobileLayout'
 import dasomLogo from '../assets/images/dasomLogo.svg'
@@ -31,9 +31,7 @@ const NewsInfo: React.FC = () => {
 
     const fetchNewsDetail = async () => {
       try {
-        const response = await axios.get(
-          `https://dmu-dasom-api.or.kr/api/news/${no}`
-        )
+        const response = await apiClient.get(`/news/${no}`)
         const data: NewsDetail = response.data
 
         setNews(data)

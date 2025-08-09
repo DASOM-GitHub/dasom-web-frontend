@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
-import axios from 'axios'
+import apiClient from '../utils/apiClient'
 import MobileLayout from '../components/layout/MobileLayout'
 import { useNavigate } from 'react-router-dom'
 import { SomRecruitUI, RecruitHeader } from '../components/UI/RecruitUI'
@@ -142,16 +142,7 @@ const SomkathonRecruit: React.FC = () => {
     }
 
     try {
-      await axios.post(
-        'https://dmu-dasom-api.or.kr/api/somkathon/participants/create',
-        formData,
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            Accept: 'application/json',
-          },
-        }
-      )
+      await apiClient.post('/somkathon/participants/create', formData)
 
       navigate('/somkathon/submit')
     } catch (error: any) {

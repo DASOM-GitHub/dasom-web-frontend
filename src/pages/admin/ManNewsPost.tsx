@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import axios from 'axios'
+import apiClient from '../../utils/apiClient'
 import { useNavigate } from 'react-router-dom'
 import NewsFileUpload from '../../components/UI/NewsFileUpload'
 import NewsTextEditor from '../../components/UI/NewsTextEditor'
@@ -20,8 +20,8 @@ const ManNewsPost: React.FC = () => {
       const token = localStorage.getItem('accessToken')
 
       // 뉴스 등록 요청
-      const newsResponse = await axios.post(
-        'https://dmu-dasom-api.or.kr/api/news',
+      const newsResponse = await apiClient.post(
+        '/news',
         {
           title,
           content: content.replace(/\n/g, '<br />'),
@@ -43,16 +43,12 @@ const ManNewsPost: React.FC = () => {
       formData.append('fileType', 'NEWS')
       formData.append('targetId', newsId)
 
-      await axios.post(
-        'https://dmu-dasom-api.or.kr/api/files/upload',
-        formData,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'multipart/form-data',
-          },
-        }
-      )
+      await apiClient.post('/files/upload', formData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'multipart/form-data',
+        },
+      })
 
       alert('새 소식이 성공적으로 등록되었습니다.')
       navigate('/admin/news')

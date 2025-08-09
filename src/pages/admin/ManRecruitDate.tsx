@@ -5,7 +5,7 @@ import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker'
 import { TimePicker } from '@mui/x-date-pickers/TimePicker'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import dayjs from 'dayjs'
-import axios from 'axios'
+import apiClient from '../../utils/apiClient'
 
 const ManRecruitDate = () => {
   const [dates, setDates] = useState({
@@ -46,9 +46,7 @@ const ManRecruitDate = () => {
   useEffect(() => {
     const fetchDates = async () => {
       try {
-        const response = await axios.get(
-          'https://dmu-dasom-api.or.kr/api/recruit'
-        )
+        const response = await apiClient.get('/recruit')
         const data = response.data
         const defaultDates = dates
 
@@ -93,8 +91,8 @@ const ManRecruitDate = () => {
 
   const handleCreateSchedule = async () => {
     try {
-      const response = await axios.post(
-        'https://dmu-dasom-api.or.kr/api/recruit/interview/schedule',
+      const response = await apiClient.post(
+        '/recruit/interview/schedule',
         {
           startDate: dates.INTERVIEW_PERIOD_START.format('YYYY-MM-DD'),
           endDate: dates.INTERVIEW_PERIOD_END.format('YYYY-MM-DD'),
@@ -123,16 +121,12 @@ const ManRecruitDate = () => {
     //console.log(token)
 
     try {
-      await axios.patch(
-        'https://dmu-dasom-api.or.kr/api/admin/recruit/schedule',
-        formattedData,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'application/json',
-          },
-        }
-      )
+      await apiClient.patch('/admin/recruit/schedule', formattedData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      })
 
       //console.log(`${key} updated successfully`)
       alert(

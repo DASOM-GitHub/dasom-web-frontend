@@ -1,5 +1,5 @@
 import React from 'react'
-import axios from 'axios'
+import apiClient from '../../utils/apiClient'
 import { useNavigate } from 'react-router-dom'
 
 // 메뉴 버튼 컴퍼넌트
@@ -22,8 +22,8 @@ const AdminMain: React.FC = () => {
   const handleLogout = async () => {
     try {
       // 로그아웃
-      await axios.post(
-        'https://dmu-dasom-api.or.kr/api/auth/logout',
+      await apiClient.post(
+        '/auth/logout',
         {},
         {
           headers: {

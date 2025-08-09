@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import AdminPagination from '../../components/UI/AdminPagination'
-import axios from 'axios'
+import apiClient from '../../utils/apiClient'
 
 interface Applicant {
   applicantId: number
@@ -61,8 +61,8 @@ const ManInterviewee: React.FC = () => {
   useEffect(() => {
     const fetchApplicants = async () => {
       try {
-        const response = await axios.get<Applicant[]>(
-          'https://dmu-dasom-api.or.kr/api/recruit/interview/applicants'
+        const response = await apiClient.get<Applicant[]>(
+          '/recruit/interview/applicants'
         )
         setApplicants(response.data)
       } catch (error) {

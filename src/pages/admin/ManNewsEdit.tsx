@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import axios from 'axios'
+import apiClient from '../../utils/apiClient'
 import { useNavigate, useParams } from 'react-router-dom'
 import NewsFileUpload from '../../components/UI/NewsFileUpload'
 import NewsTextEditor from '../../components/UI/NewsTextEditor'
@@ -30,9 +30,7 @@ const ManNewsEdit: React.FC = () => {
   useEffect(() => {
     const fetchNews = async () => {
       try {
-        const response = await axios.get<News>(
-          `https://dmu-dasom-api.or.kr/api/news/${no}`
-        )
+        const response = await apiClient.get<News>(`/news/${no}`)
         const { title, content, images } = response.data
         setTitle(title)
         setContent(content)
@@ -63,8 +61,8 @@ const ManNewsEdit: React.FC = () => {
       const token = localStorage.getItem('accessToken')
 
       // 뉴스 수정 요청
-      const updateResponse = await axios.put(
-        `https://dmu-dasom-api.or.kr/api/news/${no}`,
+      const updateResponse = await apiClient.put(
+        `/news/${no}`,
         {
           title,
           content: content.replace(/\n/g, '<br />'),
@@ -92,17 +90,12 @@ const ManNewsEdit: React.FC = () => {
       formData.append('targetId', newsId)
 
       if (files.length > 0) {
-        // 첨부된 파일이 있을 때만 업로드
-        await axios.post(
-          'https://dmu-dasom-api.or.kr/api/files/upload',
-          formData,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-              'Content-Type': 'multipart/form-data',
-            },
-          }
-        )
+        await apiClient.post('/files/upload', formData, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'multipart/form-data',
+          },
+        })
       }
       alert('소식이 성공적으로 수정되었습니다.')
       navigate(`/admin/news/${no}`)

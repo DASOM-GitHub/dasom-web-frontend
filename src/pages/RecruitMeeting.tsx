@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom'
 import { RecruitHeader, RecruitUI } from '../components/UI/RecruitUI'
 import { Button } from '../components/UI/Recruit_Button'
 import { Recruit_InfoBanner } from '../components/UI/Recruit_InfoBanner'
-import axios from 'axios'
+import apiClient from '../utils/apiClient'
 
 interface recruitData {
   key: string
@@ -60,13 +60,10 @@ const RecruitMeeting: React.FC = () => {
   // 면접 일정 폼 제출 핸들러
   const handleSubmit = async () => {
     try {
-      await axios.post(
-        'https://dmu-dasom-api.or.kr/api/recruit/interview/reserve',
-        {
-          slotId: slotId, // 면접 예약할 슬롯 ID
-          reservationCode: reservationCode, // 예약코드
-        }
-      )
+      await apiClient.post('/recruit/interview/reserve', {
+        slotId: slotId,
+        reservationCode: reservationCode,
+      })
       // 선택된 날짜와 시간 state값 전달하여 페이지 이동
       navigate('/recruit/meeting/submit', {
         state: { date: selectedDate, time: selectedTime },
@@ -105,9 +102,7 @@ const RecruitMeeting: React.FC = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get<recruitData[]>(
-          'https://dmu-dasom-api.or.kr/api/recruit'
-        )
+        const response = await apiClient.get<recruitData[]>('/recruit')
 
         // KEY값 검색하여 데이터 조회하여 각 변수에 저장
         const periodData: interviewPeriod = {
@@ -146,9 +141,7 @@ const RecruitMeeting: React.FC = () => {
   useEffect(() => {
     const searchSchedule = async () => {
       try {
-        const response = await axios.get(
-          'https://dmu-dasom-api.or.kr/api/recruit/interview/all'
-        )
+        const response = await apiClient.get('/recruit/interview/all')
         setInterviewSlots(response.data)
       } catch (e: any) {
         //console.log(e)

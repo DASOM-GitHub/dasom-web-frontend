@@ -1,5 +1,5 @@
 import React from 'react'
-import axios from 'axios'
+import apiClient from '../../utils/apiClient'
 import { toast } from 'react-toastify'
 
 const sendResultMail = async (mailType: any) => {
@@ -10,8 +10,8 @@ const sendResultMail = async (mailType: any) => {
   const accessToken = localStorage.getItem('accessToken')
 
   try {
-    await axios.post(
-      'https://dmu-dasom-api.or.kr/api/admin/applicants/send-email',
+    await apiClient.post(
+      '/admin/applicants/send-email',
       { mailType },
       {
         headers: {

@@ -14,7 +14,7 @@ type ActivitySection = {
   items: ActivityItem[]
 }
 
-// Fade In & Move up
+// 페이드 인 및 위로 이동 애니메이션
 const FadeInSection: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {

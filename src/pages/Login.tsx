@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import axios from 'axios'
+import apiClient from '../utils/apiClient'
 import MobileLayout from '../components/layout/MobileLayout'
 import { useNavigate } from 'react-router-dom'
 
@@ -15,13 +15,10 @@ const Login: React.FC = () => {
     }
 
     try {
-      const response = await axios.post(
-        'https://dmu-dasom-api.or.kr/api/auth/login',
-        {
-          email,
-          password,
-        }
-      )
+      const response = await apiClient.post('/auth/login', {
+        email,
+        password,
+      })
 
       const accessToken = response.headers['access-token']
       const refreshToken = response.headers['refresh-token']

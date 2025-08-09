@@ -2,7 +2,7 @@ import React, { JSX, useState, useEffect, useRef } from 'react'
 import headerMenu from '../../assets/images/headerMenu.svg'
 import headerMenuUndo from '../../assets/images/headerMenuUndo.svg'
 import { useNavigate } from 'react-router-dom'
-import axios from 'axios'
+import apiClient from '../../utils/apiClient'
 
 export const Header = (): JSX.Element => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -19,9 +19,7 @@ export const Header = (): JSX.Element => {
   useEffect(() => {
     const checkRecruitmentPeriod = async () => {
       try {
-        const response = await axios.get(
-          'https://dmu-dasom-api.or.kr/api/recruit'
-        )
+        const response = await apiClient.get('/recruit')
         const data = response.data
 
         const recruitmentStart = data.find(

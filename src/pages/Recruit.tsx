@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
-import axios from 'axios'
+import apiClient from '../utils/apiClient'
 import MobileLayout from '../components/layout/MobileLayout'
 import { useNavigate } from 'react-router-dom'
 import { RecruitUI, RecruitHeader } from '../components/UI/RecruitUI'
@@ -42,9 +42,7 @@ const Recruit: React.FC = () => {
   useEffect(() => {
     const checkRecruitmentPeriod = async () => {
       try {
-        const response = await axios.get(
-          'https://dmu-dasom-api.or.kr/api/recruit'
-        )
+        const response = await apiClient.get('/recruit')
         const data = response.data
 
         const recruitmentStart = data.find(
@@ -210,16 +208,7 @@ const Recruit: React.FC = () => {
     }
 
     try {
-      const response = await axios.post(
-        'https://dmu-dasom-api.or.kr/api/recruit/apply',
-        requestBody,
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            Accept: 'application/json',
-          },
-        }
-      )
+      const response = await apiClient.post('/recruit/apply', requestBody)
 
       navigate('/recruit/submit')
     } catch (error: any) {
@@ -235,16 +224,7 @@ const Recruit: React.FC = () => {
             try {
               requestBody.isOverwriteConfirmed = true
 
-              await axios.post(
-                'https://dmu-dasom-api.or.kr/api/recruit/apply',
-                requestBody,
-                {
-                  headers: {
-                    'Content-Type': 'application/json',
-                    Accept: 'application/json',
-                  },
-                }
-              )
+              await apiClient.post('/recruit/apply', requestBody)
 
               navigate('/recruit/submit')
             } catch (overwriteError: any) {
