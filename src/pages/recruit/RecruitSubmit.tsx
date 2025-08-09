@@ -1,8 +1,8 @@
 import React from 'react'
-import MobileLayout from '../components/layout/MobileLayout'
-import { Header } from '../components/UI/Header'
-import { RecruitUI, RecruitHeader } from '../components/UI/RecruitUI'
-import { Recruit_InfoBanner } from '../components/UI/Recruit_InfoBanner'
+import MobileLayout from '../../components/layout/MobileLayout'
+import { Header } from '../../components/UI/Header'
+import { RecruitUI, RecruitHeader } from '../../components/UI/RecruitUI'
+import { Recruit_InfoBanner } from '../../components/UI/Recruit_InfoBanner'
 
 export const RecruitSubmit: React.FC = () => {
   return (
