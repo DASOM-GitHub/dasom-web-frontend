@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom'
 interface ImageData {
   encodedData: string
   fileFormat: string
+  name: ''
 }
 
 interface NewsItem {
