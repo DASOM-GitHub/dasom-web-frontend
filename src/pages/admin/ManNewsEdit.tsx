@@ -1,28 +1,15 @@
 import React, { useState, useEffect } from 'react'
-import apiClient from '../../utils/apiClient'
 import { useNavigate, useParams } from 'react-router-dom'
 import NewsFileUpload from '../../components/UI/NewsFileUpload'
 import NewsTextEditor from '../../components/UI/NewsTextEditor'
-
-interface Image {
-  id: number
-  fileFormat: string
-  encodedData: string
-}
-
-interface News {
-  id: string
-  title: string
-  content: string
-  createdAt: string
-  images: Image[]
-}
+import { AdminNewsDetail, AdminNewsImage } from './admin'
+import { updateNews, uploadNewsFiles, getNewsDetail } from './adminService'
 
 const ManNewsEdit: React.FC = () => {
   const [title, setTitle] = useState('')
   const [content, setContent] = useState('')
-  const [images, setImages] = useState<Image[]>([]) // 기존 업로드된 파일들
-  const [files, setFiles] = useState<File[]>([]) // 새로 첨부된 파일들
+  const [images, setImages] = useState<AdminNewsImage[]>([])
+  const [files, setFiles] = useState<File[]>([])
   const [deleteImageIds, setDeleteImageIds] = useState<number[]>([])
   const { no } = useParams<{ no: string }>()
   const navigate = useNavigate()
@@ -30,8 +17,9 @@ const ManNewsEdit: React.FC = () => {
   useEffect(() => {
     const fetchNews = async () => {
       try {
-        const response = await apiClient.get<News>(`/news/${no}`)
-        const { title, content, images } = response.data
+        if (!no) return
+        const data = await getNewsDetail(no)
+        const { title, content, images } = data
         setTitle(title)
         setContent(content)
         setImages(images)
@@ -58,45 +46,13 @@ const ManNewsEdit: React.FC = () => {
     }
 
     try {
-      const token = localStorage.getItem('accessToken')
-
-      // 뉴스 수정 요청
-      const updateResponse = await apiClient.put(
-        `/news/${no}`,
-        {
-          title,
-          content: content.replace(/\n/g, '<br />'),
-          deleteImageIds,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'application/json',
-          },
-        }
-      )
-      console.log({
+      const updateResponse = await updateNews(String(no), {
         title,
         content: content.replace(/\n/g, '<br />'),
         deleteImageIds,
       })
-
-      const newsId = updateResponse.data.id
-
-      // 새로 첨부된 파일들 업로드
-      const formData = new FormData()
-      files.forEach(file => formData.append('files', file))
-      formData.append('fileType', 'NEWS')
-      formData.append('targetId', newsId)
-
-      if (files.length > 0) {
-        await apiClient.post('/files/upload', formData, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'multipart/form-data',
-          },
-        })
-      }
+      const newsId = updateResponse.id
+      await uploadNewsFiles(newsId, files)
       alert('소식이 성공적으로 수정되었습니다.')
       navigate(`/admin/news/${no}`)
     } catch (error) {
@@ -118,7 +74,6 @@ const ManNewsEdit: React.FC = () => {
       </div>
 
       <div className='flex flex-col w-[1220px]'>
-        {/* 제목 및 내용텍스트 편집 */}
         <NewsTextEditor
           title={title}
           content={content}
@@ -128,7 +83,7 @@ const ManNewsEdit: React.FC = () => {
 
         <div className='mt-8 mb-4'>
           <div className='mb-2'>기존 업로드 파일 목록</div>
-          {Array.isArray(images) && images.length > 0 ? ( // 이미지가 있을 때만 렌더링
+          {Array.isArray(images) && images.length > 0 ? (
             images.map(image => (
               <div key={image.id} className='flex items-center'>
                 <img

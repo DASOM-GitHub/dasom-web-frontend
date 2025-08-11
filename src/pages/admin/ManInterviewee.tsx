@@ -1,19 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import AdminPagination from '../../components/UI/AdminPagination'
-import apiClient from '../../utils/apiClient'
-
-interface Applicant {
-  applicantId: number
-  applicantName: string
-  studentNo: string
-  contact: string
-  email: string
-  activityWish: string
-  reasonForApply: string
-  interviewDate: string
-  interviewTime: string
-  appliedDate: string
-}
+import { IntervieweeItem } from './admin'
+import { getInterviewees } from './adminService'
 
 interface CustomTooltipProps {
   text: string
@@ -53,7 +41,7 @@ const CustomTooltip: React.FC<CustomTooltipProps> = ({ text, children }) => {
 }
 
 const ManInterviewee: React.FC = () => {
-  const [applicants, setApplicants] = useState<Applicant[]>([])
+  const [applicants, setApplicants] = useState<IntervieweeItem[]>([])
   const [searchTerm, setSearchTerm] = useState<string>('')
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc')
   const [sortBy, setSortBy] = useState<'interview' | 'applied'>('interview')
@@ -61,10 +49,8 @@ const ManInterviewee: React.FC = () => {
   useEffect(() => {
     const fetchApplicants = async () => {
       try {
-        const response = await apiClient.get<Applicant[]>(
-          '/recruit/interview/applicants'
-        )
-        setApplicants(response.data)
+        const data = await getInterviewees()
+        setApplicants(data)
       } catch (error) {
         console.error('면접 예약자 데이터를 불러오는 중 오류 발생:', error)
       }

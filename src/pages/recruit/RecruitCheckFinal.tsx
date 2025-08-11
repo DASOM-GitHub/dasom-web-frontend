@@ -6,13 +6,11 @@ import {
   RecruitUI_FINAL,
   RecruitUI_FINAL2,
 } from '../../components/UI/RecruitUI'
+import { RecruitCheckFinalState } from './Recruittype'
 
 const RecruitChekFinal: React.FC = () => {
   const location = useLocation()
-  const { name, isPassed } = location.state as {
-    name: string
-    isPassed: boolean
-  }
+  const { name, isPassed } = location.state as RecruitCheckFinalState
 
   return (
     <MobileLayout>

@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react'
-import apiClient from '../../utils/apiClient'
 import MobileLayout from '../../components/layout/MobileLayout'
 import { useNavigate } from 'react-router-dom'
 import { SomRecruitUI, RecruitHeader } from '../../components/UI/RecruitUI'
 import { InputField } from '../../components/UI/Recruit_InputField'
 import { Button } from '../../components/UI/Recruit_Button'
+import { SomkathonRecruitFormData } from './Recruittype'
+import { createSomkathonParticipant } from './RecruitService'
 
 const SomkathonRecruit: React.FC = () => {
   const navigate = useNavigate()
@@ -12,7 +13,7 @@ const SomkathonRecruit: React.FC = () => {
   const [isRecruiting, setIsRecruiting] = useState<boolean | null>(null)
   const alertShown = useRef(false)
 
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<SomkathonRecruitFormData>({
     participantName: '',
     studentId: '',
     department: '',
@@ -142,8 +143,7 @@ const SomkathonRecruit: React.FC = () => {
     }
 
     try {
-      await apiClient.post('/somkathon/participants/create', formData)
-
+      await createSomkathonParticipant(formData)
       navigate('/somkathon/submit')
     } catch (error: any) {
       if (error.response) {

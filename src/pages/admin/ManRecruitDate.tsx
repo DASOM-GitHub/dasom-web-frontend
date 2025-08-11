@@ -5,7 +5,11 @@ import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker'
 import { TimePicker } from '@mui/x-date-pickers/TimePicker'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import dayjs from 'dayjs'
-import apiClient from '../../utils/apiClient'
+import {
+  createInterviewSchedule as createInterviewScheduleApi,
+  getRecruitSchedule as fetchRecruitSchedule,
+  updateRecruitKeyValue as updateRecruitKeyValueApi,
+} from './adminService'
 
 const ManRecruitDate = () => {
   const [dates, setDates] = useState({
@@ -46,8 +50,7 @@ const ManRecruitDate = () => {
   useEffect(() => {
     const fetchDates = async () => {
       try {
-        const response = await apiClient.get('/recruit')
-        const data = response.data
+        const data = await fetchRecruitSchedule()
         const defaultDates = dates
 
         const newDates = Object.keys(defaultDates).reduce(
@@ -91,17 +94,12 @@ const ManRecruitDate = () => {
 
   const handleCreateSchedule = async () => {
     try {
-      const response = await apiClient.post(
-        '/recruit/interview/schedule',
-        {
-          startDate: dates.INTERVIEW_PERIOD_START.format('YYYY-MM-DD'),
-          endDate: dates.INTERVIEW_PERIOD_END.format('YYYY-MM-DD'),
-          startTime: dates.INTERVIEW_TIME_START.format('HH:mm'),
-          endTime: dates.INTERVIEW_TIME_END.format('HH:mm'),
-        }
-      )
-
-      //console.log('생성된 면접 일정 : ', response.data)
+      await createInterviewScheduleApi({
+        startDate: dates.INTERVIEW_PERIOD_START.format('YYYY-MM-DD'),
+        endDate: dates.INTERVIEW_PERIOD_END.format('YYYY-MM-DD'),
+        startTime: dates.INTERVIEW_TIME_START.format('HH:mm'),
+        endTime: dates.INTERVIEW_TIME_END.format('HH:mm'),
+      })
     } catch (e: any) {
       //console.log(e)
       alert('면접 일정 생성 중 오류가 발생했습니다.')
@@ -121,12 +119,7 @@ const ManRecruitDate = () => {
     //console.log(token)
 
     try {
-      await apiClient.patch('/admin/recruit/schedule', formattedData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-      })
+      await updateRecruitKeyValueApi(formattedData)
 
       //console.log(`${key} updated successfully`)
       alert(

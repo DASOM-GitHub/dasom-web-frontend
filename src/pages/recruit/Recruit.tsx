@@ -1,25 +1,15 @@
 import React, { useState, useEffect, useRef } from 'react'
-import apiClient from '../../utils/apiClient'
 import MobileLayout from '../../components/layout/MobileLayout'
 import { useNavigate } from 'react-router-dom'
 import { RecruitUI, RecruitHeader } from '../../components/UI/RecruitUI'
 import { InputField } from '../../components/UI/Recruit_InputField'
 import { Button } from '../../components/UI/Recruit_Button'
-
-interface RecruitFormData {
-  name: string
-  studentNo: string
-  contact: string
-  email: string
-  grade: number
-  reasonForApply: string
-  activityWish: string
-  isMessageAgreed: boolean
-  isPrivacyPolicyAgreed: boolean
-  isFirstRoundPassed?: boolean
-  isSecondRoundPassed?: boolean
-  isOverwriteConfirmed?: boolean
-}
+import { RecruitFormData } from './Recruittype'
+import {
+  createRecruitApplication,
+  overwriteRecruitApplication,
+  fetchRecruitConfigs,
+} from './RecruitService'
 
 const Recruit: React.FC = () => {
   const navigate = useNavigate()
@@ -42,18 +32,17 @@ const Recruit: React.FC = () => {
   useEffect(() => {
     const checkRecruitmentPeriod = async () => {
       try {
-        const response = await apiClient.get('/recruit')
-        const data = response.data
+        const data = await fetchRecruitConfigs()
 
         const recruitmentStart = data.find(
-          (item: any) => item.key === 'RECRUITMENT_PERIOD_START'
+          item => item.key === 'RECRUITMENT_PERIOD_START'
         )?.value
         const recruitmentEnd = data.find(
-          (item: any) => item.key === 'RECRUITMENT_PERIOD_END'
+          item => item.key === 'RECRUITMENT_PERIOD_END'
         )?.value
 
-        const startDate = new Date(recruitmentStart)
-        const endDate = new Date(recruitmentEnd)
+        const startDate = new Date(recruitmentStart as string)
+        const endDate = new Date(recruitmentEnd as string)
         const now = new Date()
 
         if (now >= startDate && now <= endDate) {
@@ -208,8 +197,7 @@ const Recruit: React.FC = () => {
     }
 
     try {
-      const response = await apiClient.post('/recruit/apply', requestBody)
-
+      await createRecruitApplication(requestBody)
       navigate('/recruit/submit')
     } catch (error: any) {
       if (error.response) {
@@ -222,10 +210,7 @@ const Recruit: React.FC = () => {
 
           if (confirmOverwrite) {
             try {
-              requestBody.isOverwriteConfirmed = true
-
-              await apiClient.post('/recruit/apply', requestBody)
-
+              await overwriteRecruitApplication(requestBody)
               navigate('/recruit/submit')
             } catch (overwriteError: any) {
               alert(

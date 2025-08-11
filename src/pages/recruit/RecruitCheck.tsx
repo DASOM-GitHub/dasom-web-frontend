@@ -7,16 +7,13 @@ import {
   RecruitUI_SUB2,
 } from '../../components/UI/RecruitUI'
 import { Button } from '../../components/UI/Recruit_Button'
+import { RecruitCheckState } from './Recruittype'
 
 const RecruitCheck: React.FC = () => {
   const navigate = useNavigate()
   const location = useLocation()
-  const { name, isPassed, studentNo, contactLastDigit } = location.state as {
-    name: string
-    isPassed: boolean
-    studentNo: string
-    contactLastDigit: string
-  }
+  const { name, isPassed, studentNo, contactLastDigit } =
+    location.state as RecruitCheckState
 
   // 1차 합격시 개인 코드 생성 후 session에 저장
   useEffect(() => {

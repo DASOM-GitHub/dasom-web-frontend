@@ -1,35 +1,22 @@
 import React, { useState, useEffect } from 'react'
 import MobileLayout from '../../components/layout/MobileLayout'
 import { useParams, useNavigate } from 'react-router-dom'
-import apiClient from '../../utils/apiClient'
-
-interface Image {
-  id: number
-  fileFormat: string
-  encodedData: string
-}
-
-interface News {
-  id: string
-  title: string
-  content: string
-  createdAt: string
-  images: Image[]
-}
+import { AdminNewsDetail, AdminNewsImage } from './admin'
+import { deleteNews, getNewsDetail as fetchNewsDetail } from './adminService'
 
 const ManNewsDetail: React.FC = () => {
   const { no } = useParams<{ no: string }>()
-  const [news, setNews] = useState<News | null>(null)
-  const [images, setImages] = useState<Image[]>([])
+  const [news, setNews] = useState<AdminNewsDetail | null>(null)
+  const [images, setImages] = useState<AdminNewsImage[]>([])
   const navigate = useNavigate()
 
   useEffect(() => {
     const fetchNews = async () => {
       try {
-        const response = await apiClient.get<News>(`/news/${no}`)
-        setNews(response.data)
-        setImages(response.data.images)
-        //console.log(response.data)
+        if (!no) return
+        const data = await fetchNewsDetail(no)
+        setNews(data)
+        setImages(data.images)
       } catch (err) {
         console.error('Error fetching news:', err)
       }
@@ -40,9 +27,10 @@ const ManNewsDetail: React.FC = () => {
   const handleDelete = async () => {
     if (window.confirm('정말 삭제하시겠습니까?')) {
       try {
-        await apiClient.delete(`/news/${no}`)
+        if (!no) return
+        await deleteNews(no)
         alert('삭제되었습니다.')
-        navigate('/admin/news') // 삭제 후 목록 페이지로 이동
+        navigate('/admin/news')
       } catch (err) {
         console.error('Error deleting news:', err)
         alert('삭제에 실패했습니다.')

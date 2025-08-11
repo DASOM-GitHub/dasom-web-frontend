@@ -1,15 +1,20 @@
 import React, { useState, useEffect } from 'react'
-import apiClient from '../../utils/apiClient'
 import { toast, ToastContainer } from 'react-toastify'
 import { useNavigate } from 'react-router-dom'
 import 'react-toastify/dist/ReactToastify.css'
 import AdminPagination from '../../components/UI/AdminPagination'
 import MailButtons from '../../components/UI/MailButtons'
+import {
+  listApplicants,
+  getApplicantDetail,
+  updateApplicantStatus,
+} from './adminService'
+import { ApplicantListItem, ApplicantDetail } from './admin'
 
 const ManApplicants: React.FC = () => {
-  const [applicants, setApplicants] = useState<any[]>([]) // 전체 조회 시 지원자 정보
+  const [applicants, setApplicants] = useState<ApplicantListItem[]>([]) // 전체 조회 시 지원자 정보
   const [count, setCount] = useState<number>(0) // 지원자 수
-  const [detailInfo, setDetailInfo] = useState<any>(null) // 특정 지원자 상세정보
+  const [detailInfo, setDetailInfo] = useState<ApplicantDetail | null>(null) // 특정 지원자 상세정보
   const [selectedId, setSelectedId] = useState<number | null>(null) // 상태 변경 시 선택된 지원자id
   const navigate = useNavigate()
 
@@ -42,16 +47,10 @@ const ManApplicants: React.FC = () => {
           alert('로그인이 필요합니다.')
           return
         }
-        const response = await apiClient.get('/admin/applicants', {
-          params: { page },
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        })
-        //console.log(response.data)
-        setApplicants(response.data.content)
-        setCount(response.data.totalElements)
-        setTotalPages(response.data.totalPages)
+        const response = await listApplicants(page)
+        setApplicants(response.content)
+        setCount(response.totalElements)
+        setTotalPages(response.totalPages)
       } catch (err: any) {
         console.error(err)
         const errorCode = err.response?.data?.code
@@ -75,15 +74,8 @@ const ManApplicants: React.FC = () => {
     }
 
     try {
-      const response = await apiClient.get(
-        `/admin/applicants/${id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }
-      )
-      setDetailInfo(response.data)
+      const detail = await getApplicantDetail(id)
+      setDetailInfo(detail)
       setSelectedId(id)
     } catch (err: any) {
       console.error('지원자 상세 조회 실패:', err)
@@ -107,14 +99,7 @@ const ManApplicants: React.FC = () => {
     )
     setOpenDropdownId(null) // 드롭다운 닫기
 
-    apiClient
-      .patch(
-        `/admin/applicants/${id}/status`,
-        { status: statusValue },
-        {
-          headers: { Authorization: `Bearer ${accessToken}` },
-        }
-      )
+    updateApplicantStatus(id, statusValue)
       .then(() => {
         //console.log('상태 변경 성공:', newStatus)
         toast.success('상태 변경이 완료되었습니다!')
@@ -189,17 +174,17 @@ const ManApplicants: React.FC = () => {
   const ApplicantDetailInfo = ({ applicant }: { applicant: any }) => {
     return (
       <div className='flex flex-col space-y-[4px]'>
-        <DetailItem label='연락처' value={applicant.contact} />
-        <DetailItem label='이메일' value={applicant.email} />
-        <DetailItem label='학년' value={applicant.grade} />
-        <DetailItem label='지원 동기' value={applicant.reasonForApply} />
-        <DetailItem label='희망 활동' value={applicant.activityWish} />
+        <DetailItem label='연락처' value={applicant?.contact} />
+        <DetailItem label='이메일' value={applicant?.email} />
+        <DetailItem label='학년' value={applicant?.grade} />
+        <DetailItem label='지원 동기' value={applicant?.reasonForApply} />
+        <DetailItem label='희망 활동' value={applicant?.activityWish} />
         <DetailItem
           label='개인정보 동의'
-          value={applicant.isPrivacyPolicyAgreed ? 'O' : 'X'}
+          value={applicant?.isPrivacyPolicyAgreed ? 'O' : 'X'}
         />
-        <DetailItem label='지원 일시' value={applicant.createdAt} />
-        <DetailItem label='최종수정 일시' value={applicant.updatedAt} />
+        <DetailItem label='지원 일시' value={applicant?.createdAt} />
+        <DetailItem label='최종수정 일시' value={applicant?.updatedAt} />
       </div>
     )
   }

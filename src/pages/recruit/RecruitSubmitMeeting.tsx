@@ -3,6 +3,7 @@ import { useLocation } from 'react-router-dom'
 import MobileLayout from '../../components/layout/MobileLayout'
 import { RecruitHeader, RecruitUI } from '../../components/UI/RecruitUI'
 import { Recruit_InfoBanner } from '../../components/UI/Recruit_InfoBanner'
+import { RecruitSubmitMeetingState } from './Recruittype'
 
 const getDisplatyDate = (date: string) => {
   const d = new Date(date)
@@ -22,7 +23,7 @@ const getDisplatyDate = (date: string) => {
 
 const RecruitSubmitMeeting: React.FC = () => {
   const location = useLocation()
-  const { date, time } = location.state as { date: string; time: string }
+  const { date, time } = location.state as RecruitSubmitMeetingState
 
   return (
     <MobileLayout>
