@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import MobileLayout from '../../components/layout/MobileLayout'
-import MeetingDateSelector from '../../components/UI/MeetingDateSelector'
-import MeetingTimeSelector from '../../components/UI/MeetingTimeSelector'
+import MobileLayout from '../components/layout/MobileLayout'
+import MeetingDateSelector from '../components/UI/MeetingDateSelector'
+import MeetingTimeSelector from '../components/UI/MeetingTimeSelector'
 import { useNavigate } from 'react-router-dom'
-import { RecruitHeader, RecruitUI } from '../../components/UI/RecruitUI'
-import { Button } from '../../components/UI/Recruit_Button'
-import { Recruit_InfoBanner } from '../../components/UI/Recruit_InfoBanner'
-import apiClient from '../../utils/apiClient'
+import { RecruitHeader, RecruitUI } from '../components/UI/RecruitUI'
+import { Button } from '../components/UI/Recruit_Button'
+import { Recruit_InfoBanner } from '../components/UI/Recruit_InfoBanner'
+import apiClient from '../utils/apiClient'
 
 interface recruitData {
   key: string

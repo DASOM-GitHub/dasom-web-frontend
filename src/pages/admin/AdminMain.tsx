@@ -1,6 +1,6 @@
 import React from 'react'
-import apiClient from '../../utils/apiClient'
 import { useNavigate } from 'react-router-dom'
+import { logout as logoutService } from './adminService'
 
 // 메뉴 버튼 컴퍼넌트
 const AdminMenuBtn = ({ text, link }: { text: string; link: string }) => {
@@ -21,16 +21,7 @@ const AdminMain: React.FC = () => {
 
   const handleLogout = async () => {
     try {
-      // 로그아웃
-      await apiClient.post(
-        '/auth/logout',
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-          },
-        }
-      )
+      await logoutService()
       localStorage.removeItem('accessToken')
       // 메인으로 리다이렉트
       navigate('/')

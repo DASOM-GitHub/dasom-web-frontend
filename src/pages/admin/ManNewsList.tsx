@@ -1,17 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import AdminPagination from '../../components/UI/AdminPagination'
-import apiClient from '../../utils/apiClient'
-
-interface News {
-  id: number
-  title: string
-  createdAt: string
-}
+import { AdminNewsItem } from './admin'
+import { getNewsList } from './adminService'
 
 const ManNewsList: React.FC = () => {
   const navigate = useNavigate()
-  const [newsItems, setNewsItems] = useState<News[]>([])
+  const [newsItems, setNewsItems] = useState<AdminNewsItem[]>([])
 
   // 페이지네이션
   const [currentPage, setCurrentPage] = useState<number>(1)
@@ -24,19 +19,17 @@ const ManNewsList: React.FC = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await apiClient.get('/news')
-        const formattedData = response.data
-          .map((item: any) => ({
+        const list = await getNewsList()
+        const formattedData = list
+          .map(item => ({
             id: item.id,
             title: item.title,
             createdAt: item.createdAt.split('T')[0],
           }))
-          .sort((a: News, b: News) => b.id - a.id)
-        //console.log(response)
+          .sort((a: AdminNewsItem, b: AdminNewsItem) => b.id - a.id)
         setNewsItems(formattedData)
       } catch (err: any) {
         console.error(err)
-        const errorCode = err.response?.data?.code
       }
     }
 

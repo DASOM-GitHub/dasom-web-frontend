@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import MobileLayout from '../../components/layout/MobileLayout'
+import MobileLayout from '../components/layout/MobileLayout'
 import { useNavigate } from 'react-router-dom'
-import { Button } from '../../components/UI/Recruit_Button'
-import { RecruitHeader } from '../../components/UI/RecruitUI'
-import { InputField } from '../../components/UI/Recruit_InputField'
-import apiClient from '../../utils/apiClient'
+import { Button } from '../components/UI/Recruit_Button'
+import { RecruitHeader } from '../components/UI/RecruitUI'
+import { InputField } from '../components/UI/Recruit_InputField'
+import apiClient from '../utils/apiClient'
 
 interface recruitData {
   key: string

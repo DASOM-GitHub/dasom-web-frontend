@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
-import apiClient from '../../utils/apiClient'
 import { useNavigate } from 'react-router-dom'
 import NewsFileUpload from '../../components/UI/NewsFileUpload'
 import NewsTextEditor from '../../components/UI/NewsTextEditor'
+import { createNews, uploadNewsFiles } from './adminService'
 
 const ManNewsPost: React.FC = () => {
   const [title, setTitle] = useState('')
@@ -10,45 +10,14 @@ const ManNewsPost: React.FC = () => {
   const [files, setFiles] = useState<File[]>([])
   const navigate = useNavigate()
 
-  // 뉴스 등록 및 이미지 업로드
   const handleSubmit = async () => {
     if (!title.trim() || !content.trim()) {
       alert('제목과 내용을 모두 입력해주세요.')
       return
     }
     try {
-      const token = localStorage.getItem('accessToken')
-
-      // 뉴스 등록 요청
-      const newsResponse = await apiClient.post(
-        '/news',
-        {
-          title,
-          content: content.replace(/\n/g, '<br />'),
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'application/json',
-          },
-        }
-      )
-
-      const newsId = newsResponse.data.id
-      //console.log('뉴스 등록 성공, ID:', newsId)
-
-      // 이미지 업로드 요청
-      const formData = new FormData()
-      files.forEach(file => formData.append('files', file))
-      formData.append('fileType', 'NEWS')
-      formData.append('targetId', newsId)
-
-      await apiClient.post('/files/upload', formData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'multipart/form-data',
-        },
-      })
+      const newsId = await createNews(title, content.replace(/\n/g, '<br />'))
+      await uploadNewsFiles(newsId, files)
 
       alert('새 소식이 성공적으로 등록되었습니다.')
       navigate('/admin/news')

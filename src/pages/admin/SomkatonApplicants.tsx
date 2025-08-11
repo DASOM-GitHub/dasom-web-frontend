@@ -1,9 +1,16 @@
-import apiClient from '../../utils/apiClient'
 import React, { useEffect, useState } from 'react'
+import { SomkathonApplicantDetail, SomkathonApplicantListItem } from './admin'
+import {
+  deleteSomkathonParticipant,
+  getSomkathonParticipant,
+  listSomkathonParticipants,
+} from './adminService'
 
 const SomkatonApplicants: React.FC = () => {
-  const [applicants, setApplicants] = useState<any[]>([])
-  const [detailInfo, setDetailInfo] = useState<any>(null)
+  const [applicants, setApplicants] = useState<SomkathonApplicantListItem[]>([])
+  const [detailInfo, setDetailInfo] = useState<SomkathonApplicantDetail | null>(
+    null
+  )
   const [selectedId, setSelectedId] = useState<number | null>(null)
   const [count, setCount] = useState<number>(0)
   const accessToken = localStorage.getItem('accessToken')
@@ -15,10 +22,9 @@ const SomkatonApplicants: React.FC = () => {
         alert('로그인이 필요합니다.')
         return
       }
-      const response = await apiClient.get('/somkathon/participants')
-      console.log(response.data)
-      setApplicants(response.data)
-      setCount(response.data.length)
+      const response = await listSomkathonParticipants()
+      setApplicants(response)
+      setCount(response.length)
     } catch (e: any) {
       alert('지원자 목록 불러오기 실패')
       console.log(e)
@@ -38,10 +44,8 @@ const SomkatonApplicants: React.FC = () => {
     }
 
     try {
-      const response = await apiClient.get(
-        `/somkathon/participants/${id}`
-      )
-      setDetailInfo(response.data)
+      const detail = await getSomkathonParticipant(id)
+      setDetailInfo(detail)
       setSelectedId(id)
     } catch (e: any) {
       console.log(e)
@@ -51,7 +55,7 @@ const SomkatonApplicants: React.FC = () => {
 
   const handleDelete = async (id: number) => {
     try {
-      await apiClient.delete(`/somkathon/participants/${id}`)
+      await deleteSomkathonParticipant(id)
       setDetailInfo(null)
       getData()
     } catch (e: any) {
@@ -60,7 +64,11 @@ const SomkatonApplicants: React.FC = () => {
     }
   }
 
-  const ApplicantInfo = ({ applicant }: { applicant: any }) => {
+  const ApplicantInfo = ({
+    applicant,
+  }: {
+    applicant: SomkathonApplicantListItem
+  }) => {
     return (
       <tr className='text-center'>
         <td className='border border-gray-500 py=[4px]'>{applicant.id}</td>
@@ -99,7 +107,11 @@ const SomkatonApplicants: React.FC = () => {
     )
   }
 
-  const ApplicantDetailInfo = ({ applicant }: { applicant: any }) => {
+  const ApplicantDetailInfo = ({
+    applicant,
+  }: {
+    applicant: SomkathonApplicantDetail
+  }) => {
     if (!applicant) return null
     return (
       <div className='flex flex-col space-y-[4px] p-4'>
