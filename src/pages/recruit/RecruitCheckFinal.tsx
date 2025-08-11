@@ -1,16 +1,18 @@
-import MobileLayout from '../../components/layout/MobileLayout'
+import MobileLayout from '../components/layout/MobileLayout'
 import React from 'react'
 import { useLocation } from 'react-router-dom'
 import {
   RecruitHeader,
   RecruitUI_FINAL,
   RecruitUI_FINAL2,
-} from '../../components/UI/RecruitUI'
-import { RecruitCheckFinalState } from './Recruittype'
+} from '../components/UI/RecruitUI'
 
 const RecruitChekFinal: React.FC = () => {
   const location = useLocation()
-  const { name, isPassed } = location.state as RecruitCheckFinalState
+  const { name, isPassed } = location.state as {
+    name: string
+    isPassed: boolean
+  }
 
   return (
     <MobileLayout>
