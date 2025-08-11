@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react'
-import MobileLayout from '../components/layout/MobileLayout'
+import MobileLayout from '../../components/layout/MobileLayout'
 import { useLocation, useNavigate } from 'react-router-dom'
 import {
   RecruitHeader,
   RecruitUI_SUB,
   RecruitUI_SUB2,
-} from '../components/UI/RecruitUI'
-import { Button } from '../components/UI/Recruit_Button'
+} from '../../components/UI/RecruitUI'
+import { Button } from '../../components/UI/Recruit_Button'
 
 const RecruitCheck: React.FC = () => {
   const navigate = useNavigate()

@@ -1,18 +1,12 @@
 import React, { useEffect, useState, useMemo, useRef } from 'react'
-import apiClient from '../utils/apiClient'
 import { useParams, useNavigate } from 'react-router-dom'
-import MobileLayout from '../components/layout/MobileLayout'
-import dasomLogo from '../assets/images/dasomLogo.svg'
-import NewsContent from '../components/UI/NewsContent'
-import NewsNotice from '../components/UI/NewsNotice'
-
-interface NewsDetail {
-  id: number
-  title: string
-  content: string
-  images: { encodedData: string; fileFormat: string }[] | null
-  createdAt: string
-}
+import MobileLayout from '../../components/layout/MobileLayout'
+import dasomLogo from '../../assets/images/dasomLogo.svg'
+import NewsContent from '../../components/UI/NewsContent'
+import NewsNotice from '../../components/UI/NewsNotice'
+import { NewsDetail } from './Newstype'
+import { convertMultipleToBase64Urls } from '../../utils/imageUtils'
+import { NewsService } from './NewsService'
 
 const NewsInfo: React.FC = () => {
   const { no } = useParams<{ no: string }>()
@@ -31,9 +25,7 @@ const NewsInfo: React.FC = () => {
 
     const fetchNewsDetail = async () => {
       try {
-        const response = await apiClient.get(`/news/${no}`)
-        const data: NewsDetail = response.data
-
+        const data = await NewsService.getNewsDetail(no)
         setNews(data)
         sessionStorage.setItem(`news-${no}`, JSON.stringify(data))
       } catch (error) {
@@ -54,10 +46,7 @@ const NewsInfo: React.FC = () => {
 
   //  이미지 변환 (불필요한 리렌더링 방지)
   const imageUrls = useMemo(() => {
-    if (!news?.images) return []
-    return news.images.map(img =>
-      img.encodedData ? `data:${img.fileFormat};base64,${img.encodedData}` : ''
-    )
+    return convertMultipleToBase64Urls(news?.images ?? null)
   }, [news])
 
   return (

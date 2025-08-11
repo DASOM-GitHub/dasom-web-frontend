@@ -12,9 +12,8 @@ const apiClient = axios.create({
 
 apiClient.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
-    const accessToken = typeof window !== 'undefined'
-      ? localStorage.getItem('accessToken')
-      : null
+    const accessToken =
+      typeof window !== 'undefined' ? localStorage.getItem('accessToken') : null
 
     // 헤더 객체가 존재하도록 보장
     config.headers = config.headers || {}
@@ -51,4 +50,3 @@ apiClient.interceptors.response.use(
 )
 
 export default apiClient
-

@@ -1,7 +1,7 @@
 import React from 'react'
-import MobileLayout from '../components/layout/MobileLayout'
-import FAQ_Section from '../components/UI/FAQ_Section'
-import dasomLogo from '../assets/images/dasomLogo.svg'
+import MobileLayout from '../../components/layout/MobileLayout'
+import FAQ_Section from '../../components/UI/FAQ_Section'
+import dasomLogo from '../../assets/images/dasomLogo.svg'
 
 const FAQ: React.FC = () => {
   return (

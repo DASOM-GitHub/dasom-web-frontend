@@ -1,21 +1,11 @@
 import React, { useEffect, useState, useRef, useMemo } from 'react'
-import apiClient from '../utils/apiClient'
-import MobileLayout from '../components/layout/MobileLayout'
-import dasomLogo from '../assets/images/dasomLogo.svg'
-import NewsContent from '../components/UI/NewsContent'
+import MobileLayout from '../../components/layout/MobileLayout'
+import dasomLogo from '../../assets/images/dasomLogo.svg'
+import NewsContent from '../../components/UI/NewsContent'
 import { useNavigate } from 'react-router-dom'
-
-interface ImageData {
-  encodedData: string
-  fileFormat: string
-}
-
-interface NewsItem {
-  id: number
-  title: string
-  image: ImageData | null
-  createdAt: string
-}
+import { NewsItem } from './Newstype'
+import { convertToBase64Url } from '../../utils/imageUtils'
+import { NewsService } from './NewsService'
 
 const News: React.FC = () => {
   const navigate = useNavigate()
@@ -24,24 +14,8 @@ const News: React.FC = () => {
 
   const fetchNews = async () => {
     try {
-      // sessionStorage에서 뉴스 데이터 확인
-      const cachedData = sessionStorage.getItem('newsList')
-      if (cachedData) {
-        setNewsList(JSON.parse(cachedData))
-        return
-      }
-
-      const response = await apiClient.get('/news')
-      const data: NewsItem[] = response.data
-
-      const sortedData = data
-        .map(item => ({
-          ...item,
-          no: item.id,
-        }))
-        .sort((a, b) => b.no - a.no)
-      setNewsList(sortedData)
-      sessionStorage.setItem('newsList', JSON.stringify(sortedData))
+      const data = await NewsService.getNewsList()
+      setNewsList(data)
     } catch (error) {
       console.error('뉴스 데이터를 불러오는 중 오류 발생:', error)
     }
@@ -59,10 +33,7 @@ const News: React.FC = () => {
     () =>
       newsList.map(news => ({
         ...news,
-        imageUrl:
-          news.image && news.image.encodedData
-            ? `data:${news.image.fileFormat};base64,${news.image.encodedData}`
-            : null,
+        imageUrl: convertToBase64Url(news.image),
       })),
     [newsList]
   )
