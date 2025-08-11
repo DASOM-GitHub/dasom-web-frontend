@@ -1,11 +1,11 @@
-import MobileLayout from '../components/layout/MobileLayout'
+import MobileLayout from '../../components/layout/MobileLayout'
 import React from 'react'
 import { useLocation } from 'react-router-dom'
 import {
   RecruitHeader,
   RecruitUI_FINAL,
   RecruitUI_FINAL2,
-} from '../components/UI/RecruitUI'
+} from '../../components/UI/RecruitUI'
 
 const RecruitChekFinal: React.FC = () => {
   const location = useLocation()

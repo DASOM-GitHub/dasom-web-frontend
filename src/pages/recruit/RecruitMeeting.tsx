@@ -1,37 +1,32 @@
 import React, { useEffect, useState } from 'react'
-import MobileLayout from '../components/layout/MobileLayout'
-import MeetingDateSelector from '../components/UI/MeetingDateSelector'
-import MeetingTimeSelector from '../components/UI/MeetingTimeSelector'
+import MobileLayout from '../../components/layout/MobileLayout'
+import MeetingDateSelector from '../../components/UI/MeetingDateSelector'
+import MeetingTimeSelector from '../../components/UI/MeetingTimeSelector'
 import { useNavigate } from 'react-router-dom'
-import { RecruitHeader, RecruitUI } from '../components/UI/RecruitUI'
-import { Button } from '../components/UI/Recruit_Button'
-import { Recruit_InfoBanner } from '../components/UI/Recruit_InfoBanner'
-import apiClient from '../utils/apiClient'
-
-interface recruitData {
-  key: string
-  value: string
-}
-
-interface interviewPeriod {
-  periodStart: string
-  periodEnd: string
-}
-
-interface interviewTime {
-  timeStart: string
-  timeEnd: string
-}
+import { RecruitHeader, RecruitUI } from '../../components/UI/RecruitUI'
+import { Button } from '../../components/UI/Recruit_Button'
+import { Recruit_InfoBanner } from '../../components/UI/Recruit_InfoBanner'
+import {
+  RecruitConfigItem,
+  InterviewPeriod,
+  InterviewTime,
+  InterviewSlot,
+} from './Recruittype'
+import {
+  fetchRecruitConfigs,
+  fetchInterviewSlots,
+  submitInterviewReservation,
+} from './RecruitService'
 
 const RecruitMeeting: React.FC = () => {
   const navigate = useNavigate()
   // 면접 일정 데이터
   const [interviewPeriodData, setInterviewPeriodData] =
-    useState<interviewPeriod>({
+    useState<InterviewPeriod>({
       periodStart: '',
       periodEnd: '',
     })
-  const [interviewTimeData, setInterviewTimeData] = useState<interviewTime>({
+  const [interviewTimeData, setInterviewTimeData] = useState<InterviewTime>({
     timeStart: '',
     timeEnd: '',
   })
@@ -40,9 +35,9 @@ const RecruitMeeting: React.FC = () => {
   const [activebtn, setActivebtn] = useState<boolean>(false)
   const reservationCode = sessionStorage.getItem('reservationCode')
   const [disableSelectTime, setDisableSelectTime] = useState<boolean>(true)
-  const [interviewSlots, setInterviewSlots] = useState<any[]>([])
+  const [interviewSlots, setInterviewSlots] = useState<InterviewSlot[]>([])
   const [slotId, setSlotId] = useState<number>()
-  const [slotsForDate, setSlotsForDate] = useState<any[]>([])
+  const [slotsForDate, setSlotsForDate] = useState<InterviewSlot[]>([])
 
   // 날짜 선택 핸들러, 날짜 선택 후 시간 선택 가능
   const handleDateSelect = (date: string) => {
@@ -60,10 +55,7 @@ const RecruitMeeting: React.FC = () => {
   // 면접 일정 폼 제출 핸들러
   const handleSubmit = async () => {
     try {
-      await apiClient.post('/recruit/interview/reserve', {
-        slotId: slotId,
-        reservationCode: reservationCode,
-      })
+      await submitInterviewReservation(slotId, reservationCode)
       // 선택된 날짜와 시간 state값 전달하여 페이지 이동
       navigate('/recruit/meeting/submit', {
         state: { date: selectedDate, time: selectedTime },
@@ -102,26 +94,26 @@ const RecruitMeeting: React.FC = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await apiClient.get<recruitData[]>('/recruit')
+        const data = await fetchRecruitConfigs()
 
         // KEY값 검색하여 데이터 조회하여 각 변수에 저장
-        const periodData: interviewPeriod = {
+        const periodData: InterviewPeriod = {
           periodStart:
-            response.data
+            data
               .find(item => item.key === 'INTERVIEW_PERIOD_START')
               ?.value.substring(0, 10) || '',
           periodEnd:
-            response.data
+            data
               .find(item => item.key === 'INTERVIEW_PERIOD_END')
               ?.value.substring(0, 10) || '',
         }
-        const timeData: interviewTime = {
+        const timeData: InterviewTime = {
           timeStart:
-            response.data
+            data
               .find(item => item.key === 'INTERVIEW_TIME_START')
               ?.value.substring(0, 5) || '',
           timeEnd:
-            response.data
+            data
               .find(item => item.key === 'INTERVIEW_TIME_END')
               ?.value.substring(0, 5) || '',
         }
@@ -141,8 +133,8 @@ const RecruitMeeting: React.FC = () => {
   useEffect(() => {
     const searchSchedule = async () => {
       try {
-        const response = await apiClient.get('/recruit/interview/all')
-        setInterviewSlots(response.data)
+        const data = await fetchInterviewSlots()
+        setInterviewSlots(data)
       } catch (e: any) {
         //console.log(e)
         alert('면접 일정을 조회할 수 없습니다')

@@ -1,20 +1,15 @@
 import React, { useEffect, useState } from 'react'
-import MobileLayout from '../components/layout/MobileLayout'
+import MobileLayout from '../../components/layout/MobileLayout'
 import { useNavigate } from 'react-router-dom'
-import { Button } from '../components/UI/Recruit_Button'
-import { RecruitHeader } from '../components/UI/RecruitUI'
-import { InputField } from '../components/UI/Recruit_InputField'
-import apiClient from '../utils/apiClient'
-
-interface recruitData {
-  key: string
-  value: string
-}
-
-interface responseData {
-  name: string
-  isPassed: boolean
-}
+import { Button } from '../../components/UI/Recruit_Button'
+import { RecruitHeader } from '../../components/UI/RecruitUI'
+import { InputField } from '../../components/UI/Recruit_InputField'
+import {
+  RecruitConfigItem,
+  PassType,
+  RecruitResultResponse,
+} from './Recruittype'
+import { fetchRecruitConfigs, fetchRecruitResult } from './RecruitService'
 
 export const RecruitResult: React.FC = () => {
   const navigate = useNavigate()
@@ -53,19 +48,18 @@ export const RecruitResult: React.FC = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await apiClient.get<recruitData[]>('/recruit')
+        const data = await fetchRecruitConfigs()
         const interviewPass = new Date(
-          response.data
+          data
             .find(item => item.key === 'INTERVIEW_PASS_ANNOUNCEMENT')
             ?.value.substring(0, 10) || ''
         )
         const documentPass = new Date(
-          response.data
+          data
             .find(item => item.key === 'DOCUMENT_PASS_ANNOUNCEMENT')
             ?.value.substring(0, 10) || ''
         )
         const today = new Date()
-        //console.log(response.data)
 
         // 현재 날짜에 따른 조회 type 지정
         setPass(
@@ -76,7 +70,6 @@ export const RecruitResult: React.FC = () => {
               : null
         )
       } catch (e) {
-        //console.log(e)
         alert('발표 일정을 조회할 수 없습니다')
       }
     }
@@ -103,17 +96,15 @@ export const RecruitResult: React.FC = () => {
     }
 
     try {
-      const response = await apiClient.get('/recruit/result', {
-        params: {
-          type: pass,
-          studentNo: checkInput.studentNo,
-          contactLastDigit: checkInput.contact,
-        },
-      })
+      const response = await fetchRecruitResult(
+        pass as PassType,
+        checkInput.studentNo,
+        checkInput.contact
+      )
 
-      const resData: responseData = {
-        name: response.data.name,
-        isPassed: response.data.isPassed,
+      const resData: RecruitResultResponse = {
+        name: response.name,
+        isPassed: response.isPassed,
       }
 
       // 조회 type에 따라 이동 url 다르게
@@ -129,7 +120,6 @@ export const RecruitResult: React.FC = () => {
         }
       )
     } catch (e) {
-      //console.log(e)
       alert('데이터 검색 불가')
     }
   }
