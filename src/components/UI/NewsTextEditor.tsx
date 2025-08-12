@@ -1,11 +1,5 @@
 import React from 'react'
-
-interface TextEditorProps {
-  title: string
-  content: string
-  setTitle: React.Dispatch<React.SetStateAction<string>>
-  setContent: React.Dispatch<React.SetStateAction<string>>
-}
+import { TextEditorProps } from './types'
 
 const NewsTextEditor: React.FC<TextEditorProps> = ({
   title,

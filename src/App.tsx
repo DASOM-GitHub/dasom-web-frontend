@@ -6,33 +6,35 @@ import {
   Route,
   useLocation,
 } from 'react-router-dom'
-import Main from './pages/Main'
-import AdminMain from './pages/admin/AdminMain'
-import Login from './pages/Login'
-import RecruitMeeting from './pages/recruit/RecruitMeeting'
-import RecruitSubmitMeeting from './pages/recruit/RecruitSubmitMeeting'
-import News from './pages/news/News'
-import NewsInfo from './pages/news/NewsInfo'
-import ManApplicants from './pages/admin/ManApplicants'
-import ManNewsList from './pages/admin/ManNewsList'
-import ManNewsDetail from './pages/admin/ManNewsDetail'
-import ManNewsPost from './pages/admin/ManNewsPost'
-import ManNewsEdit from './pages/admin/ManNewsEdit'
-import ManRecruitDate from './pages/admin/ManRecruitDate'
-import ManInterviewee from './pages/admin/ManInterviewee'
-import UserMain from './pages/UserMain'
-import Recruit from './pages/recruit/Recruit'
-import CoreMembers from './pages/CoreMembers'
+import {
+  Main,
+  AdminMain,
+  Login,
+  RecruitMeeting,
+  RecruitSubmitMeeting,
+  News,
+  NewsInfo,
+  ManApplicants,
+  ManNewsList,
+  ManNewsDetail,
+  ManNewsPost,
+  ManNewsEdit,
+  ManRecruitDate,
+  ManInterviewee,
+  UserMain,
+  Recruit,
+  CoreMembers,
+  RecruitResult,
+  FAQ,
+  RecruitSubmit,
+  RecruitCheck,
+  RecruitCheckFinal,
+  SomkathonRecruit,
+  SomkathonSubmit,
+  SomkatonApplicants,
+} from './pages'
 import { Header } from './components/UI/Header'
-import { RecruitResult } from './pages/recruit/RecruitResult'
-import FAQ from './pages/faq/FAQ'
-import { RecruitSubmit } from './pages/recruit/RecruitSubmit'
-import RecruitCheck from './pages/recruit/RecruitCheck'
-import RecruitCheckFinal from './pages/recruit/RecruitCheckFinal'
-import SomkathonRecruit from './pages/recruit/SomkathonRecruit'
-import SomkathonSubmit from './pages/recruit/SomkathonSubmit'
 import ProtectedRoute from './components/layout/ProtectRoute'
-import SomkatonApplicants from './pages/admin/SomkatonApplicants'
 
 function App() {
   return (

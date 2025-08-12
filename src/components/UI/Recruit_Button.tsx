@@ -1,11 +1,5 @@
 import React from 'react'
-
-interface ButtonProps {
-  text: string
-  className?: string
-  onClick?: () => void // 클릭 이벤트 핸들러
-  disabled?: boolean // 비활성화 여부
-}
+import { ButtonProps } from './types'
 
 // button 컴포넌트
 export const Button: React.FC<ButtonProps> = ({

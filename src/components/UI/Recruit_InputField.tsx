@@ -1,31 +1,5 @@
 import React from 'react'
-
-interface InputFieldProps {
-  label: string
-  name: string
-  subLabel?: string
-  type?: 'text' | 'email' | 'textarea' | 'select' | 'checkbox'
-  placeholder?: string
-  required?: boolean
-  options?: { value: string; label: string }[]
-  checkboxLabel?: string
-  phoneNumber?: boolean
-  value: string | boolean
-  minLength?: number
-  maxLength?: number
-  checked?: boolean
-  onChange: (
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >
-  ) => void
-  onKeyDown?: (
-    e: React.KeyboardEvent<
-      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >
-  ) => void
-  highlightLabels?: string[]
-}
+import { InputFieldProps } from './types'
 
 export const InputField: React.FC<InputFieldProps> = ({
   label,

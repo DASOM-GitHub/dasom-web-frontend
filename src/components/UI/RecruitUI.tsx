@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import apiClient from '../../utils/apiClient'
-
-interface RecruitHeaderProps {
-  title: string
-}
+import { RecruitHeaderProps } from './types'
 
 interface RecruitUIProps {
   name: string
