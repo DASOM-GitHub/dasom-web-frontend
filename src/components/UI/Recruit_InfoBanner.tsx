@@ -1,8 +1,5 @@
 import React from 'react'
-
-interface Recruit_InfoBannerProps {
-  message: string
-}
+import { Recruit_InfoBannerProps } from './types'
 
 // Recruit 공지 컴포넌트
 export const Recruit_InfoBanner: React.FC<Recruit_InfoBannerProps> = ({

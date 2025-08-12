@@ -1,12 +1,7 @@
 import React from 'react'
 import { motion } from 'framer-motion' // 애니메이션 라이브러리 추가
 import dasomLogo from '../../assets/images/dasomLogo.svg'
-
-interface FAQItemProps {
-  question: string
-  answer: string
-  alignment: string
-}
+import { FAQItemProps } from './types'
 
 const itemVariants = {
   hidden: { opacity: 0, y: 15 },

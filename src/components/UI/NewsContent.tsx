@@ -3,16 +3,7 @@ import { Swiper, SwiperSlide } from 'swiper/react'
 import { Pagination, Autoplay } from 'swiper/modules'
 import 'swiper/css'
 import 'swiper/css/pagination'
-
-interface NewsProps {
-  id: number
-  title: string
-  image?: string | null
-  images?: { encodedData: string; fileFormat: string }[] | null
-  createdAt: string
-  onClick: () => void
-  isDetail?: boolean
-}
+import { NewsProps } from './types'
 
 const NewsContent: React.FC<NewsProps> = React.memo(
   ({ id, title, image, images, createdAt, onClick, isDetail = false }) => {

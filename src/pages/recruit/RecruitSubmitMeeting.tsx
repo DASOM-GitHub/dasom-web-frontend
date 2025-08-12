@@ -1,8 +1,8 @@
 import React from 'react'
 import { useLocation } from 'react-router-dom'
-import MobileLayout from '../components/layout/MobileLayout'
-import { RecruitHeader, RecruitUI } from '../components/UI/RecruitUI'
-import { Recruit_InfoBanner } from '../components/UI/Recruit_InfoBanner'
+import MobileLayout from '../../components/layout/MobileLayout'
+import { RecruitHeader, RecruitUI } from '../../components/UI/RecruitUI'
+import { Recruit_InfoBanner } from '../../components/UI/Recruit_InfoBanner'
 
 const getDisplatyDate = (date: string) => {
   const d = new Date(date)

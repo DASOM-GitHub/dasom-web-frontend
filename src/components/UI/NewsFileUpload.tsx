@@ -1,9 +1,5 @@
 import React from 'react'
-
-interface FileUploadProps {
-  files: File[]
-  setFiles: React.Dispatch<React.SetStateAction<File[]>>
-}
+import { FileUploadProps } from './types'
 
 const NewsFileUpload: React.FC<FileUploadProps> = ({ files, setFiles }) => {
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
