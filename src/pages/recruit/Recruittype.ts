@@ -66,3 +66,11 @@ export interface SomkathonRecruitFormData {
   contact: string
   email: string
 }
+
+export interface RecruitPeriodData {
+  recruitmentPeriodStart: string
+  recruitmentPeriodEnd: string
+  interviewPeriodStart: string
+  interviewPeriodEnd: string
+  interviewPassAnnouncement: string
+}

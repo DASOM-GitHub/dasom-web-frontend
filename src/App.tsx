@@ -32,6 +32,7 @@ import {
   SomkathonRecruit,
   SomkathonSubmit,
   SomkatonApplicants,
+  RecruitInfo,
 } from './pages'
 import { Header } from './components/UI/Header'
 import ProtectedRoute from './components/layout/ProtectRoute'
@@ -53,7 +54,7 @@ function AppContent() {
   return (
     <>
       {/* 지정한 페이지 header 숨기기 */}
-      {!hideHeader.includes(location.pathname) && <Header />}
+      {!hideHeader.includes(location.pathname) && ''}
       <Routes>
         <Route path='/' element={<Main />} />
         <Route path='/login' element={<Login />} />
@@ -63,6 +64,7 @@ function AppContent() {
         <Route path='/coremember' element={<CoreMembers />} />
         <Route path='/faq' element={<FAQ />} />
         <Route path='/recruit' element={<Recruit />} />
+        <Route path='/recruitinfo' element={<RecruitInfo />} />
         <Route path='/recruit/submit' element={<RecruitSubmit />} />
         <Route path='/recruit/result' element={<RecruitResult />} />
         <Route path='/recruit/check' element={<RecruitCheck />} />
