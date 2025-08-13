@@ -54,7 +54,7 @@ function AppContent() {
   return (
     <>
       {/* 지정한 페이지 header 숨기기 */}
-      {!hideHeader.includes(location.pathname) && ''}
+      {!hideHeader.includes(location.pathname) && <Header />}
       <Routes>
         <Route path='/' element={<Main />} />
         <Route path='/login' element={<Login />} />
