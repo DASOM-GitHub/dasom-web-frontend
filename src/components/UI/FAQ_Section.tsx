@@ -1,6 +1,5 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { motion } from 'framer-motion' // 애니메이션 라이브러리 추가
-import dasomLogo from '../../assets/images/dasomLogo.svg'
 import { FAQItemProps } from './types'
 
 const itemVariants = {
@@ -38,6 +37,38 @@ const containerVariants = {
 }
 
 const FAQSection: React.FC = () => {
+  const [faqData, setFaqData] = useState<
+    Array<{ id?: number; question: string; answer: string }>
+  >([])
+
+  useEffect(() => {
+      setFaqData([
+        {
+          id: 1,
+          question: '팀 프로젝트는 어떻게 진행되나요?',
+          answer:
+            '동아리 내의 다른 멤버들과 팀 빌딩을 진행한 뒤, 팀별로 각자 작업물을 만들고, 추후 데모데이를 통해 각 팀의 작업물을 발표하는 방식으로 진행됩니다.',
+        },
+        {
+          id: 2,
+          question: '동아리 지원은 어떻게 하나요?',
+          answer:
+            '우측 상단 메뉴에 34기 지원하기 클릭 후 지원 폼 작성을 통해 지원이 가능합니다.',
+        },
+        {
+          id: 3,
+          question: '프로젝트 경험이 있어야 하나요?',
+          answer:
+            '프로젝트 경험이 없어도, 개발에 능숙하지 않아도, 하고자 하는 의지가 있으신 분이라면 누구나 동아리 가입이 가능해요!',
+        },
+        {
+          id: 4,
+          question: '복학생도 가입이 가능한가요?',
+          answer:
+            '네, 컴퓨터소프트웨어공학과 학생이라면 누구나 가입이 가능해요. 복학생 역시 가능합니다.',
+        },
+      ])
+  }, [])
   return (
     <motion.section
       className='w-full font-pretendardRegular text-[#FFFFFF] py-4 rounded-lg'
@@ -47,26 +78,14 @@ const FAQSection: React.FC = () => {
     >
       {/* FAQ 리스트: 모바일 1열 → 데스크톱 2열 → 큰 화면 4열 (짝수 열 유지) */}
       <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-12 md:gap-20'>
-        <FAQItem
-          question='Q. 팀 프로젝트는 어떻게 진행되나요?'
-          answer={'동아리 내의 다른 멤버들과 팀 빌딩을 진행한 뒤, 팀별로 각자 작업물을 만들고, 추후 데모데이를 통해 각 팀의 작업물을 발표하는 방식으로 진행됩니다.'}
-          alignment='self-start'
-        />
-        <FAQItem
-          question='Q. 동아리 지원은 어떻게 하나요?'
-          answer={'우측 상단 메뉴에 34기 지원하기 클릭 후 지원 폼 작성을 통해 지원이 가능합니다.'}
-          alignment='self-end'
-        />
-        <FAQItem
-          question='Q. 프로젝트 경험이 있어야 하나요?'
-          answer={'프로젝트 경험이 없어도, 개발에 능숙하지 않아도, 하고자 하는 의지가 있으신 분이라면 누구나 동아리 가입이 가능해요!'}
-          alignment='self-start'
-        />
-        <FAQItem
-          question='Q. 복학생도 가입이 가능한가요?'
-          answer={'네, 컴퓨터소프트웨어공학과 학생이라면 누구나 가입이 가능해요. 복학생 역시 가능합니다.'}
-          alignment='self-end'
-        />
+        {faqData.map((item, idx) => (
+          <FAQItem
+            key={item.id ?? idx}
+            question={`Q. ${item.question}`}
+            answer={item.answer}
+            alignment={idx % 2 === 0 ? 'self-start' : 'self-end'}
+          />
+        ))}
       </div>
     </motion.section>
   )
