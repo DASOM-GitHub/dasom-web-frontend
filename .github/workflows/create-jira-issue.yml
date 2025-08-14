@@ -32,6 +32,33 @@ jobs:
           echo '${{ steps.issue-parser.outputs.__ticket_number }}'
           echo '${{ steps.issue-parser.outputs.jsonString }}'
 
+      - name: Derive parentKey
+        id: derive-parent
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const body = process.env.BODY || '';
+            let parent = '';
+            try {
+              const parsed = JSON.parse(process.env.JSON || '{}');
+              parent = (parsed.parentKey || '').trim();
+            } catch (e) {}
+            if (!parent) {
+              const m = body.match(/DASOMFE-\d+/i);
+              if (m) parent = m[0].toUpperCase();
+            }
+            core.setOutput('parent', parent);
+        env:
+          BODY: ${{ github.event.issue.body }}
+          JSON: ${{ steps.issue-parser.outputs.jsonString }}
+
+      - name: Validate parentKey
+        run: |
+          if [ -z "${{ steps.derive-parent.outputs.parent }}" ]; then
+            echo "parentKey not found. Fill the form field or include like DASOMFE-2 in the body."
+            exit 1
+          fi
+
       - name: Convert markdown to Jira Syntax
         uses: peter-evans/jira2md@v1
         id: md2jira
@@ -54,12 +81,12 @@ jobs:
           fields: |
             {
               "parent": {
-                "key": "${{ fromJson(steps.issue-parser.outputs.jsonString).parentKey }}"
+                "key": "${{ steps.derive-parent.outputs.parent }}"
               }
             }
 
       - name: Log created issue
-        run: echo "Jira Issue parent=${{ fromJson(steps.issue-parser.outputs.jsonString).parentKey }} created=${{ steps.create.outputs.issue }}"
+        run: echo "Jira Issue parent=${{ steps.derive-parent.outputs.parent }} created=${{ steps.create.outputs.issue }}"
 
       - name: Update issue title
         uses: actions-cool/issues-helper@v3
