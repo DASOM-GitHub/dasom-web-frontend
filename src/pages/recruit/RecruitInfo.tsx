@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom'
 import FAQSection from '../../components/UI/FAQ_Section'
-import { RecruitInfo_Button } from '../../components/UI/Recruit_Button'
+import { RecruitInfo_Button } from '../../components/UI/RecruitInfo_Button'
 import React, { useEffect, useState } from 'react'
 import RecruitCalendar from '../../components/UI/RecruitCalendar'
 import { fetchRecruitConfigs } from './RecruitService'
@@ -46,7 +46,7 @@ const RecruitInfo: React.FC = () => {
         <div className='flex flex-col items-center w-full max-w-full min-h-screen overflow-x-hidden bg-mainBlack text-white pb-20'>
 
             {/* Title Section */}
-            <div className='flex flex-col w-full px-5 sm:px-10 md:px-20 font-pretendardBold gap-48 mt-20 text-5xl sm:text-7xl md:text-8xl'>
+            <div className='flex flex-col w-full px-5 sm:px-10 md:px-20 font-pretendardBold gap-48 mt-20 mb-6 text-5xl sm:text-7xl md:text-8xl'>
                 <div>
                     <p>DASOM</p>
                     <p className='text-lg'>"Dare, Share. Someday."</p>
