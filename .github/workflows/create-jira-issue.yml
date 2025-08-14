@@ -54,12 +54,12 @@ jobs:
           fields: |
             {
               "parent": {
-                "key": "${{ steps.issue-parser.outputs.issueparser_parentKey || 'DASOMFE-1' }}"
+                "key": "${{ fromJson(steps.issue-parser.outputs.jsonString).parentKey }}"
               }
             }
 
       - name: Log created issue
-        run: echo "Jira Issue ${{ steps.issue-parser.outputs.parentKey }}/${{ steps.create.outputs.issue }} was created"
+        run: echo "Jira Issue parent=${{ fromJson(steps.issue-parser.outputs.jsonString).parentKey }} created=${{ steps.create.outputs.issue }}"
 
       - name: Update issue title
         uses: actions-cool/issues-helper@v3
