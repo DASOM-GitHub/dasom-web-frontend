@@ -35,6 +35,7 @@ import {
   RecruitInfo,
 } from './pages'
 import Header from './components/layout/Header'
+import Footer from './components/layout/Footer'
 import ProtectedRoute from './components/layout/ProtectRoute'
 
 function App() {
@@ -49,12 +50,12 @@ function App() {
 
 function AppContent() {
   const location = useLocation()
-  const hideHeader = ['/login'] // 헤더를 숨길 페이지
+  const hideHeaderFooter = ['/login'] // 헤더와 푸터를 숨길 페이지
 
   return (
     <>
       {/* 지정한 페이지 header 숨기기 */}
-      {!hideHeader.includes(location.pathname) && <Header />}
+      {!hideHeaderFooter.includes(location.pathname) && <Header />}
       <Routes>
         <Route path='/' element={<Main />} />
         <Route path='/login' element={<Login />} />
@@ -151,6 +152,7 @@ function AppContent() {
           }
         />
       </Routes>
+      {!hideHeaderFooter.includes(location.pathname) && <Footer />}
     </>
   )
 }
