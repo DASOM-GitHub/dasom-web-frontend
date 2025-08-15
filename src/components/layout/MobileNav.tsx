@@ -21,7 +21,7 @@ const MobileNav = ({ navItems, onClose }: MobileNavProps) => {
       <nav className="flex flex-col items-center space-y-8">
         {navItems.map((item) => (
           <div key={item.title} className="text-center">
-            <h3 className="text-2xl font-pretendardBold mb-4 hover:text-mainColor transition-colors duration-300">{item.title}</h3>
+            <h3 className="text-xl font-pretendardBold mb-4 hover:text-mainColor transition-colors duration-300">{item.title}</h3>
             <div className="flex flex-col space-y-3">
               {item.links.map((link) => (
                 <Link
@@ -36,7 +36,7 @@ const MobileNav = ({ navItems, onClose }: MobileNavProps) => {
             </div>
           </div>
         ))}
-        <Link to="/auth/login" onClick={onClose} className="text-2xl font-pretendardBold mt-8 hover:text-mainColor transition-colors duration-300">
+        <Link to="/auth/login" onClick={onClose} className="text-xl font-pretendardBold mt-8 hover:text-mainColor transition-colors duration-300">
           로그인 / 회원가입
         </Link>
       </nav>
