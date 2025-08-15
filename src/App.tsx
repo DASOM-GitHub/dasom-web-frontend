@@ -34,7 +34,7 @@ import {
   SomkatonApplicants,
   RecruitInfo,
 } from './pages'
-import { Header } from './components/UI/Header'
+import Header from './components/layout/Header'
 import ProtectedRoute from './components/layout/ProtectRoute'
 
 function App() {

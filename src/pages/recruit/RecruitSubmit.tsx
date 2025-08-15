@@ -1,13 +1,11 @@
 import React from 'react'
 import MobileLayout from '../../components/layout/MobileLayout'
-import { Header } from '../../components/UI/Header'
 import { RecruitUI, RecruitHeader } from '../../components/UI/RecruitUI'
 import { Recruit_InfoBanner } from '../../components/UI/Recruit_InfoBanner'
 
 export const RecruitSubmit: React.FC = () => {
   return (
     <MobileLayout>
-      <Header />
       <RecruitHeader title='컴퓨터 소프트웨어 공학과 전공 동아리 다솜 34기 모집 폼' />
       <RecruitUI />
       <Recruit_InfoBanner
