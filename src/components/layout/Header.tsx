@@ -1,8 +1,15 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
+import { Menu } from 'lucide-react'
+import MobileNav from './MobileNav'
 
 const Header = () => {
   const [activeMenu, setActiveMenu] = useState<string | null>(null)
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen)
+  }
 
   const navItems = [
     {
@@ -28,27 +35,40 @@ const Header = () => {
   return (
     <header
       onMouseLeave={() => setActiveMenu(null)}
-      className={`w-full relative shadow-[2px_6px_11px_0px_rgba(0,0,0,0.25)] bg-mainBlack text-white transition-all duration-300 ease-in-out ${activeMenu ? 'h-[120px]' : 'h-[56px]'}`}>
-      <div className="w-full h-[56px] max-w-screen-xl mx-auto flex items-center justify-between px-4">
-        <Link to="/" className="text-mainColor text-2xl font-pretendardBlack">DASOM</Link>
-        <div className="flex items-center space-x-16">
-          <nav className="flex items-center space-x-16 h-full">
-            {navItems.map((item) => (
-              <div
-                key={item.title}
-                onMouseEnter={() => setActiveMenu(item.title)}
-                className="flex items-center h-[56px] cursor-pointer w-20 justify-center"
-              >
-                <span className="text-base font-pretendardBold">{item.title}</span>
-              </div>
-            ))}
-          </nav>
-          <Link to="/auth/login" className="text-base font-pretendardBold whitespace-nowrap">로그인 / 회원가입</Link>
-        </div>
+      className={`w-full relative shadow-[2px_6px_11px_0px_rgba(0,0,0,0.25)] bg-mainBlack text-white transition-all duration-300 ease-in-out ${activeMenu ? 'md:h-[120px]' : 'md:h-[56px]'} h-[56px]`}>
+      {/* Mobile Header */}
+      <div className="w-full h-[56px] max-w-screen-xl mx-auto flex md:hidden items-center justify-between px-4">
+        <Link to="/" className="text-mainColor text-2xl font-pretendardBlack">
+          DASOM
+        </Link>
+        <button onClick={toggleMobileMenu} className="text-3xl hover:text-mainColor transition-colors duration-300">
+          <Menu />
+        </button>
       </div>
 
+      {/* Desktop Header */}
+      <div className="w-full max-w-screen-xl mx-auto hidden md:block">
+        <div className="flex items-center justify-between h-[56px] px-4">
+          <Link to="/" className="text-mainColor text-2xl font-pretendardBlack">DASOM</Link>
+          <div className="flex items-center space-x-16">
+            <nav className="flex items-center space-x-16 h-full">
+              {navItems.map((item) => (
+                <div
+                  key={item.title}
+                  onMouseEnter={() => setActiveMenu(item.title)}
+                  className="flex items-center h-[56px] cursor-pointer w-20 justify-center"
+                >
+                  <span className="text-base font-pretendardBold">{item.title}</span>
+                </div>
+              ))}
+            </nav>
+            <Link to="/auth/login" className="text-base font-pretendardBold whitespace-nowrap">로그인 / 회원가입</Link>
+          </div>
+        </div>
+
       {/* Expanded Sub-menu - Visible on Hover */}
-      <div className={`absolute top-[56px] left-0 w-full bg-mainBlack transition-all duration-300 ease-in-out overflow-hidden ${activeMenu ? 'max-h-40' : 'max-h-0'}`}>
+      <div
+        className={`absolute top-[56px] left-0 w-full bg-mainBlack transition-all duration-300 ease-in-out overflow-hidden hidden md:block ${activeMenu ? 'max-h-40' : 'max-h-0'}`}>
         <div className="w-full max-w-screen-xl mx-auto flex justify-end px-4">
           <div className="flex items-center space-x-16">
             <nav className="flex items-start space-x-16 h-full py-4">
@@ -71,6 +91,10 @@ const Header = () => {
           </div>
         </div>
       </div>
+      </div>
+
+      {/* Mobile Menu Component */}
+      {isMobileMenuOpen && <MobileNav navItems={navItems} onClose={toggleMobileMenu} />}
     </header>
   )
 }
