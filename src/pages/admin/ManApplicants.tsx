@@ -8,8 +8,9 @@ import {
   listApplicants,
   getApplicantDetail,
   updateApplicantStatus,
+  getInterviewees,
 } from './adminService'
-import { ApplicantListItem, ApplicantDetail } from './admin'
+import { ApplicantListItem, ApplicantDetail, IntervieweeItem } from './admin'
 
 const ManApplicants: React.FC = () => {
   const [applicants, setApplicants] = useState<ApplicantListItem[]>([]) // 전체 조회 시 지원자 정보
@@ -40,33 +41,33 @@ const ManApplicants: React.FC = () => {
   const [page, setPage] = useState<number>(0)
 
   // 지원자 전체 조회
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        if (!accessToken) {
-          alert('로그인이 필요합니다.')
-          return
-        }
-        const response = await listApplicants(page)
-        setApplicants(response.content)
-        setCount(response.totalElements)
-        setTotalPages(response.totalPages)
-      } catch (err: any) {
-        console.error(err)
-        const errorCode = err.response?.data?.code
-        if (errorCode === 'C012') {
-          alert('조회된 데이터가 없습니다.')
-        } else {
-          alert('데이터 불러오기에 실패하였습니다.')
-        }
-      }
-    }
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       if (!accessToken) {
+  //         alert('로그인이 필요합니다.')
+  //         return
+  //       }
+  //       const response = await listApplicants(page)
+  //       setApplicants(response.content)
+  //       setCount(response.totalElements)
+  //       setTotalPages(response.totalPages)
+  //     } catch (err: any) {
+  //       console.error(err)
+  //       const errorCode = err.response?.data?.code
+  //       if (errorCode === 'C012') {
+  //         alert('조회된 데이터가 없습니다.')
+  //       } else {
+  //         alert('데이터 불러오기에 실패하였습니다.')
+  //       }
+  //     }
+  //   }
 
-    fetchData()
-  }, [page])
+  //   fetchData()
+  // }, [page])
 
   // 상세정보 조회 및 토글
-  const toggleDetail = async (id: number) => {
+  const getDetail = async (id: number) => {
     if (selectedId === id) {
       setSelectedId(null)
       setDetailInfo(null)
@@ -87,6 +88,48 @@ const ManApplicants: React.FC = () => {
       }
     }
   }
+  
+  //더미
+  const mockApplicants: ApplicantListItem[] = [
+    { id: 1, name: '홍길동1', studentNo: '20251203', status: 'PENDING' },
+    { id: 2, name: '홍길동2', studentNo: '20259352', status: 'INTERVIEW_FAILED' },
+    { id: 3, name: '홍길동3', studentNo: '20259871', status: 'PENDING' },
+    { id: 4, name: '홍길동4', studentNo: '20255590', status: 'DOCUMENT_FAILED' },
+    { id: 5, name: '홍길동5', studentNo: '20254850', status: 'PENDING' },
+    { id: 6, name: '홍길동6', studentNo: '20257777', status: 'DOCUMENT_PASSED' },
+    { id: 7, name: '홍길동7', studentNo: '20253421', status: 'INTERVIEW_PASSED' },
+    { id: 8, name: '홍길동8', studentNo: '20259001', status: 'PENDING' },
+    { id: 9, name: '홍길동9', studentNo: '20258345', status: 'DOCUMENT_PASSED' },
+    { id: 10, name: '홍길동10', studentNo: '20259999', status: 'INTERVIEW_FAILED' },
+    { id: 11, name: '홍길동11', studentNo: '20250011', status: 'PENDING' },
+    { id: 12, name: '홍길동12', studentNo: '20250123', status: 'PENDING' },
+    { id: 13, name: '홍길동13', studentNo: '20250321', status: 'DOCUMENT_PASSED' },
+    { id: 14, name: '홍길동14', studentNo: '20250456', status: 'INTERVIEW_PASSED' },
+    { id: 15, name: '홍길동15', studentNo: '20250567', status: 'DOCUMENT_FAILED' },
+    { id: 16, name: '홍길동16', studentNo: '20250678', status: 'PENDING' },
+    { id: 17, name: '홍길동17', studentNo: '20250789', status: 'INTERVIEW_PASSED' },
+    { id: 18, name: '홍길동18', studentNo: '20250890', status: 'PENDING' },
+  ]
+  const mockDetailInfo: ApplicantDetail = {
+    id: 1,
+    name: '홍길동',
+    studentNo: '20210000',
+    status: 'PENDING',
+    contact: '010-1234-5678',
+    email: 'test@example.com',
+    grade: '3',
+    reasonForApply: '동아리 활동을 통해 새로운 경험을 쌓고 싶어서 지원합니다.',
+    activityWish: '프로젝트',
+    isPrivacyPolicyAgreed: true,
+    createdAt: '2025-08-16T16:43:08.574Z',
+    updatedAt: '2025-08-16T16:43:08.574Z'
+  }
+  useEffect(() => {
+    setApplicants(mockApplicants)
+    setCount(18)
+    setTotalPages(2)
+    setDetailInfo(mockDetailInfo)
+  }, [])
 
   // 지원자 상태 변경
   const handleStatusChange = (id: number, newStatus: string) => {
@@ -107,33 +150,46 @@ const ManApplicants: React.FC = () => {
       .catch(err => console.error('상태 변경 실패:', err))
   }
 
+  // 상태값 별 색상 맵
+  const statusColorMap: Record<string, string> = {
+    PENDING: 'bg-mainBlack', // 지원 완료
+    DOCUMENT_PASSED: 'bg-[#355187] ', // 서류 합격
+    DOCUMENT_FAILED: 'bg-[#873535]', // 서류 불합격
+    INTERVIEW_PASSED: 'bg-[#0E2246]', // 면접 합격
+    INTERVIEW_FAILED: 'bg-[#4D1A1A]', // 면접 불합격
+  }
+
   // 지원자 리스트 항목 컴퍼넌트
   const ApplicantInfo = ({ applicant }: { applicant: any }) => {
     return (
-      <tr className='text-center'>
-        <td className='border border-gray-500 py-[4px]'>{applicant.id}</td>
-        <td className='border border-gray-500 py-[4px]'>{applicant.name}</td>
-        <td className='border border-gray-500 py-[4px]'>
+      <tr 
+      className='text-center cursor-pointer hover:bg-subGrey3 border-b-white border-b-[1px] h-[50px]'
+      //onClick={() => getDetail(applicant.id)} 더미데이터 지우고 활성화
+      >
+        <td className='py-[4px]'>{applicant.id}</td>
+        <td className='py-[4px]'>{applicant.name}</td>
+        <td className='py-[4px]'>
           {applicant.studentNo}
         </td>
-        <td className='border border-gray-500 py-[4px] relative'>
+        <td className='py-[4px] relative'>
           <div
-            className='w-[120px] m-auto p-[4px] rounded-[6px] cursor-pointer bg-gray-700 text-white'
-            onClick={() =>
+            className={`w-[110px] m-auto p-[4px] rounded-full cursor-pointer text-white ${statusColorMap[applicant.status]}`}
+            onClick={(e) => {
+              e.stopPropagation()
               setOpenDropdownId(
                 openDropdownId === applicant.id ? null : applicant.id
               )
-            }
+            }}
           >
             {statusMap[applicant.status]}
           </div>
           {/* 드롭다운 */}
           {openDropdownId === applicant.id && (
-            <div className='absolute top-[40px] left-1/2 transform -translate-x-1/2 w-[130px] bg-gray-700 rounded-[6px] z-10 text-white'>
+            <div className='absolute top-[40px] left-1/2 transform -translate-x-1/2 w-[110px] bg-gray-700 rounded-[6px] z-10 text-white'>
               {statusOptions.map(option => (
                 <div
                   key={option}
-                  className='px-4 py-2 hover:bg-gray-800 rounded-[6px] cursor-pointer'
+                  className='px-4 py-2 hover:bg-gray-800 cursor-pointer'
                   onClick={() => handleStatusChange(applicant.id, option)}
                 >
                   {option}
@@ -141,21 +197,6 @@ const ManApplicants: React.FC = () => {
               ))}
             </div>
           )}
-        </td>
-        <td className='border border-gray-500 py-[4px] text-left'>
-          <div className='ml-[4px]'>
-            <button
-              className='bg-gray-700 text-white px-2 py-1 rounded'
-              onClick={() => toggleDetail(applicant.id)}
-            >
-              {selectedId === applicant.id ? '닫기' : '보기'}
-            </button>
-            {selectedId === applicant.id && (
-              <div className='mt-1 p-2'>
-                <ApplicantDetailInfo applicant={detailInfo} />
-              </div>
-            )}
-          </div>
         </td>
       </tr>
     )
@@ -165,7 +206,7 @@ const ManApplicants: React.FC = () => {
   const DetailItem = ({ label, value }: { label: string; value: string }) => {
     return (
       <div className='flex'>
-        <div className='w-[110px]'>{label}</div>
+        <div className='w-[150px]'>{label}</div>
         <div className='w-[576px]'>{value}</div>
       </div>
     )
@@ -190,42 +231,44 @@ const ManApplicants: React.FC = () => {
   }
 
   return (
-    <div className='h-[100vh] w-[100vw] bg-mainBlack font-pretendardRegular text-white flex flex-col items-center overflow-y-auto'>
+    <div className='bg-black font-pretendardRegular text-white flex flex-col items-center overflow-y-auto'>
       <ToastContainer />
-      <div className='mb-[4px] mt-[155px] flex justify-between w-[1220px]'>
+      <div className='mb-[4px] mt-[155px] w-[1220px]'>
+        <div className='flex'>
+          <div className='mr-8'>지원자 조회</div>
+          <div>면접자 조회</div>
+        </div>
         <div>
           <span className='font-pretendardBold text-mainColor'>{count}</span>
           명의 지원자가 있습니다.
         </div>
-        <div
-          className='cursor-pointer px-2 py-1 bg-gray-700 text-white rounded-lg'
-          onClick={() => {
-            navigate('/admin/applicants/interviewee')
-          }}
-        >
-          면접자 조회
-        </div>
       </div>
 
-      {/* 지원자 목록 테이블 */}
-      <table className='w-[1220px]'>
-        <thead>
-          <tr className='border border-gray-500 py-[4px] font-pretendardBold'>
-            <th className='w-[60px]'>ID</th>
-            <th className='border border-gray-500 py-[4px] w-[150px]'>이름</th>
-            <th className='border border-gray-500 py-[4px] w-[150px]'>학번</th>
-            <th className='border border-gray-500 py-[4px] w-[150px]'>상태</th>
-            <th className='border border-gray-500 py-[4px]'>상세정보</th>
-          </tr>
-        </thead>
-        <tbody>
-          {applicants.map(applicant => (
-            <ApplicantInfo key={applicant.id} applicant={applicant} />
-          ))}
-        </tbody>
-      </table>
-      <div className='w-[1220px]'>
-        <MailButtons />
+      <div className='flex w-[1220px] justify-between'>
+        <div className='w-[700px]'>
+          {/* 지원자 목록 테이블 */}
+          <table className='w-full border-collapse'>
+            <thead>
+              <tr className='bg-subGrey3 font-pretendardBold text-center'>
+                <th className='py-1.5 w-20'>ID</th>
+                <th className='w-56'>이름</th>
+                <th className='w-48'>학번</th>
+                <th>상태</th>
+              </tr>
+            </thead>
+            <tbody>
+              {applicants.map(applicant => (
+                <ApplicantInfo key={applicant.id} applicant={applicant} />
+              ))}
+            </tbody>
+          </table>
+          <div className='w-[700px]'>
+            <MailButtons />
+          </div>
+        </div>
+        <div className='h-fit w-[500px] bg-subGrey3'>
+          <ApplicantDetailInfo applicant={detailInfo} />
+        </div>
       </div>
       {/* 페이지네이션 */}
       <AdminPagination
