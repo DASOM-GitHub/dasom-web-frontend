@@ -51,6 +51,18 @@ function App() {
 function AppContent() {
   const location = useLocation()
   const hideHeaderFooter = ['/login'] // 헤더와 푸터를 숨길 페이지
+  const hideFooterOnly = [
+    '/recruit',
+    '/recruitinfo',
+    '/recruit/submit',
+    '/recruit/result',
+    '/recruit/check',
+    '/recruit/check/final',
+    '/recruit/meeting',
+    '/recruit/meeting/submit',
+    '/somkathon',
+    '/somkathon/submit',
+  ] // 푸터만 숨길 페이지
 
   return (
     <>
@@ -152,7 +164,8 @@ function AppContent() {
           }
         />
       </Routes>
-      {!hideHeaderFooter.includes(location.pathname) && <Footer />}
+      {!hideHeaderFooter.includes(location.pathname) &&
+        !hideFooterOnly.includes(location.pathname) && <Footer />}
     </>
   )
 }
