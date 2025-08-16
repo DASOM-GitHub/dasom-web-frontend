@@ -10,11 +10,10 @@ const MobileLayout: React.FC<Props> = ({ children }) => {
 
   return (
     <div
-      className='mx-auto bg-mainBlack overflow-auto no-scrollbar'
+      className='mx-auto bg-mainBlack overflow-auto no-scrollbar min-w-[395px]'
       style={{
-        width: width > 480 ? '395px' : '100%', // PC에서는 고정, 모바일에서는 꽉 차게
-        height: '100vh',
-        overflowY: 'auto',
+        width: width > 480 ? '40%' : '100%', // PC에서는 고정, 모바일에서는 꽉 차게
+        minHeight: 'calc(100vh - 56px)', // viewport 높이 - header 높이(56px)만 제외 (footer는 recruit 페이지에서 없음)
       }}
     >
       {children}

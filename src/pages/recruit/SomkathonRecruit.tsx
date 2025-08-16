@@ -165,88 +165,90 @@ const SomkathonRecruit: React.FC = () => {
   }
 
   return (
-    <MobileLayout>
-      <RecruitHeader title='다솜 해커톤 프로젝트 : 솜커톤 SOMKATHON 모집 폼' />
-      <SomRecruitUI />
-      <div className='flex flex-col items-center gap-6 mb-40'>
-        <form
-          className='mt-3 bg-mainBlack w-full px-2 font-pretendardRegular'
-          onSubmit={handleSubmit}
-        >
-          <InputField
-            label='이름'
-            name='participantName'
-            value={formData.participantName}
-            onChange={handleInputChange}
-            onKeyDown={handleKeyPress}
-            required
-            minLength={1}
-            maxLength={16}
-          />
-          <InputField
-            label='학번'
-            name='studentId'
-            value={formData.studentId}
-            onChange={handleInputChange}
-            highlightLabels={[]}
-            required
-          />
-          <InputField
-            label='학과'
-            name='department'
-            type='select'
-            value={formData.department}
-            onChange={handleInputChange}
-            options={[
-              {
-                value: '웹응용소프트웨어공학과',
-                label: '웹응용소프트웨어공학과',
-              },
-              {
-                value: '컴퓨터소프트웨어공학과',
-                label: '컴퓨터소프트웨어공학과',
-              },
-              {
-                value: '인공지능소프트웨어학과',
-                label: '인공지능소프트웨어학과',
-              },
-            ]}
-            required
-          />
-          <InputField
-            label='연락처'
-            name='contact'
-            placeholder='숫자만 입력해주세요'
-            value={formData.contact}
-            onChange={handleInputChange}
-            required
-          />
-          <InputField
-            label='이메일'
-            name='email'
-            type='email'
-            value={formData.email}
-            onChange={handleInputChange}
-            required
-          />
-          <InputField
-            label='학년'
-            name='grade'
-            type='select'
-            value={formData.grade}
-            onChange={handleInputChange}
-            required
-            options={[
-              { value: '1', label: '1학년' },
-              { value: '2', label: '2학년' },
-              { value: '3', label: '3학년' },
-              { value: '4', label: '4학년' },
-            ]}
-          />
-          <Button text='폼 제출하기' />
-        </form>
-      </div>
-    </MobileLayout>
+    <div className='bg-subGrey3' style={{ minHeight: 'calc(100vh - 56px)' }}>
+      <MobileLayout>
+        <RecruitHeader title='다솜 해커톤 프로젝트 : 솜커톤 SOMKATHON 모집 폼' />
+        <SomRecruitUI />
+        <div className='flex flex-col items-center gap-6 mb-40'>
+          <form
+            className='flex flex-col items-center mt-3 bg-mainBlack w-full px-2 font-pretendardRegular'
+            onSubmit={handleSubmit}
+          >
+            <InputField
+              label='이름'
+              name='participantName'
+              value={formData.participantName}
+              onChange={handleInputChange}
+              onKeyDown={handleKeyPress}
+              required
+              minLength={1}
+              maxLength={16}
+            />
+            <InputField
+              label='학번'
+              name='studentId'
+              value={formData.studentId}
+              onChange={handleInputChange}
+              highlightLabels={[]}
+              required
+            />
+            <InputField
+              label='학과'
+              name='department'
+              type='select'
+              value={formData.department}
+              onChange={handleInputChange}
+              options={[
+                {
+                  value: '웹응용소프트웨어공학과',
+                  label: '웹응용소프트웨어공학과',
+                },
+                {
+                  value: '컴퓨터소프트웨어공학과',
+                  label: '컴퓨터소프트웨어공학과',
+                },
+                {
+                  value: '인공지능소프트웨어학과',
+                  label: '인공지능소프트웨어학과',
+                },
+              ]}
+              required
+            />
+            <InputField
+              label='연락처'
+              name='contact'
+              placeholder='숫자만 입력해주세요'
+              value={formData.contact}
+              onChange={handleInputChange}
+              required
+            />
+            <InputField
+              label='이메일'
+              name='email'
+              type='email'
+              value={formData.email}
+              onChange={handleInputChange}
+              required
+            />
+            <InputField
+              label='학년'
+              name='grade'
+              type='select'
+              value={formData.grade}
+              onChange={handleInputChange}
+              required
+              options={[
+                { value: '1', label: '1학년' },
+                { value: '2', label: '2학년' },
+                { value: '3', label: '3학년' },
+                { value: '4', label: '4학년' },
+              ]}
+            />
+            <Button text='폼 제출하기' />
+          </form>
+        </div>
+      </MobileLayout>
+    </div>
   )
 }
 

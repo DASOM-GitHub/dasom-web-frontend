@@ -12,7 +12,7 @@ export const Button: React.FC<ButtonProps> = ({
     <div className='w-full max-w-[395px] mt-20 mb-20 flex justify-center '>
       <button
         type='submit'
-        className={`bg-[#00B493] max-w-[395px] h-[30px]  text-white font-pretendardBold px-4 text-[12px] transition-all ${!disabled ? 'hover:bg-[#00937A] active:scale-95' : null}  ${className}`}
+        className={`bg-[#00B493] max-w-[395px] text-white font-pretendardBold px-4 md:px-6 md:py-2 text-[12px] md:text-base transition-all ${!disabled ? 'hover:bg-[#00937A] active:scale-95' : null}  ${className}`}
         onClick={onClick}
         disabled={disabled}
       >
