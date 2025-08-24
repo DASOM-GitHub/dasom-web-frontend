@@ -13,10 +13,8 @@ const Main: React.FC = () => {
 
   useEffect(() => {
     if (!coreValuesRef.current) return
-    // Desktop-only: if viewport is below md, skip the observer
     const isDesktop = window.matchMedia('(min-width: 768px)').matches
     if (!isDesktop) {
-      // Mobile: show content immediately since there's no scroll animation
       setCoreContentVisible(true)
       return
     }
@@ -28,7 +26,6 @@ const Main: React.FC = () => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             setCoreBgVisible(true)
-            // Wait for background transition to finish (matches duration-1000)
             timer = window.setTimeout(() => setCoreContentVisible(true), 1000)
             observer.unobserve(entry.target)
           }
@@ -45,7 +42,6 @@ const Main: React.FC = () => {
 
   return (
     <main className="bg-mainBlack text-white">
-      {/* Hero */}
       <section className="relative overflow-hidden">
         <div className="relative w-full" style={{ paddingTop: '56%' }}>
           <img
@@ -54,7 +50,6 @@ const Main: React.FC = () => {
             className="absolute inset-0 w-full h-full object-cover opacity-30 blur-sm"
           />
 
-          {/* Overlay content */}
           <div className="absolute inset-0 z-10 flex items-center">
             <div className="w-full max-w-screen-xl mx-auto px-4">
               <ParticlesBackground />
@@ -69,10 +64,7 @@ const Main: React.FC = () => {
           </div>
         </section>
 
-      {/* Core Values */}
       <div ref={coreValuesRef} className="relative overflow-hidden">
-        {/* Background image for Core Value section */}
-        {/* Mobile: static background */}
         <img
           src="/coreback.svg"
           alt=""
@@ -81,7 +73,6 @@ const Main: React.FC = () => {
           loading="lazy"
           decoding="async"
         />
-        {/* Desktop: scroll-reveal background */}
         <img
           src="/coreback.svg"
           alt=""
@@ -195,7 +186,6 @@ const Main: React.FC = () => {
       </section>
       </div>
 
-      {/* Activities */}
       <section className="max-w-screen-xl mx-auto px-4 py-16 md:py-24">
         <div className="text-center">
           <p className="text-xl md:text-2xl">Activities</p>
@@ -229,7 +219,6 @@ const Main: React.FC = () => {
         </div>
       </section>
 
-      {/* Recruiting */}
       <section className="max-w-screen-xl mx-auto px-4 py-16 md:py-24">
         <div className="text-center">
           <p className="text-xl md:text-2xl">Recruiting</p>
@@ -240,13 +229,9 @@ const Main: React.FC = () => {
             다솜 공식 Instagram 계정, 홈페이지, 에브리타임 등에서 모집 일정을 확인할 수 있습니다.
           </p>
         </div>
-
-        {/* Editor-like box */}
         <div className="mt-10">
           <PythonEditor />
         </div>
-
-        {/* CTA */}
         <div className="mt-16 text-center">
           <p className="text-2xl md:text-3xl font-pretendardBold mb-4">다솜과 함께 도전해보실 당신을 기다립니다.</p>
           <button
