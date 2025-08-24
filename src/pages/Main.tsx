@@ -36,8 +36,8 @@ const Main: React.FC = () => {
       {/* Core Values */}
       <section className="max-w-screen-xl mx-auto px-4 py-16 md:py-24">
         <div className="text-center">
-          <p className="text-2xl md:text-2xl">Core Value</p>
-          <h2 className="mt-1 text-4xl md:text-4xl font-pretendardBold">핵심 가치</h2>
+          <p className="text-xl md:text-2xl">Core Value</p>
+          <h2 className="mt-1 text-3xl md:text-4xl font-pretendardBold">핵심 가치</h2>
           <p className="mt-4 text-base md:text-xl text-white/80">
             34기 다솜은 이런 분들과 함께 성장하고 싶습니다.
           </p>
@@ -102,19 +102,19 @@ const Main: React.FC = () => {
           <CoreValueCard
             index="03"
             title="SOMEDAY - 미래"
-            mobileSubtitle="미래를 설계하고 싶은 사람"
+            mobileSubtitle="언젠가 진짜를 만들고 싶은 사람"
             mobileBody={
               <>
-                다솜에서 프로젝트와 경험을 쌓고
-                <br />내일의 개발자로 성장해요.
+                아직은 서툴지만 계속 개선하면서
+                <br />다솜과 함께 성장해봐요.
               </>
             }
             mobileSubtitleClass="text-sm"
-            hoverSubtitle="미래를 설계하고 싶은 사람"
+            hoverSubtitle="언젠가 진짜를 만들고 싶은 사람"
             hoverBody={
               <>
-                다솜에서 프로젝트와 경험을 쌓고
-                <br />내일의 개발자로 성장해요.
+                아직은 서툴지만 계속 개선하면서
+                <br />다솜과 함께 성장해봐요.
               </>
             }
             hoverSubtitleClass="text-2xl"
@@ -131,8 +131,8 @@ const Main: React.FC = () => {
       {/* Activities */}
       <section className="max-w-screen-xl mx-auto px-4 py-16 md:py-24">
         <div className="text-center">
-          <p className="text-2xl md:text-2xl">Activities</p>
-          <h2 className="mt-1 text-4xl md:text-4xl font-pretendardBold">활동 기록</h2>
+          <p className="text-xl md:text-2xl">Activities</p>
+          <h2 className="mt-1 text-3xl md:text-4xl font-pretendardBold">활동 기록</h2>
           <p className="mt-4 text-base md:text-xl text-white/80">
             튜터링, 스터디뿐만 아니라 팀 프로젝트, 솜커톤과 같은 대내 행사를 진행하고 있습니다.
             <br className="hidden md:block" />
@@ -165,8 +165,8 @@ const Main: React.FC = () => {
       {/* Recruiting */}
       <section className="max-w-screen-xl mx-auto px-4 py-16 md:py-24">
         <div className="text-center">
-          <p className="text-2xl md:text-2xl">Recruiting</p>
-          <h2 className="mt-1 text-4xl md:text-4xl font-pretendardBold">모집 일정</h2>
+          <p className="text-xl md:text-2xl">Recruiting</p>
+          <h2 className="mt-1 text-3xl md:text-4xl font-pretendardBold">모집 일정</h2>
           <p className="mt-4 text-base md:text-xl text-white/80">
             매학기 2-3월, 8-9월경에 신입 부원을 모집하고 있습니다.
             <br className="hidden md:block" />
