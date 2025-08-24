@@ -8,7 +8,7 @@ const HeroSection: React.FC = () => {
         <img
           src="/dasomMain.png"
           alt="hero background"
-          className="absolute inset-0 w-full h-full object-cover opacity-30 blur-sm"
+          className="absolute inset-0 w-full h-full object-cover opacity-50 blur-[2px]"
         />
         <div className="absolute inset-0 z-10 flex items-center">
           <div className="w-full max-w-screen-xl mx-auto px-4">

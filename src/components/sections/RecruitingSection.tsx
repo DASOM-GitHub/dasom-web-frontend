@@ -24,7 +24,7 @@ const RecruitingSection: React.FC = () => {
         <p className="text-2xl md:text-3xl font-pretendardBold mb-4">다솜과 함께 도전해보실 당신을 기다립니다.</p>
         <button
           onClick={() => navigate('/recruit')}
-          className="inline-flex items-center justify-center w-36 h-12 bg-mainColor rounded-[30px] shadow-[2px_6px_11px_0px_rgba(0,0,0,0.25)] font-pretendardSemibold"
+          className="inline-flex mt-8 items-center justify-center w-36 h-12 bg-mainColor rounded-[30px] shadow-[2px_6px_11px_0px_rgba(0,0,0,0.25)] font-pretendardSemibold"
         >
           지원하기
         </button>
