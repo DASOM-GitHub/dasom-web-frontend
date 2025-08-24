@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import ParticlesBackground from '../components/UI/ParticlesBackground'
 import PythonEditor from '../components/UI/PythonEditor'
@@ -6,6 +6,42 @@ import CoreValueCard from '../components/UI/CoreValueCard'
 
 const Main: React.FC = () => {
   const navigate = useNavigate()
+
+  const coreValuesRef = useRef<HTMLDivElement | null>(null)
+  const [coreBgVisible, setCoreBgVisible] = useState(false)
+  const [coreContentVisible, setCoreContentVisible] = useState(false)
+
+  useEffect(() => {
+    if (!coreValuesRef.current) return
+    // Desktop-only: if viewport is below md, skip the observer
+    const isDesktop = window.matchMedia('(min-width: 768px)').matches
+    if (!isDesktop) {
+      // Mobile: show content immediately since there's no scroll animation
+      setCoreContentVisible(true)
+      return
+    }
+
+    const el = coreValuesRef.current
+    let timer: number | undefined
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setCoreBgVisible(true)
+            // Wait for background transition to finish (matches duration-1000)
+            timer = window.setTimeout(() => setCoreContentVisible(true), 1000)
+            observer.unobserve(entry.target)
+          }
+        })
+      },
+      { threshold: 0.2, rootMargin: '0px 0px -10% 0px' }
+    )
+    observer.observe(el)
+    return () => {
+      observer.disconnect()
+      if (timer !== undefined) window.clearTimeout(timer)
+    }
+  }, [])
 
   return (
     <main className="bg-mainBlack text-white">
@@ -30,12 +66,42 @@ const Main: React.FC = () => {
               </div>
             </div>
           </div>
-        </div>
-      </section>
+          </div>
+        </section>
 
       {/* Core Values */}
-      <section className="max-w-screen-xl mx-auto px-4 py-16 md:py-24">
-        <div className="text-center">
+      <div ref={coreValuesRef} className="relative overflow-hidden">
+        {/* Background image for Core Value section */}
+        {/* Mobile: static background */}
+        <img
+          src="/coreback.svg"
+          alt=""
+          aria-hidden="true"
+          className="md:hidden pointer-events-none select-none absolute inset-0 object-cover opacity-70"
+          loading="lazy"
+          decoding="async"
+        />
+        {/* Desktop: scroll-reveal background */}
+        <img
+          src="/coreback.svg"
+          alt=""
+          aria-hidden="true"
+          className={
+            'hidden md:block pointer-events-none select-none absolute inset-0 object-cover ' +
+            'transition-[opacity,transform,filter] duration-1000 ease-out ' +
+            (coreBgVisible ? 'opacity-70 translate-y-0 blur-0' : 'opacity-0 translate-y-4 blur-sm')
+          }
+          loading="lazy"
+          decoding="async"
+        />
+
+        <section
+          className={
+            'relative z-10 max-w-screen-xl mx-auto px-4 py-16 md:py-24 transition-all duration-700 ease-out ' +
+            (coreContentVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2')
+          }
+        >
+          <div className="text-center">
           <p className="text-xl md:text-2xl">Core Value</p>
           <h2 className="mt-1 text-3xl md:text-4xl font-pretendardBold">핵심 가치</h2>
           <p className="mt-4 text-base md:text-xl text-white/80">
@@ -43,7 +109,7 @@ const Main: React.FC = () => {
           </p>
           <p className="mt-4 text-xl md:text-3xl font-pretendardBold">"Dare. Share. Someday."</p>
         </div>
-
+        
         <div className="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 place-items-center">
           <CoreValueCard
             index="01"
@@ -127,6 +193,7 @@ const Main: React.FC = () => {
           />
         </div>
       </section>
+      </div>
 
       {/* Activities */}
       <section className="max-w-screen-xl mx-auto px-4 py-16 md:py-24">
