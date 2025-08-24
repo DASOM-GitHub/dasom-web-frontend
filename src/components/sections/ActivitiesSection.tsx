@@ -1,7 +1,35 @@
-import React from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { NewsItem } from '../../pages/news/Newstype'
+import { NewsService } from '../../pages/news/NewsService'
+import { convertToBase64Url } from '../../utils/imageUtils'
 
 const ActivitiesSection: React.FC = () => {
+  const [news, setNews] = useState<NewsItem[]>([])
+  const fetched = useRef(false)
+
+  useEffect(() => {
+    if (fetched.current) return
+    const load = async () => {
+      try {
+        const list = await NewsService.getNewsList()
+        setNews(list)
+      } catch (e) {
+        console.error('최근 소식 불러오기 실패:', e)
+      }
+    }
+    load()
+    fetched.current = true
+  }, [])
+
+  const latestThree = useMemo(() => {
+    const top3 = news.slice(0, 3)
+    return top3.map(n => ({
+      ...n,
+      imageUrl: convertToBase64Url(n.image),
+    }))
+  }, [news])
+
   return (
     <section className="max-w-screen-xl mx-auto px-4 py-16 md:py-24">
       <div className="text-center">
@@ -15,18 +43,26 @@ const ActivitiesSection: React.FC = () => {
       </div>
 
       <div className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-6">
-        {[1, 2, 3].map((i) => (
-          <div key={i} className="rounded-3xl bg-neutral-100 text-zinc-900 overflow-hidden border border-zinc-900/10">
-            <img src="https://placehold.co/378x142" alt="activity" className="w-full h-36 object-cover" />
+        {latestThree.map(item => (
+          <Link
+            key={item.id}
+            to={`/news/${item.id}`}
+            className="rounded-3xl bg-neutral-100 text-zinc-900 overflow-hidden border border-zinc-900/10 hover:shadow-md transition-shadow"
+          >
+            {item.imageUrl ? (
+              <img src={item.imageUrl} alt={item.title} className="w-full h-36 object-cover" />
+            ) : (
+              <div className="w-full h-36 bg-zinc-200 flex items-center justify-center text-zinc-500 text-sm">이미지 없음</div>
+            )}
             <div className="p-5">
-              <h3 className="text-xl font-pretendardBold">💬 GDGoC Konkuk Kprintf 2025</h3>
-              <p className="mt-3 text-sm leading-6">
-                5월 24일, 건국대학교에서 열린 GDGoC 프로그램 Kprintf 2025에 다녀왔습니다!
-                현직 개발자 선배님들께서 대학생 개발자들을 위해 자신의 경험을 바탕으로 다양한 조언과 인사이트를 나누어 주는 자리였습니다...
-              </p>
+              <h3 className="text-xl font-pretendardBold line-clamp-2">{item.title}</h3>
+              <p className="mt-3 text-xs text-zinc-500">{new Date(item.createdAt).toLocaleDateString()}</p>
             </div>
-          </div>
+          </Link>
         ))}
+        {latestThree.length === 0 && (
+          <div className="col-span-full text-center text-white/70">최근 소식을 불러오는 중입니다...</div>
+        )}
       </div>
 
       <div className="mt-10 flex justify-center">
