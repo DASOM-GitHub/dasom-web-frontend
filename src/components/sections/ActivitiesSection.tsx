@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { NewsItem } from '../../pages/news/Newstype'
 import { NewsService } from '../../pages/news/NewsService'
 import { convertToBase64Url } from '../../utils/imageUtils'
+import Reveal from '../UI/Reveal'
 
 const ActivitiesSection: React.FC = () => {
   const [news, setNews] = useState<NewsItem[]>([])
@@ -32,6 +33,7 @@ const ActivitiesSection: React.FC = () => {
 
   return (
     <section className="max-w-screen-xl mx-auto px-4 py-16 md:py-24">
+      <Reveal>
       <div className="text-center">
         <p className="text-xl md:text-2xl">Activities</p>
         <h2 className="mt-1 text-3xl md:text-4xl font-pretendardBold">활동 기록</h2>
@@ -70,6 +72,7 @@ const ActivitiesSection: React.FC = () => {
           더 알아보기
         </Link>
       </div>
+      </Reveal>
     </section>
   )
 }

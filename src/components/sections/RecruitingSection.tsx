@@ -1,11 +1,13 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import PythonEditor from '../../components/UI/PythonEditor'
+import Reveal from '../UI/Reveal'
 
 const RecruitingSection: React.FC = () => {
   const navigate = useNavigate()
   return (
     <section className="max-w-screen-xl mx-auto px-4 py-16 md:py-24">
+      <Reveal>
       <div className="text-center">
         <p className="text-xl md:text-2xl">Recruiting</p>
         <h2 className="mt-1 text-3xl md:text-4xl font-pretendardBold">모집 일정</h2>
@@ -29,6 +31,7 @@ const RecruitingSection: React.FC = () => {
           지원하기
         </button>
       </div>
+      </Reveal>
     </section>
   )
 }
