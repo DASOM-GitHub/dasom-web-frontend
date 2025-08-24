@@ -39,8 +39,7 @@ const CoreValueCard: React.FC<CoreValueCardProps> = ({
 }) => {
   return (
     <div className="mx-auto">
-      {/* Mobile: simplified fluid card */}
-      <div className="md:hidden rounded-2xl bg-zinc-800 p-6 relative overflow-hidden min-h-[200px]">
+      <div className="md:hidden w-[340px] sm:w-[360px] rounded-2xl bg-zinc-800 p-6 relative overflow-hidden min-h-[200px]">
         <div className="flex items-start justify-between gap-4">
           <div>
             <div className="text-white text-3xl font-bold font-mono">{index}</div>
@@ -52,9 +51,7 @@ const CoreValueCard: React.FC<CoreValueCardProps> = ({
         <div className="mt-4 text-white text-sm">{mobileBody}</div>
       </div>
 
-      {/* Desktop/Tablet: absolute-positioned with hover variant */}
       <div className="hidden md:block group md:w-[352px] lg:w-[400px] h-[685px] relative overflow-hidden">
-        {/* Default state */}
         <div className="absolute inset-0 transition-opacity duration-300 ease-out group-hover:opacity-0">
           <div className={`${defaultBgClass} absolute bg-zinc-800 rounded-2xl`} />
           <div className={`left-12 top-[543px] absolute text-center text-white font-normal ${titleDefaultClass}`}>{title}</div>
@@ -62,7 +59,6 @@ const CoreValueCard: React.FC<CoreValueCardProps> = ({
           <img src={imageSrc} alt={`${title} illustration`} className={defaultImageClass} />
         </div>
 
-        {/* Hover state (Variant2) */}
         <div className="absolute inset-0 opacity-0 transition-opacity duration-300 ease-out group-hover:opacity-100">
           <div className={`${hoverBgClass} absolute bg-neutral-100 rounded-2xl`} />
           <div className={`left-12 top-[343px] absolute text-center text-zinc-900 font-semibold ${titleHoverClass}`}>{title}</div>
