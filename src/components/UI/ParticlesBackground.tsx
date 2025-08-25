@@ -16,7 +16,7 @@ const ParticlesBackground: React.FC = () => {
       }}
       animate={{ opacity: [0.9, 1, 0.9] }}
       transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
-      className='absolute w-full h-[700px]'
+      className='absolute inset-0 w-full h-full'
     >
       <SparklesCore
         background='transparent'
