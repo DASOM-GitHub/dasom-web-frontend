@@ -37,7 +37,7 @@ const ActivitiesSection: React.FC = () => {
       <div className="text-center">
         <p className="text-xl md:text-2xl">Activities</p>
         <h2 className="mt-1 text-3xl md:text-4xl font-pretendardBold">활동 기록</h2>
-        <p className="mt-4 text-base md:text-xl text-white/80">
+        <p className="mt-4 text-base md:text-xl text-white/80 font-pretendardRegular">
           튜터링, 스터디뿐만 아니라 팀 프로젝트, 솜커톤과 같은 대내 행사를 진행하고 있습니다.
           <br className="hidden md:block" />
           이뿐만 아니라 외부 세미나 참여, EXPO 출품, MT, 할로윈 파티 등 다양한 행사 또한 진행하고 있습니다.
@@ -68,7 +68,7 @@ const ActivitiesSection: React.FC = () => {
       </div>
 
       <div className="mt-10 flex justify-center">
-        <Link to="/news" className="px-6 py-3 rounded-[30px] bg-mainColor shadow-[2px_6px_11px_0px_rgba(0,0,0,0.25)] font-pretendardSemibold">
+        <Link to="/news" className="px-6 py-3 rounded-[30px] bg-mainColor shadow-[2px_6px_11px_0px_rgba(0,0,0,0.25)] font-pretendardSemiBold">
           더 알아보기
         </Link>
       </div>
