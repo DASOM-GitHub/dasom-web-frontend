@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from 'react'
-import apiClient from '../../utils/apiClient'
-import { RecruitHeaderProps } from './types'
+import { formatKoreanDate, useRecruitSchedule } from '../../pages/recruit/useRecruitSchedule'
+import { RecruitScheduleData } from '@/pages/recruit/Recruittype'
 
 interface RecruitUIProps {
-  name: string
+  name?: string
+}
+
+interface RecruitHeaderProps {
+  title: string
 }
 
 export const RecruitHeader: React.FC<RecruitHeaderProps> = ({ title }) => {
@@ -15,35 +19,21 @@ export const RecruitHeader: React.FC<RecruitHeaderProps> = ({ title }) => {
 }
 
 export const RecruitUI: React.FC = () => {
-  const [recruitmentData, setRecruitmentData] = useState<Record<
-    string,
-    string
-  > | null>(null)
+  const { loadSchedule } = useRecruitSchedule()
+  const [scheduleData, setScheduleData] = useState<RecruitScheduleData | null>(null)
 
   useEffect(() => {
     const fetchRecruit = async () => {
       try {
-        const res = await apiClient.get('/recruit')
-        const data = res.data
-        if (Array.isArray(data)) {
-          const formattedData: Record<string, string> = {}
-          data.forEach((item: any) => {
-            formattedData[item.key] = item.value
-          })
-          setRecruitmentData(formattedData)
-        } else {
-          console.error('예상하지 못한 응답 형식:', data)
-        }
+        const { scheduleData } = await loadSchedule()
+        setScheduleData(scheduleData)
       } catch (error) {
-        console.error('API 요청 오류:', error)
+        console.error('모집 기간 확인 중 오류 발생:', error)
       }
     }
     fetchRecruit()
-  }, [])
+  }, [loadSchedule])
 
-  {
-    /* 데이터 형식 번경 기능  */
-  }
   const formatDate = (isoString: string) => {
     const date = new Date(isoString)
     const options: Intl.DateTimeFormatOptions = {
@@ -63,27 +53,26 @@ export const RecruitUI: React.FC = () => {
       </p>
       <div className='mt-2 pl-2'>
         <p className='text-mainColor font-pretendardSemiBold'>📅 모집 일정 :</p>
-        {recruitmentData ? (
+        {scheduleData ? (
           <p>
-            모집 폼 제출 :{' '}
-            {formatDate(recruitmentData.RECRUITMENT_PERIOD_START)} ~{' '}
-            {formatDate(recruitmentData.RECRUITMENT_PERIOD_END)}
+            모집 폼 제출 : {formatDate(scheduleData.recruitmentPeriodStart)} ~{' '}
+            {formatDate(scheduleData.recruitmentPeriodEnd)}
           </p>
         ) : (
           <p>모집 일정 불러오는 중...</p>
         )}
-        {recruitmentData ? (
+        {scheduleData ? (
           <p>
-            대면 면접 : {formatDate(recruitmentData.INTERVIEW_PERIOD_START)} ~{' '}
-            {formatDate(recruitmentData.INTERVIEW_PERIOD_END)}
+            대면 면접 : {formatDate(scheduleData.interviewPeriodStart)} ~{' '}
+            {formatDate(scheduleData.interviewPeriodEnd)}
           </p>
         ) : (
           <p>대면 일정 불러오는 중...</p>
         )}
-        {recruitmentData ? (
+        {scheduleData ? (
           <p>
             최종 합격자 발표 :{' '}
-            {formatDate(recruitmentData.INTERVIEW_PASS_ANNOUNCEMENT)}
+            {formatDate(scheduleData.interviewPassAnnouncement)}
           </p>
         ) : (
           <p>최종 합격 일정 불러오는 중...</p>
@@ -119,6 +108,21 @@ export const RecruitUI: React.FC = () => {
 }
 
 export const RecruitUI_SUB: React.FC<RecruitUIProps> = ({ name }) => {
+  const { loadSchedule } = useRecruitSchedule()
+  const [scheduleData, setScheduleData] = useState<RecruitScheduleData | null>(null)
+
+  useEffect(() => {
+    const fetchRecruit = async () => {
+      try {
+        const { scheduleData } = await loadSchedule()
+        setScheduleData(scheduleData)
+      } catch (error) {
+        console.error('모집 기간 확인 중 오류 발생:', error)
+      }
+    }
+    fetchRecruit()
+  }, [loadSchedule])
+
   return (
     <div className='whitespace-pre-line text-white flex flex-col items-start w-auto h-[auto] shadow-[0px_2px_3px_rgba(255,255,255,0.2)] bg-#17171B] gap-2 mx-2 font-pretendardRegular pl-2 text-[12px] md:text-sm'>
       <p className='pt-3 '>
@@ -136,7 +140,7 @@ export const RecruitUI_SUB: React.FC<RecruitUIProps> = ({ name }) => {
         {'다음 전형인 대면 인터뷰에서 뵐 수 있게 되어 기쁜 마음을 담아 안내드립니다.'}
       </p>
 
-      <p className='mb-3'>{'대면 인터뷰는 3/12(수)~14(금) 중에 진행 될 예정이며 편한 시간대로 폼을 작성해주시면 감사하겠습니다.'}</p>
+      <p className='mb-3'>대면 인터뷰는 {formatKoreanDate(scheduleData?.interviewPeriodStart)} ~ {formatKoreanDate(scheduleData?.interviewPeriodEnd)} 중에 진행 될 예정이며 편한 시간대로 폼을 작성해주시면 감사하겠습니다.</p>
     </div>
   )
 }
