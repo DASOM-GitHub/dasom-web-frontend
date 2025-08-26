@@ -154,7 +154,7 @@ const ManApplicants: React.FC = () => {
   }
 
   return (
-    <div className='bg-black font-pretendardRegular text-white flex flex-col overflow-y-auto'>
+    <div className='bg-black font-pretendardRegular text-white flex flex-col overflow-y-auto min-h-[1200px]'>
       <ToastContainer />
       <div className="flex flex-col items-center min-w-[1220px]">
       <div className='mb-[4px] mt-[155px] w-[1220px]'>

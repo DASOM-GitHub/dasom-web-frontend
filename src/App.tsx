@@ -61,6 +61,7 @@ function AppContent() {
     '/recruit/meeting/submit',
     '/somkathon',
     '/somkathon/submit',
+    '/admin/applicants'
   ] // 푸터만 숨길 페이지
 
   return (
