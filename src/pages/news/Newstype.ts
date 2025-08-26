@@ -7,6 +7,7 @@ export interface NewsItem {
   id: number
   title: string
   image: ImageData | null
+  content: string
   createdAt: string
 }
 

@@ -1,12 +1,9 @@
 import React, { useEffect, useState, useMemo, useRef } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
-import MobileLayout from '../../components/layout/MobileLayout'
-import dasomLogo from '../../assets/images/dasomLogo.svg'
-import NewsContent from '../../components/UI/NewsContent'
-import NewsNotice from '../../components/UI/NewsNotice'
 import { NewsDetail } from './Newstype'
 import { convertMultipleToBase64Urls } from '../../utils/imageUtils'
-import { NewsService } from './NewsService'
+import { getNewsDetail } from './NewsService'
+import NewsCarousel from '../../components/UI/NewsCarousel'
 
 const NewsInfo: React.FC = () => {
   const { no } = useParams<{ no: string }>()
@@ -18,14 +15,21 @@ const NewsInfo: React.FC = () => {
   const navigate = useNavigate()
   const isFetched = useRef(false)
 
-  const handleNews = () => navigate('/news')
+  const handleNews = () => navigate('/activities/news')
+
+  const imageUrls = useMemo(() => {
+    if (!news?.images) return []
+
+    const convertedUrls = convertMultipleToBase64Urls(news.images)
+    return convertedUrls
+  }, [news?.images])
 
   useEffect(() => {
     if (!no || no === 'undefined' || isFetched.current || news) return
 
     const fetchNewsDetail = async () => {
       try {
-        const data = await NewsService.getNewsDetail(no)
+        const data = await getNewsDetail(no)
         setNews(data)
         sessionStorage.setItem(`news-${no}`, JSON.stringify(data))
       } catch (error) {
@@ -39,45 +43,73 @@ const NewsInfo: React.FC = () => {
     isFetched.current = true
   }, [no, news])
 
+  if (loading) {
+    return (
+      <main className='w-full bg-[#17171B] flex flex-col items-center justify-center min-h-screen'>
+        <section className='text-center'>
+          <p className='text-white'>로딩 중...</p>
+        </section>
+      </main>
+    )
+  }
+
   if (!news && !loading)
     return (
-      <p className='text-white text-center mt-5'>뉴스를 찾을 수 없습니다.</p>
+      <main className='w-full bg-[#17171B] flex flex-col items-center justify-center min-h-screen'>
+        <section className='text-center'>
+          <p className='text-white mt-5'>뉴스를 찾을 수 없습니다.</p>
+        </section>
+      </main>
     )
 
-  //  이미지 변환 (불필요한 리렌더링 방지)
-  const imageUrls = useMemo(() => {
-    return convertMultipleToBase64Urls(news?.images ?? null)
-  }, [news])
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString)
+    return `${date.getFullYear()}.${String(date.getMonth() + 1).padStart(
+      2,
+      '0'
+    )}.${String(date.getDate()).padStart(2, '0')}`
+  }
 
   return (
-    <MobileLayout>
-      <div
-        className='mt-[65px] mb-2 ml-[12px] flex cursor-pointer'
-        onClick={handleNews}
-      >
-        <img className='w-[21px] h-[24px]' alt='logo' src={dasomLogo} />
-        <div className='font-pretendardSemiBold text-white text-[16px] ml-[9px]'>
-          다솜 소식
-        </div>
-      </div>
+    <main className='w-full bg-[#17171B] flex flex-col items-center pb-20 min-h-screen'>
+      {imageUrls.length > 0 && (
+        <section className='w-full'>
+          <NewsCarousel imageUrls={imageUrls} />
+        </section>
+      )}
 
-      <div className='flex flex-col items-center mx-[12px] mb-40'>
-        {loading ? (
-          <div className='w-full h-[140px] bg-gray-700 animate-pulse rounded-lg'></div>
-        ) : (
-          <NewsContent
-            id={news!.id}
-            title={news!.title}
-            images={imageUrls.length > 0 ? news!.images : null}
-            createdAt={news!.createdAt}
-            onClick={() => {}}
-            isDetail={true}
-          />
-        )}
+      <article className='w-full max-w-6xl mx-auto mt-8'>
+        <section className='p-6 md:p-8 shadow-xl'>
+          <header className='mb-6'>
+            <h1 className='text-white text-xl md:text-2xl font-bold'>
+              {news?.title}
+            </h1>
+          </header>
 
-        {news?.content && <NewsNotice text={news.content} />}
-      </div>
-    </MobileLayout>
+          <section className='mb-6'>
+            <div
+              className='text-white text-sm md:text-base leading-relaxed'
+              dangerouslySetInnerHTML={{ __html: news?.content || '' }}
+            />
+          </section>
+
+          <div className='text-right'>
+            <time className='text-gray-400 text-sm'>
+              작성일: {news?.createdAt ? formatDate(news.createdAt) : ''}
+            </time>
+          </div>
+        </section>
+      </article>
+
+      <nav className='w-full flex justify-center mt-4'>
+        <button
+          onClick={handleNews}
+          className='bg-[#00B493] hover:bg-[#009A7E] text-white px-6 py-3 rounded-lg font-medium transition-colors shadow-lg hover:shadow-xl'
+        >
+          목록으로
+        </button>
+      </nav>
+    </main>
   )
 }
 

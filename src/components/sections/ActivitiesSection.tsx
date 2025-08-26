@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { NewsItem } from '../../pages/news/Newstype'
-import { NewsService } from '../../pages/news/NewsService'
+import { getNewsList } from '../../pages/news/NewsService'
 import { convertToBase64Url } from '../../utils/imageUtils'
 import Reveal from '../UI/Reveal'
 
@@ -13,7 +13,7 @@ const ActivitiesSection: React.FC = () => {
     if (fetched.current) return
     const load = async () => {
       try {
-        const list = await NewsService.getNewsList()
+        const list = await getNewsList()
         setNews(list)
       } catch (e) {
         console.error('최근 소식 불러오기 실패:', e)

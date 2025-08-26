@@ -1,23 +1,24 @@
 import React, { useEffect, useState, useRef, useMemo } from 'react'
-import MobileLayout from '../../components/layout/MobileLayout'
-import dasomLogo from '../../assets/images/dasomLogo.svg'
 import NewsContent from '../../components/UI/NewsContent'
+import dasombanner from '../../assets/images/dasombanner.png'
 import { useNavigate } from 'react-router-dom'
 import { NewsItem } from './Newstype'
 import { convertToBase64Url } from '../../utils/imageUtils'
-import { NewsService } from './NewsService'
+import { getNewsList } from './NewsService'
 
 const News: React.FC = () => {
   const navigate = useNavigate()
   const [newsList, setNewsList] = useState<NewsItem[]>([])
+  const [currentPage, setCurrentPage] = useState(1)
+  const [itemsPerPage] = useState(9)
   const isFetched = useRef(false)
 
   const fetchNews = async () => {
     try {
-      const data = await NewsService.getNewsList()
+      const data = await getNewsList()
       setNewsList(data)
     } catch (error) {
-      console.error('뉴스 데이터를 불러오는 중 오류 발생:', error)
+      console.error('뉴스 데이터 오류 발생:', error)
     }
   }
 
@@ -28,7 +29,6 @@ const News: React.FC = () => {
     }
   }, [])
 
-  // `useMemo`로 이미지 변환 최적화 (불필요한 연산 방지)
   const formattedNewsList = useMemo(
     () =>
       newsList.map(news => ({
@@ -38,32 +38,63 @@ const News: React.FC = () => {
     [newsList]
   )
 
-  return (
-    <MobileLayout>
-      <div className='mt-[65px] mb-2 px-[12px] flex'>
-        <img
-          className='w-[21px] h-[24px] cursor-pointer'
-          alt='logo'
-          src={dasomLogo}
-        />
-        <div className='font-pretendardSemiBold text-white text-[16px] ml-[9px]'>
-          다솜 소식
-        </div>
-      </div>
+  const totalPages = Math.ceil(formattedNewsList.length / itemsPerPage)
+  const startIndex = (currentPage - 1) * itemsPerPage
+  const endIndex = startIndex + itemsPerPage
+  const currentNewsList = formattedNewsList.slice(startIndex, endIndex)
 
-      <div className='flex flex-col mx-[12px] w-auto mb-40'>
-        {formattedNewsList.map(news => (
-          <NewsContent
-            key={news.id}
-            id={news.id}
-            title={news.title}
-            image={news.imageUrl}
-            createdAt={news.createdAt}
-            onClick={() => navigate(`/news/${news.id}`)}
-          />
-        ))}
-      </div>
-    </MobileLayout>
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page)
+  }
+
+  return (
+    <main className='w-full bg-[#17171B] flex flex-col items-center pb-20 min-h-screen'>
+      <header className='flex flex-col w-full'>
+        <img
+          src={dasombanner}
+          alt='dasombanner'
+          className='w-full h-full object-contain'
+        />
+      </header>
+
+      <section className='w-full flex justify-center'>
+        <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8 mx-[12px] w-full max-w-6xl mt-[60px] md:mt-[100px] mb-10'>
+          {currentNewsList.map(news => (
+            <NewsContent
+              key={news.id}
+              id={news.id}
+              title={news.title}
+              image={news.imageUrl}
+              content={news.content}
+              createdAt={news.createdAt}
+              onClick={() => navigate(`/activities/news/${news.id}`)}
+            />
+          ))}
+        </div>
+      </section>
+
+      {totalPages > 1 && (
+        <div className='w-full max-w-screen-xl mx-auto flex flex-col items-center px-4 md:px-12'>
+          <div className='w-full h-px bg-gray-600 mb-4 md:mb-6'></div>
+
+          <div className='flex items-center justify-center space-x-1 md:space-x-2 mb-4 md:mb-6'>
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
+              <button
+                key={page}
+                onClick={() => handlePageChange(page)}
+                className={`w-8 h-8 md:w-10 md:h-10 rounded-lg text-white font-medium transition-colors duration-200 text-sm md:text-base ${
+                  currentPage === page
+                    ? 'bg-mainColor text-white'
+                    : 'bg-[#26262D] text-white hover:bg-gray-600'
+                }`}
+              >
+                {page}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+    </main>
   )
 }
 

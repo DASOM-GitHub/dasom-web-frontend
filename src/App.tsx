@@ -60,8 +60,8 @@ function AppContent() {
         <Route path='/' element={<Main />} />
         <Route path='/login' element={<Login />} />
         <Route path='/usermain' element={<UserMain />} />
-        <Route path='/news' element={<News />} />
-        <Route path='/news/:no' element={<NewsInfo />} />
+        <Route path='/activities/news' element={<News />} />
+        <Route path='/activities/news/:no' element={<NewsInfo />} />
         <Route path='/coremember' element={<CoreMembers />} />
         <Route path='/faq' element={<FAQ />} />
         <Route path='/recruit' element={<Recruit />} />
