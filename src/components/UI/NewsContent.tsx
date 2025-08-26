@@ -28,18 +28,18 @@ const NewsContent: React.FC<NewsProps> = React.memo(
         />
 
         <div className='flex flex-col bg-[#26262D] rounded-b-lg w-full px-3 py-3'>
-          <h3 className='font-pretendardBold text-white text-[16px] mb-2'>
+          <h3 className='font-pretendardBold text-white mb-2 truncate'>
             {title}
           </h3>
 
           {content && (
             <p
-              className='text-[14px] text-gray-300 mb-3 line-clamp-2 leading-relaxed'
+              className='font-pretendardRegular text-subGrey mb-3 line-clamp-2 leading-relaxed'
               dangerouslySetInnerHTML={{ __html: content }}
             />
           )}
 
-          <time className='text-[12px] text-subGrey2 self-start'>
+          <time className='font-pretendardRegular text-subGrey2 self-start'>
             작성일: {formattedDate}
           </time>
         </div>

@@ -81,20 +81,20 @@ const NewsInfo: React.FC = () => {
       <article className='w-full max-w-6xl mx-auto mt-8'>
         <section className='p-6 md:p-8 shadow-xl'>
           <header className='mb-6'>
-            <h1 className='text-white text-xl md:text-2xl font-bold'>
+            <h1 className='text-white text-xl md:text-2xl font-pretendardBold'>
               {news?.title}
             </h1>
           </header>
 
           <section className='mb-6'>
             <div
-              className='text-white text-sm md:text-base leading-relaxed'
+              className='text-white font-pretendardRegular md:text-base leading-relaxed'
               dangerouslySetInnerHTML={{ __html: news?.content || '' }}
             />
           </section>
 
           <div className='text-right'>
-            <time className='text-gray-400 text-sm'>
+            <time className='text-subGrey2 font-pretendardRegular'>
               작성일: {news?.createdAt ? formatDate(news.createdAt) : ''}
             </time>
           </div>
@@ -104,7 +104,7 @@ const NewsInfo: React.FC = () => {
       <nav className='w-full flex justify-center mt-4'>
         <button
           onClick={handleNews}
-          className='bg-[#00B493] hover:bg-[#009A7E] text-white px-6 py-3 rounded-lg font-medium transition-colors shadow-lg hover:shadow-xl'
+          className='bg-[#00B493] hover:bg-[#009A7E] text-white px-6 py-3 rounded-lg font-pretendardRegular transition-colors shadow-lg hover:shadow-xl'
         >
           목록으로
         </button>

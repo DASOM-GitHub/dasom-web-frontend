@@ -82,7 +82,7 @@ const News: React.FC = () => {
               <button
                 key={page}
                 onClick={() => handlePageChange(page)}
-                className={`w-8 h-8 md:w-10 md:h-10 rounded-lg text-white font-medium transition-colors duration-200 text-sm md:text-base ${
+                className={`w-8 h-8 md:w-10 md:h-10 rounded-lg text-white font-pretendardRegular transition-colors duration-200 text-sm md:text-base ${
                   currentPage === page
                     ? 'bg-mainColor text-white'
                     : 'bg-[#26262D] text-white hover:bg-gray-600'
