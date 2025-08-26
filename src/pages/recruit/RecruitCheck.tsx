@@ -24,31 +24,33 @@ const RecruitCheck: React.FC = () => {
   }, [])
 
   return (
-    <MobileLayout>
-      <RecruitHeader title='컴퓨터 소프트웨어 공학과 전공 동아리 다솜 34기 합격자 조회' />
-      {isPassed ? (
-        <RecruitUI_SUB name={name} />
-      ) : (
-        <RecruitUI_SUB2 name={name} />
-      )}
-      <div className='mt-5'>
+    <div className='bg-subGrey3' style={{ minHeight: 'calc(100vh - 56px)' }}>
+      <MobileLayout>
+        <RecruitHeader title='컴퓨터 소프트웨어 공학과 전공 동아리 다솜 34기 합격자 조회' />
         {isPassed ? (
-          <Button
-            text='예약하기'
-            onClick={() => {
-              navigate('/recruit/meeting')
-            }}
-          />
+          <RecruitUI_SUB name={name} />
         ) : (
-          <Button
-            text='메인으로 돌아가기'
-            onClick={() => {
-              navigate('/')
-            }}
-          />
+          <RecruitUI_SUB2 name={name} />
         )}
-      </div>
-    </MobileLayout>
+        <div className='mt-5 flex flex-col items-center'>
+          {isPassed ? (
+            <Button
+              text='예약하기'
+              onClick={() => {
+                navigate('/recruit/meeting')
+              }}
+            />
+          ) : (
+            <Button
+              text='메인으로 돌아가기'
+              onClick={() => {
+                navigate('/')
+              }}
+            />
+          )}
+        </div>
+      </MobileLayout>
+    </div>
   )
 }
 

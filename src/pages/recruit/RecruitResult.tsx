@@ -171,29 +171,34 @@ export const RecruitResult: React.FC = () => {
   }
 
   return (
-    <MobileLayout>
-      <RecruitHeader title='컴퓨터 소프트웨어 공학과 전공 동아리 다솜 34기 합격자 조회' />
-      <form className='mt-4 bg-mainBlack w-full px-2' onSubmit={handleSubmit}>
-        <InputField
-          label='지원하실때 입력하셨던 학번을 입력해주세요.'
-          subLabel='ex) 20250001'
-          type='text'
-          name='studentNo'
-          value={checkInput.studentNo}
-          onChange={handleInputChange}
-          onKeyDown={handleKeyPress}
-        />
-        <InputField
-          label='전화번호 마지막 4자리를 입력해주세요.'
-          subLabel='ex) 0542'
-          type='text'
-          name='contact'
-          value={checkInput.contact}
-          onChange={handleInputChange}
-          onKeyDown={handleKeyPress}
-        />
-        <Button text='결과 확인하기' />
-      </form>
-    </MobileLayout>
+    <div className='bg-subGrey3' style={{ minHeight: 'calc(100vh - 56px)' }}>
+      <MobileLayout>
+        <RecruitHeader title='컴퓨터 소프트웨어 공학과 전공 동아리 다솜 34기 합격자 조회' />
+        <form
+          className='flex flex-col items-center mt-4 bg-mainBlack w-full px-2'
+          onSubmit={handleSubmit}
+        >
+          <InputField
+            label='지원하실때 입력하셨던 학번을 입력해주세요.'
+            subLabel='ex) 20250001'
+            type='text'
+            name='studentNo'
+            value={checkInput.studentNo}
+            onChange={handleInputChange}
+            onKeyDown={handleKeyPress}
+          />
+          <InputField
+            label='전화번호 마지막 4자리를 입력해주세요.'
+            subLabel='ex) 0542'
+            type='text'
+            name='contact'
+            value={checkInput.contact}
+            onChange={handleInputChange}
+            onKeyDown={handleKeyPress}
+          />
+          <Button text='결과 확인하기' />
+        </form>
+      </MobileLayout>
+    </div>
   )
 }
