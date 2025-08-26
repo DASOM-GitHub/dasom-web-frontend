@@ -6,6 +6,7 @@ import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
 import AdminPagination from '../../components/UI/AdminPagination'
 import MailButtons from '../../components/UI/MailButtons'
+import AdminApplicantButton from '../../components/UI/AdminApplicantButton'
 import {
   listApplicants,
   getApplicantDetail,
@@ -18,9 +19,11 @@ dayjs.extend(utc)
 
 const ManApplicants: React.FC = () => {
   const [applicants, setApplicants] = useState<ApplicantListItem[]>([]) // 전체 조회 시 지원자 정보
+  const [interviewees, setInterviewees] = useState<IntervieweeItem[]>([])
   const [count, setCount] = useState<number>(0) // 지원자 수
   const [detailInfo, setDetailInfo] = useState<ApplicantDetail | null>(null) // 특정 지원자 상세정보
   const [selectedId, setSelectedId] = useState<number | null>(null) // 상태 변경 시 선택된 지원자id
+  const [sortOrder, setSortOrder] = useState<'asc' | 'desc' | null>(null)// 면접자 정렬
   const navigate = useNavigate()
 
   const accessToken = localStorage.getItem('accessToken')
@@ -38,62 +41,16 @@ const ManApplicants: React.FC = () => {
   )
   const statusOptions = Object.values(statusMap)
   const [openDropdownId, setOpenDropdownId] = useState<number | null>(null)
+  const [viewMode, setViewMode] = useState<'applicants' | 'interviewees'>(
+    'applicants',
+  )
 
   // 페이지네이션
   const [currentPage, setCurrentPage] = useState<number>(1)
   const [totalPages, setTotalPages] = useState<number>(1)
   const [page, setPage] = useState<number>(0)
 
-  // 지원자 전체 조회
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       if (!accessToken) {
-  //         alert('로그인이 필요합니다.')
-  //         return
-  //       }
-  //       const response = await listApplicants(page)
-  //       setApplicants(response.content)
-  //       setCount(response.totalElements)
-  //       setTotalPages(response.totalPages)
-  //     } catch (err: any) {
-  //       console.error(err)
-  //       const errorCode = err.response?.data?.code
-  //       if (errorCode === 'C012') {
-  //         alert('조회된 데이터가 없습니다.')
-  //       } else {
-  //         alert('데이터 불러오기에 실패하였습니다.')
-  //       }
-  //     }
-  //   }
-
-  //   fetchData()
-  // }, [page])
-
-  // 상세정보 조회
-  const getDetail = async (id: number) => {
-    if (selectedId === id) {
-      setSelectedId(null)
-      setDetailInfo(null)
-      return
-    }
-
-    try {
-      const detail = await getApplicantDetail(id)
-      setDetailInfo(detail)
-      setSelectedId(id)
-    } catch (err: any) {
-      console.error('지원자 상세 조회 실패:', err)
-      const errorCode = err.response?.data?.code
-      if (errorCode === 'C012') {
-        alert('해당 지원자의 상세 정보가 없습니다.')
-      } else {
-        alert('상세 정보를 불러오는 데 실패하였습니다.')
-      }
-    }
-  }
-  
-  //더미
+  //임시 더미데이터
   const mockApplicants: ApplicantListItem[] = [
     { id: 1, name: '홍길동1', studentNo: '20251203', status: 'PENDING' },
     { id: 2, name: '홍길동2', studentNo: '20259352', status: 'INTERVIEW_FAILED' },
@@ -114,6 +71,56 @@ const ManApplicants: React.FC = () => {
     { id: 17, name: '홍길동17', studentNo: '20250789', status: 'INTERVIEW_PASSED' },
     { id: 18, name: '홍길동18', studentNo: '20250890', status: 'PENDING' },
   ]
+  const mockInterviewees: IntervieweeItem[] = [
+    {
+      applicantId: 1,
+      applicantName: '김면접1',
+      studentNo: '20251111',
+      contact: '010-1111-1111',
+      email: 'interviewee1@example.com',
+      activityWish: '프로젝트',
+      reasonForApply: '면접을 통해 저의 역량을 보여주고 싶습니다.',
+      interviewDate: '2025-08-28',
+      interviewTime: '10:00',
+      appliedDate: '2025-08-26T10:00:00.000Z',
+    },
+    {
+      applicantId: 2,
+      applicantName: '김면접2',
+      studentNo: '20252222',
+      contact: '010-2222-2222',
+      email: 'interviewee2@example.com',
+      activityWish: '스터디',
+      reasonForApply: '스터디를 통해 함께 성장하고 싶습니다.',
+      interviewDate: '2025-08-28',
+      interviewTime: '10:30',
+      appliedDate: '2025-08-26T10:05:00.000Z',
+    },
+    {
+      applicantId: 3,
+      applicantName: '김면접3',
+      studentNo: '20253333',
+      contact: '010-3333-3333',
+      email: 'interviewee3@example.com',
+      activityWish: '프로젝트',
+      reasonForApply: '새로운 사람들과 협업하며 즐겁게 활동하고 싶습니다.',
+      interviewDate: '2025-08-28',
+      interviewTime: '11:00',
+      appliedDate: '2025-08-26T10:10:00.000Z',
+    },
+    {
+      applicantId: 4,
+      applicantName: '김면접4',
+      studentNo: '20254444',
+      contact: '010-4444-4444',
+      email: 'interviewee4@example.com',
+      activityWish: '기타',
+      reasonForApply: '동아리에서 다양한 경험을 해보고 싶습니다.',
+      interviewDate: '2025-08-28',
+      interviewTime: '11:30',
+      appliedDate: '2025-08-26T10:15:00.000Z',
+    },
+  ]
   const mockDetailInfo: ApplicantDetail = {
     id: 1,
     name: '홍길동',
@@ -128,12 +135,89 @@ const ManApplicants: React.FC = () => {
     createdAt: '2025-08-16T16:43:08.574Z',
     updatedAt: '2025-08-16T16:43:08.574Z'
   }
+
   useEffect(() => {
-    setApplicants(mockApplicants)
-    setCount(18)
-    setTotalPages(2)
-    setDetailInfo(mockDetailInfo)
-  }, [])
+    const fetchData = async () => {
+      try {
+        if (!accessToken) {
+          alert('로그인이 필요합니다.')
+          return
+        }
+
+        if (viewMode === 'applicants') {
+          // const response = await listApplicants(page)
+          // setApplicants(response.content)
+          // setCount(response.totalElements)
+          // setTotalPages(response.totalPages)
+          setApplicants(mockApplicants)
+          setCount(mockApplicants.length)
+          setTotalPages(Math.ceil(mockApplicants.length / 20))
+        } else {
+          // const response = await getInterviewees()
+          setInterviewees(mockInterviewees)
+          setCount(mockInterviewees.length)
+          setTotalPages(Math.ceil(mockInterviewees.length / 20))
+        }
+        setDetailInfo(mockDetailInfo)
+      } catch (err: any) {
+        console.error(err)
+        const errorCode = err.response?.data?.code
+        if (errorCode === 'C012') {
+          alert('조회된 데이터가 없습니다.')
+        } else {
+          alert('데이터 불러오기에 실패하였습니다.')
+        }
+      }
+    }
+
+    fetchData()
+  }, [viewMode, page, accessToken])
+
+  // 상세정보 조회
+  // const getDetail = async (id: number) => {
+  //   if (selectedId === id) {
+  //     setSelectedId(null)
+  //     setDetailInfo(null)
+  //     return
+  //   }
+
+  //   try {
+  //     const detail = await getApplicantDetail(id)
+  //     setDetailInfo(detail)
+  //     setSelectedId(id)
+  //   } catch (err: any) {
+  //     console.error('지원자 상세 조회 실패:', err)
+  //     const errorCode = err.response?.data?.code
+  //     if (errorCode === 'C012') {
+  //       alert('해당 지원자의 상세 정보가 없습니다.')
+  //     } else {
+  //       alert('상세 정보를 불러오는 데 실패하였습니다.')
+  //     }
+  //   }
+  // }
+
+  // 면접자 정렬
+  const sortedInterviewees = [...interviewees].sort((a, b) => {
+    const dateA = dayjs(`${a.interviewDate}T${a.interviewTime}`)
+    const dateB = dayjs(`${b.interviewDate}T${b.interviewTime}`)
+
+    if (sortOrder === 'asc') {
+      return dateA.diff(dateB)
+    }
+    if (sortOrder === 'desc') {
+      return dateB.diff(dateA)
+    }
+    return 0 // 정렬하지 않음
+  })
+  const handleSort = () => {
+    if (sortOrder === 'asc') {
+      setSortOrder('desc')
+    } else if (sortOrder === 'desc') {
+      setSortOrder(null)
+    } else {
+      setSortOrder('asc')
+    }
+  }
 
   // 지원자 상태 변경
   const handleStatusChange = (id: number, newStatus: string) => {
@@ -206,6 +290,26 @@ const ManApplicants: React.FC = () => {
     )
   }
 
+  //면접자 리스트 항목 컴포넌트
+  const IntervieweeInfo = ({ interviewee }: { interviewee: IntervieweeItem }) => {
+    return (
+      <tr
+        className='text-center cursor-pointer hover:bg-subGrey3 border-b-white border-b-[1px] h-[50px]'
+        //onClick={() => getDetail(interviewee.applicantId)}
+      >
+        <td className='py-[4px]'>{interviewee.applicantId}</td>
+        <td className='py-[4px]'>{interviewee.applicantName}</td>
+        <td className='py-[4px]'>{interviewee.studentNo}</td>
+        <td className='py-[4px]'>
+          {dayjs(`${interviewee.interviewDate}T${interviewee.interviewTime}`).format('MM/DD HH:mm')}
+        </td>
+        <td className='py-[4px]'>
+          {dayjs.utc(interviewee.appliedDate).format('MM/DD HH:mm')}
+        </td>
+      </tr>
+    )
+  }
+
   // 지원자 상세 정보 컴포넌트
   const ApplicantDetailInfo = ({ applicant }: { applicant: any }) => {
     return (
@@ -255,35 +359,68 @@ const ManApplicants: React.FC = () => {
   }
 
   return (
-    <div className='bg-black font-pretendardRegular text-white flex flex-col items-center overflow-y-auto'>
+    <div className='bg-black font-pretendardRegular text-white flex flex-col overflow-y-auto'>
       <ToastContainer />
+      <div className="flex flex-col items-center min-w-[1220px]">
       <div className='mb-[4px] mt-[155px] w-[1220px]'>
-        <div className='flex'>
-          <div className='mr-8'>지원자 조회</div>
-          <div>면접자 조회</div>
+        <div className='flex space-x-4 mb-8'>
+          <AdminApplicantButton
+            label='지원자 조회'
+            active={viewMode === 'applicants'}
+            onClick={() => setViewMode('applicants')}
+          />
+          <AdminApplicantButton
+            label='면접자 조회'
+            active={viewMode === 'interviewees'}
+            onClick={() => setViewMode('interviewees')}
+          />
         </div>
         <div>
           <span className='font-pretendardBold text-mainColor'>{count}</span>
-          명의 지원자가 있습니다.
+          {viewMode === 'applicants' ? '명의 지원자' : '명의 면접자'}가 있습니다.
         </div>
       </div>
 
       <div className='flex w-[1220px] justify-between'>
         <div className='w-[700px]'>
-          {/* 지원자 목록 테이블 */}
+          {/* 지원자/면접자 목록 테이블 */}
           <table className='w-full border-collapse'>
             <thead>
               <tr className='bg-subGrey3 font-pretendardBold text-center'>
-                <th className='py-1.5 w-20'>ID</th>
-                <th className='w-56'>이름</th>
-                <th className='w-48'>학번</th>
-                <th>상태</th>
+                {viewMode === 'applicants' ? (
+                  <>
+                    <th className='py-1.5 w-20'>ID</th>
+                    <th className='w-56'>이름</th>
+                    <th className='w-48'>학번</th>
+                    <th>상태</th>
+                  </>
+                ) : (
+                  <>
+                    <th className='py-1.5 w-20'>ID</th>
+                    <th className='w-36'>이름</th>
+                    <th className='w-40'>학번</th>
+                    <th onClick={handleSort} className='w-30 cursor-pointer'>
+                      면접 일시
+                      {sortOrder === 'asc' && ' ▲'}
+                      {sortOrder === 'desc' && ' ▼'}
+                    </th>
+                    <th>면접 신청 일시</th>
+                  </>
+                )}
               </tr>
             </thead>
             <tbody>
-              {applicants.map(applicant => (
-                <ApplicantInfo key={applicant.id} applicant={applicant} />
-              ))}
+              {viewMode === 'applicants'
+                ? applicants.map((applicant) => (
+                    <ApplicantInfo key={applicant.id} applicant={applicant} />
+                  ))
+                : sortedInterviewees.map((interviewee) => (
+                    <IntervieweeInfo
+                      key={interviewee.applicantId}
+                      interviewee={interviewee}
+                    />
+                  ))
+              }
             </tbody>
           </table>
           <div className='w-[700px]'>
@@ -301,6 +438,7 @@ const ManApplicants: React.FC = () => {
         setCurrentPage={setCurrentPage}
         setPage={setPage}
       />
+      </div>
     </div>
   )
 }
