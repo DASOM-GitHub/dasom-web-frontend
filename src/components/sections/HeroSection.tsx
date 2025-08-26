@@ -1,0 +1,35 @@
+import React from 'react'
+import ParticlesBackground from '../../components/UI/ParticlesBackground'
+import Reveal from '../../components/UI/Reveal'
+
+const HeroSection: React.FC = () => {
+  return (
+    <section className="relative overflow-hidden">
+      <div className="relative w-full" style={{ paddingTop: '56%' }}>
+        <img
+          src="/dasomMain.png"
+          alt="hero background"
+          className="absolute inset-0 w-full h-full object-cover opacity-50 blur-[2px]"
+        />
+        {/* Particles layer (absolute), outside of Reveal to avoid transform effects */}
+        <ParticlesBackground />
+
+        {/* Content layer */}
+        <div className="absolute inset-0 z-10 flex items-center">
+          <Reveal className="w-full">
+            <div className="w-full max-w-screen-xl mx-auto px-4">
+              <div className="text-center">
+                <h1 className="text-5xl md:text-7xl font-pretendardBlack tracking-tight">DASOM</h1>
+                <p className="mt-4 text-lg md:text-2xl font-pretendardBold">
+                  동양미래대 컴퓨터공학부 전공동아리 다솜
+                </p>
+              </div>
+            </div>
+          </Reveal>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+export default HeroSection
