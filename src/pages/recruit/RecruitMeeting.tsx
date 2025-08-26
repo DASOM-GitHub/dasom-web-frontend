@@ -163,37 +163,41 @@ const RecruitMeeting: React.FC = () => {
   }, [selectedDate, selectedTime])
 
   return (
-    <MobileLayout>
-      <RecruitHeader title='컴퓨터 소프트웨어 공학과 전공 동아리 다솜 34기 모집 폼' />
-      <RecruitUI />
-      <Recruit_InfoBanner
-        message={`1차 서류에 합격되신 점 다시 한번 축하드리며,
+    <div className='bg-subGrey3' style={{ minHeight: 'calc(100vh - 56px)' }}>
+      <MobileLayout>
+        <RecruitHeader title='컴퓨터 소프트웨어 공학과 전공 동아리 다솜 34기 모집 폼' />
+        <RecruitUI />
+        <Recruit_InfoBanner
+          message={`1차 서류에 합격되신 점 다시 한번 축하드리며,
 				편하신 날짜의 시간대를 선택해주시길 바랍니다.`}
-      />
-      <div className='flex flex-col items-center w-full mb-40'>
-        <div className='mt-8 max-w-[90%]'>
-          <p className='font-pretendardBold text-white mb-4'>면접일</p>
-          <MeetingDateSelector
-            onSelect={handleDateSelect}
-            period={interviewPeriodData}
-          />
-          <p className='font-pretendardBold text-white mt-14 mb-4'>시간</p>
-          <MeetingTimeSelector
-            onSelect={handleTimeSelect}
-            time={interviewTimeData}
-            disabledSelectTime={disableSelectTime}
-            slotsForDate={slotsForDate}
+        />
+        <div className='flex flex-col items-center w-full mb-40'>
+          <div className='mt-8 max-w-[90%]'>
+            <p className='font-pretendardBold text-white mb-4'>면접일</p>
+            <MeetingDateSelector
+              onSelect={handleDateSelect}
+              period={interviewPeriodData}
+            />
+            <p className='font-pretendardBold text-white mt-14 mb-4'>시간</p>
+            <MeetingTimeSelector
+              onSelect={handleTimeSelect}
+              time={interviewTimeData}
+              disabledSelectTime={disableSelectTime}
+              slotsForDate={slotsForDate}
+            />
+          </div>
+
+          <Button
+            className={`text-center p-1   ${
+              activebtn ? 'bg-mainColor' : 'bg-subGrey3 opacity-30'
+            }`}
+            onClick={handleSubmit}
+            disabled={!activebtn}
+            text='면접일정 예약하기'
           />
         </div>
-
-        <Button
-          className={`text-center p-1   ${activebtn ? 'bg-mainColor' : 'bg-subGrey3 opacity-30'}`}
-          onClick={handleSubmit}
-          disabled={!activebtn}
-          text='면접일정 예약하기'
-        />
-      </div>
-    </MobileLayout>
+      </MobileLayout>
+    </div>
   )
 }
 

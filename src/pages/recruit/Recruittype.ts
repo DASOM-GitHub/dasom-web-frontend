@@ -18,6 +18,12 @@ export interface RecruitConfigItem {
   value: string
 }
 
+export interface RecruitInterviewData {
+  documentPassAnnouncement: string
+  interviewPeriodStart: string
+  interviewPeriodEnd: string
+}
+
 export interface InterviewPeriod {
   periodStart: string
   periodEnd: string
@@ -73,4 +79,15 @@ export interface RecruitPeriodData {
   interviewPeriodStart: string
   interviewPeriodEnd: string
   interviewPassAnnouncement: string
+}
+
+export interface RecruitScheduleData {
+  recruitmentPeriodStart: string // YYYY-MM-DD
+  recruitmentPeriodEnd: string // YYYY-MM-DD
+  documentPassAnnouncement: string // YYYY-MM-DD
+  interviewPeriodStart: string // YYYY-MM-DD
+  interviewPeriodEnd: string // YYYY-MM-DD
+  interviewTimeStart: string // HH:MM:SS
+  interviewTimeEnd: string // HH:MM:SS
+  interviewPassAnnouncement: string // YYYY-MM-DD
 }

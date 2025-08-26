@@ -26,11 +26,11 @@ export const InputField: React.FC<InputFieldProps> = ({
   }
 
   const containerStyles =
-    'mb-4 p-3 shadow-[0px_2px_3px_rgba(255,255,255,0.2)] text-white text-[12px]'
+    'mb-4 p-3 shadow-[0px_2px_3px_rgba(255,255,255,0.2)] text-white text-[12px] md:text-base w-full font-pretendardRegular'
   const baseInputStyles =
-    'w-full bg-mainBlack border-b border-white p-2 focus:outline-none text-[10px]'
+    'w-full bg-mainBlack border-b border-white p-2 focus:outline-none text-[10px] md:text-sm font-pretendardRegular'
   const inputStyles =
-    'w-4 h-4 bg-mainBlack border border-white focus:ring-white border-2 rounded-[3px] appearance-none checked:bg-white checked:border-white'
+    'w-4 h-4 bg-mainBlack border border-white focus:ring-white border-2 rounded-[3px] appearance-none checked:bg-white checked:border-white font-pretendardRegular'
 
   return (
     <div className={containerStyles}>
