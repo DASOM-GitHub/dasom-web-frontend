@@ -4,60 +4,40 @@ import { useNavigate } from 'react-router-dom'
 import { RecruitUI, RecruitHeader } from '../../components/UI/RecruitUI'
 import { InputField } from '../../components/UI/Recruit_InputField'
 import { Button } from '../../components/UI/Recruit_Button'
-import { RecruitFormData } from './Recruittype'
-import {
-  createRecruitApplication,
-  overwriteRecruitApplication,
-  fetchRecruitConfigs,
-} from './RecruitService'
+import { useRecruitForm } from './useRecruitForm'
+import { useRecruitSchedule, formatKoreanDate } from './useRecruitSchedule'
+import { RecruitInterviewData } from './Recruittype'
 
 const Recruit: React.FC = () => {
   const navigate = useNavigate()
-  const [contact, setContact] = useState('')
-  const [isRecruiting, setIsRecruiting] = useState<boolean | null>(null)
   const alertShown = useRef(false)
+  const { isRecruiting, loadSchedule } = useRecruitSchedule()
+  const { formData, handleInputChange, handleKeyPress, handleSubmit } =
+    useRecruitForm()
 
-  const [formData, setFormData] = useState({
-    name: '',
-    studentNo: '',
-    contact: '',
-    email: '',
-    grade: 1,
-    reasonForApply: '',
-    activityWish: '',
-    isMessageAgreed: false,
-    isPrivacyPolicyAgreed: false,
+  const [interviewData, setInterviewData] = useState<RecruitInterviewData>({
+    documentPassAnnouncement: '',
+    interviewPeriodStart: '',
+    interviewPeriodEnd: '',
   })
 
   useEffect(() => {
     const checkRecruitmentPeriod = async () => {
       try {
-        const data = await fetchRecruitConfigs()
+        const { scheduleData } = await loadSchedule()
 
-        const recruitmentStart = data.find(
-          item => item.key === 'RECRUITMENT_PERIOD_START'
-        )?.value
-        const recruitmentEnd = data.find(
-          item => item.key === 'RECRUITMENT_PERIOD_END'
-        )?.value
-
-        const startDate = new Date(recruitmentStart as string)
-        const endDate = new Date(recruitmentEnd as string)
-        const now = new Date()
-
-        if (now >= startDate && now <= endDate) {
-          setIsRecruiting(true)
-        } else {
-          setIsRecruiting(false)
-          if (!alertShown.current) {
-            alertShown.current = true
-            alert('현재 모집 기간이 아닙니다.')
-            navigate('/')
-          }
-        }
+        // 면접 일정 데이터 포맷
+        setInterviewData({
+          documentPassAnnouncement: formatKoreanDate(
+            scheduleData.documentPassAnnouncement
+          ),
+          interviewPeriodStart: formatKoreanDate(
+            scheduleData.interviewPeriodStart
+          ),
+          interviewPeriodEnd: formatKoreanDate(scheduleData.interviewPeriodEnd),
+        })
       } catch (error) {
         console.error('모집 기간 확인 중 오류 발생:', error)
-        setIsRecruiting(false)
         if (!alertShown.current) {
           alertShown.current = true
           alert('네트워크 오류가 발생했습니다.')
@@ -67,167 +47,19 @@ const Recruit: React.FC = () => {
     }
 
     checkRecruitmentPeriod()
-  }, [navigate])
+  }, [navigate, loadSchedule])
+
+  /*
+  useEffect(() => {
+    if (isRecruiting === false && !alertShown.current) {
+      alertShown.current = true
+      alert('현재 모집 기간이 아닙니다.')
+      navigate('/')
+    }
+  }, [isRecruiting, navigate])
 
   if (isRecruiting === false) return null
-
-  // 입력값들 제약조건 설정
-  const handleInputChange = (
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >
-  ) => {
-    const { name, value, type } = e.target
-    let newValue =
-      type === 'checkbox' ? (e.target as HTMLInputElement).checked : value
-
-    if (name === 'contact') {
-      let formattedValue = value.replace(/[^0-9]/g, '')
-
-      if (formattedValue.length > 11) {
-        formattedValue = formattedValue.slice(0, 11)
-      }
-
-      if (formattedValue.length === 10) {
-        formattedValue = formattedValue.replace(
-          /^(\d{3})(\d{3})(\d{4})$/,
-          '$1-$2-$3'
-        )
-      } else if (formattedValue.length === 11) {
-        formattedValue = formattedValue.replace(
-          /^(\d{3})(\d{4})(\d{4})$/,
-          '$1-$2-$3'
-        )
-      }
-
-      setContact(formattedValue)
-      setFormData(prevData => ({
-        ...prevData,
-        contact: formattedValue,
-      }))
-    } else if (name === 'name') {
-      if (value.length <= 16) {
-        setFormData(prevData => ({
-          ...prevData,
-          name: value,
-        }))
-      }
-    } else if (name === 'studentNo') {
-      let formattedValue = value.replace(/[^0-9]/g, '')
-      formattedValue = formattedValue.slice(0, 8)
-
-      setFormData(prevData => ({
-        ...prevData,
-        studentNo: formattedValue,
-      }))
-    } else if (name === 'reasonForApply') {
-      if (value.length <= 500) {
-        setFormData(prevData => ({
-          ...prevData,
-          reasonForApply: value,
-        }))
-      }
-    } else if (name === 'activityWish') {
-      if (value.length <= 200) {
-        setFormData(prevData => ({
-          ...prevData,
-          activityWish: value,
-        }))
-      }
-    } else {
-      setFormData(prevData => ({
-        ...prevData,
-        [name]: newValue,
-      }))
-    }
-  }
-
-  const handleKeyPress = (
-    e: React.KeyboardEvent<
-      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >
-  ) => {
-    if (e.key === 'Enter') {
-      e.preventDefault()
-
-      const form = e.currentTarget.form
-      if (!form) return
-
-      const elements = Array.from(form.elements) as HTMLElement[]
-      const index = elements.indexOf(e.currentTarget)
-
-      for (let i = index + 1; i < elements.length; i++) {
-        const nextElement = elements[i]
-        if (
-          nextElement instanceof HTMLInputElement ||
-          nextElement instanceof HTMLTextAreaElement ||
-          nextElement instanceof HTMLSelectElement
-        ) {
-          nextElement.focus()
-          break
-        }
-      }
-    }
-  }
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-
-    if (
-      !formData.name ||
-      !formData.studentNo ||
-      !formData.contact ||
-      !formData.email ||
-      !formData.reasonForApply
-    ) {
-      alert('모든 필수 정보를 입력해주세요.')
-      return
-    }
-
-    if (!formData.isMessageAgreed || !formData.isPrivacyPolicyAgreed) {
-      alert('모든 필수 체크박스를 선택해주세요.')
-      return
-    }
-
-    let requestBody: RecruitFormData = {
-      ...formData,
-      isFirstRoundPassed: false,
-      isSecondRoundPassed: false,
-      isOverwriteConfirmed: false,
-    }
-
-    try {
-      await createRecruitApplication(requestBody)
-      navigate('/recruit/submit')
-    } catch (error: any) {
-      if (error.response) {
-        const errorData = error.response.data
-
-        if (error.response.status === 400 && errorData.code === 'C013') {
-          const confirmOverwrite = window.confirm(
-            '이미 지원한 학번이 존재합니다. 기존 정보를 덮어쓰시겠습니까?'
-          )
-
-          if (confirmOverwrite) {
-            try {
-              await overwriteRecruitApplication(requestBody)
-              navigate('/recruit/submit')
-            } catch (overwriteError: any) {
-              alert(
-                overwriteError.response?.data?.message ||
-                  '덮어쓰기 요청 중 오류가 발생했습니다.'
-              )
-            }
-          } else {
-            alert('지원이 취소되었습니다.')
-          }
-        }
-      } else {
-        console.error('API 요청 중 오류 발생:', error)
-        alert('네트워크 오류가 발생했습니다.')
-      }
-    }
-  }
+  */
 
   return (
     <div className='bg-subGrey3' style={{ minHeight: 'calc(100vh - 56px)' }}>
@@ -303,8 +135,9 @@ const Recruit: React.FC = () => {
               onChange={handleInputChange}
             />
             <InputField
-              label='🫧 면접 일자는 3월 11일(화)에 개별 연락처로 안내 후,'
-              subLabel='3월 12일부터 3월 14일까지 대면으로 진행됩니다.'
+              label={`🫧 면접 일자는 ${interviewData.documentPassAnnouncement}에 개별
+              연락처로 안내 후,`}
+              subLabel={`${interviewData.interviewPeriodStart}부터 ${interviewData.interviewPeriodEnd}까지 대면으로 진행됩니다.`}
               type='checkbox'
               name='isMessageAgreed'
               value={formData.isMessageAgreed}
