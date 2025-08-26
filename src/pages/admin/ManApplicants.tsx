@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react'
 import { toast, ToastContainer } from 'react-toastify'
 import { useNavigate } from 'react-router-dom'
 import 'react-toastify/dist/ReactToastify.css'
+import dayjs from 'dayjs'
+import utc from 'dayjs/plugin/utc'
 import AdminPagination from '../../components/UI/AdminPagination'
 import MailButtons from '../../components/UI/MailButtons'
 import {
@@ -11,6 +13,8 @@ import {
   getInterviewees,
 } from './adminService'
 import { ApplicantListItem, ApplicantDetail, IntervieweeItem } from './admin'
+
+dayjs.extend(utc)
 
 const ManApplicants: React.FC = () => {
   const [applicants, setApplicants] = useState<ApplicantListItem[]>([]) // 전체 조회 시 지원자 정보
@@ -66,7 +70,7 @@ const ManApplicants: React.FC = () => {
   //   fetchData()
   // }, [page])
 
-  // 상세정보 조회 및 토글
+  // 상세정보 조회
   const getDetail = async (id: number) => {
     if (selectedId === id) {
       setSelectedId(null)
@@ -202,30 +206,50 @@ const ManApplicants: React.FC = () => {
     )
   }
 
-  // 상세 정보 아이템 컴포넌트
-  const DetailItem = ({ label, value }: { label: string; value: string }) => {
-    return (
-      <div className='flex'>
-        <div className='w-[150px]'>{label}</div>
-        <div className='w-[576px]'>{value}</div>
-      </div>
-    )
-  }
   // 지원자 상세 정보 컴포넌트
   const ApplicantDetailInfo = ({ applicant }: { applicant: any }) => {
     return (
-      <div className='flex flex-col space-y-[4px]'>
-        <DetailItem label='연락처' value={applicant?.contact} />
-        <DetailItem label='이메일' value={applicant?.email} />
-        <DetailItem label='학년' value={applicant?.grade} />
-        <DetailItem label='지원 동기' value={applicant?.reasonForApply} />
-        <DetailItem label='희망 활동' value={applicant?.activityWish} />
-        <DetailItem
-          label='개인정보 동의'
-          value={applicant?.isPrivacyPolicyAgreed ? 'O' : 'X'}
-        />
-        <DetailItem label='지원 일시' value={applicant?.createdAt} />
-        <DetailItem label='최종수정 일시' value={applicant?.updatedAt} />
+      <div className='flex flex-col space-y-[4px] m-4'>
+        <div className='flex space-x-2'>
+          <div>{applicant?.name}</div>
+          <div>{applicant?.grade}</div>
+        </div>
+        <div>
+          <div>CONTACT</div>
+          <div className='border-b-white border-b-2'></div>
+          <div className='flex'>
+            <div className='w-20'>전화번호</div>
+            <div>{applicant?.contact}</div>
+          </div>
+          <div className='flex'>
+            <div className='w-20'>이메일</div>
+            <div>{applicant?.email}</div>
+          </div>
+        </div>
+        <div>
+          <div>지원 동기</div>
+          <div className='border-b-white border-b-2'></div>
+          <div>{applicant?.reasonForApply}</div>
+        </div>
+        <div>
+          <div>희망 활동</div>
+          <div className='border-b-white border-b-2'></div>
+          <div>{applicant?.activityWish}</div>
+        </div>
+        <div>
+          <div className='flex'>
+            <div className='w-28'>개인정보 동의</div>
+            <div>{applicant?.isPrivacyPolicyAgreed ? 'O' : 'X'}</div>
+          </div>
+          <div className='flex'>
+            <div className='w-28'>지원 일시</div>
+            <div>{dayjs.utc(applicant?.createdAt).format('YYYY-MM-DD HH:mm:ss')}</div>
+          </div>
+          <div className='flex'>
+            <div className='w-28'>최종수정 일시</div>
+            <div>{dayjs.utc(applicant?.updatedAt).format('YYYY-MM-DD HH:mm:ss')}</div>
+          </div>
+        </div>
       </div>
     )
   }
