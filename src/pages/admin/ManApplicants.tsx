@@ -122,7 +122,7 @@ const ManApplicants: React.FC = () => {
     contact: '010-1234-5678',
     email: 'test@example.com',
     grade: '3',
-    reasonForApply: '동아리 활동을 통해 새로운 경험을 쌓고 싶어서 지원합니다.',
+    reasonForApply: '동아리 활동을 통해 새로운 경험을 쌓고 싶어서 지원합니다. 동아리 활동을 통해 새로운 경험을 쌓고 싶어서 지원합니다. 동아리 활동을 통해 새로운 경험을 쌓고 싶어서 지원합니다.',
     activityWish: '프로젝트',
     isPrivacyPolicyAgreed: true,
     createdAt: '2025-08-16T16:43:08.574Z',
@@ -209,14 +209,14 @@ const ManApplicants: React.FC = () => {
   // 지원자 상세 정보 컴포넌트
   const ApplicantDetailInfo = ({ applicant }: { applicant: any }) => {
     return (
-      <div className='flex flex-col space-y-[4px] m-4'>
-        <div className='flex space-x-2'>
-          <div>{applicant?.name}</div>
-          <div>{applicant?.grade}</div>
+      <div className='flex flex-col space-y-8 m-8'>
+        <div className='flex space-x-6 items-end'>
+          <div className='font-pretendardBold text-3xl'>{applicant?.name}</div>
+          <div>{applicant?.grade}학년</div>
         </div>
         <div>
-          <div>CONTACT</div>
-          <div className='border-b-white border-b-2'></div>
+          <div className='font-pretendardBold text-2xl'>CONTACT</div>
+          <div className='border-b-white border-b-2 my-1'></div>
           <div className='flex'>
             <div className='w-20'>전화번호</div>
             <div>{applicant?.contact}</div>
@@ -227,16 +227,16 @@ const ManApplicants: React.FC = () => {
           </div>
         </div>
         <div>
-          <div>지원 동기</div>
-          <div className='border-b-white border-b-2'></div>
+          <div className='font-pretendardBold text-2xl'>지원 동기</div>
+          <div className='border-b-white border-b-2 my-1'></div>
           <div>{applicant?.reasonForApply}</div>
         </div>
         <div>
-          <div>희망 활동</div>
-          <div className='border-b-white border-b-2'></div>
+          <div className='font-pretendardBold text-2xl'>희망 활동</div>
+          <div className='border-b-white border-b-2 my-1'></div>
           <div>{applicant?.activityWish}</div>
         </div>
-        <div>
+        <div className='space-y-1'>
           <div className='flex'>
             <div className='w-28'>개인정보 동의</div>
             <div>{applicant?.isPrivacyPolicyAgreed ? 'O' : 'X'}</div>
