@@ -1,6 +1,5 @@
 export { default as AdminMain } from './AdminMain'
 export { default as ManApplicants } from './ManApplicants'
-export { default as ManInterviewee } from './ManInterviewee'
 export { default as ManNewsDetail } from './ManNewsDetail'
 export { default as ManNewsEdit } from './ManNewsEdit'
 export { default as ManNewsList } from './ManNewsList'

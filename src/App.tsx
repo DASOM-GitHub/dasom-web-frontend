@@ -20,7 +20,6 @@ import {
   ManNewsPost,
   ManNewsEdit,
   ManRecruitDate,
-  ManInterviewee,
   UserMain,
   Recruit,
   CoreMembers,
@@ -92,14 +91,6 @@ function AppContent() {
           element={
             <ProtectedRoute>
               <ManApplicants />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path='/admin/applicants/interviewee'
-          element={
-            <ProtectedRoute>
-              <ManInterviewee />
             </ProtectedRoute>
           }
         />

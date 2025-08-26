@@ -47,7 +47,7 @@ const ManApplicants: React.FC = () => {
     return (
       <tr 
       className='text-center cursor-pointer hover:bg-subGrey3 border-b-white border-b-[1px] h-[50px]'
-      //onClick={() => getDetail(applicant.id)} 더미데이터 지우고 활성화
+      onClick={() => getDetail(applicant.id)}
       >
         <td className='py-[4px]'>{applicant.id}</td>
         <td className='py-[4px]'>{applicant.name}</td>
@@ -90,7 +90,7 @@ const ManApplicants: React.FC = () => {
     return (
       <tr
         className='text-center cursor-pointer hover:bg-subGrey3 border-b-white border-b-[1px] h-[50px]'
-        //onClick={() => getDetail(interviewee.applicantId)}
+        onClick={() => getDetail(interviewee.applicantId)}
       >
         <td className='py-[4px]'>{interviewee.applicantId}</td>
         <td className='py-[4px]'>{interviewee.applicantName}</td>
