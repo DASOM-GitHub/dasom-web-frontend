@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import React, { ReactNode } from 'react'
 
 interface BannerProps {
   imageUrl: string;
@@ -32,7 +32,7 @@ const Banner: React.FC<BannerProps> = ({
         {children}
       </div>
     </header>
-  );
-};
+  )
+}
 
-export default Banner;
+export default Banner
