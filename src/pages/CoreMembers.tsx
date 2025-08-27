@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { motion } from 'framer-motion'
 import githubIcon from '../assets/images/github.png'
 import { useMediaQuery } from 'react-responsive'
@@ -135,31 +135,41 @@ const staggerContainer = {
 }
 
 const MemberCard = ({ member }: { member: TeamMember }) => {
-  // Get the appropriate profile image based on position
-  const getProfileImage = () => {
-    switch (member.position) {
-      case '회장':
-        return presidentImage
-      case '기술팀장':
-        return techLeadImage
-      case '부회장':
-        return vicePresidentImage
-      case '학술팀장':
-        return academicLeadImage
-      case '서기':
-        return secretaryImage
-      case '학술차장':
-        return academicViceLeadImage
-      case '총무':
-        return managerImage
-      case '부총무':
-        return viceManagerImage
-      case '홍보팀장':
-        return prLeadImage
-      default:
-        return `https://avatars.githubusercontent.com/${member.github_username || 'github'}`
+  const [isImageLoaded, setIsImageLoaded] = useState(false)
+  const [imageSrc, setImageSrc] = useState('')
+  
+  useEffect(() => {
+    const img = new Image()
+    const src = (() => {
+      switch (member.position) {
+        case '회장': return presidentImage
+        case '기술팀장': return techLeadImage
+        case '부회장': return vicePresidentImage
+        case '학술팀장': return academicLeadImage
+        case '서기': return secretaryImage
+        case '학술차장': return academicViceLeadImage
+        case '총무': return managerImage
+        case '부총무': return viceManagerImage
+        case '홍보팀장': return prLeadImage
+        default: return `https://avatars.githubusercontent.com/${member.github_username || 'github'}`
+      }
+    })()
+    
+    img.src = src
+    img.onload = () => {
+      setImageSrc(src)
+      setIsImageLoaded(true)
     }
-  }
+    img.onerror = () => {
+      setImageSrc('https://placehold.co/400x400/10b981/ffffff?text=DASOM')
+      setIsImageLoaded(true)
+    }
+    
+    return () => {
+      img.onload = null
+      img.onerror = null
+    }
+  }, [member.position, member.github_username])
 
   const hasGithub = !!member.github_username
   
@@ -169,18 +179,21 @@ const MemberCard = ({ member }: { member: TeamMember }) => {
       variants={fadeIn}
       whileHover={{ y: -5, boxShadow: '0 10px 25px -5px rgba(16, 185, 129, 0.1)' }}
     >
-      <div className="flex-1">
-        <div className="aspect-w-4 aspect-h-3 w-full overflow-hidden rounded-lg mb-4">
+      <div className="flex-1 flex flex-col">
+        <div className={`relative w-full pt-[100%] mb-4 rounded-lg overflow-hidden transition-opacity duration-300 ${
+          isImageLoaded ? 'opacity-100' : 'opacity-0'
+        }`}>
           <img
-            src={getProfileImage()}
+            src={imageSrc}
             alt={member.name}
-            className="w-full h-64 object-cover rounded-lg"
-            onError={(e) => {
-              const target = e.target as HTMLImageElement
-              target.src = 'https://placehold.co/400x400/10b981/ffffff?text=DASOM'
-            }}
+            className="absolute top-0 left-0 w-full h-full object-cover"
+            loading="lazy"
+            decoding="async"
           />
         </div>
+        {!isImageLoaded && (
+          <div className="w-full pt-[100%] mb-4 rounded-lg bg-gray-700 animate-pulse" />
+        )}
         <div className="flex justify-between items-start">
           <div>
             <h3 className="text-2xl font-bold text-white">{member.name} • {member.position}</h3>
