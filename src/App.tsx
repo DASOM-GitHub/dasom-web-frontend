@@ -22,7 +22,6 @@ import {
   ManRecruitDate,
   UserMain,
   Recruit,
-  CoreMembers,
   RecruitResult,
   FAQ,
   RecruitSubmit,
@@ -33,6 +32,7 @@ import {
   SomkatonApplicants,
   RecruitInfo,
   IntroMain,
+  CoreMembers,
 } from './pages'
 import Header from './components/layout/Header'
 import Footer from './components/layout/Footer'
@@ -75,7 +75,7 @@ function AppContent() {
         <Route path='/usermain' element={<UserMain />} />
         <Route path='/activities/news' element={<News />} />
         <Route path='/activities/news/:no' element={<NewsInfo />} />
-        <Route path='/coremember' element={<CoreMembers />} />
+        <Route path='/about/organization' element={<CoreMembers />} />
         <Route path='/faq' element={<FAQ />} />
         <Route path='/about/introduction' element={<IntroMain />} />
         <Route path='/recruit' element={<Recruit />} />
