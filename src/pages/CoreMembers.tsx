@@ -3,6 +3,7 @@ import { motion } from 'framer-motion'
 import githubIcon from '../assets/images/github.png'
 import { useMediaQuery } from 'react-responsive'
 import dasombanner from '../assets/images/dasombanner.png'
+import Banner from '../components/common/Banner'
 import presidentImage from '../assets/images/source/image.png'
 import techLeadImage from '../assets/images/source/image 7.png'
 import vicePresidentImage from '../assets/images/source/image 7-7.png'
@@ -255,17 +256,11 @@ const CoreMembers = () => {
   
   return (
     <main className='w-full bg-[#17171B] flex flex-col items-center pb-20 min-h-screen'>
-      <header className='flex flex-col w-full relative'>
-        <img
-          src={dasombanner}
-          alt='dasombanner'
-          className='w-full h-full object-cover'
-        />
-        <div className='absolute inset-0 flex flex-col items-center justify-center bg-black/30 md:space-y-4 px-4 text-center'>
-          <div className="text-2xl sm:text-2xl md:text-5xl font-black text-mainColor font-PretendardBold">DASOM</div>
-          <div className="text-sm sm:text-xl md:text-2xl font-bold text-white font-PretendardBold">다솜의 운영진을 소개합니다.</div>
-        </div>
-      </header>
+      <Banner
+        imageUrl={dasombanner}
+        title="DASOM"
+        subtitle="다솜의 운영진을 소개합니다."
+      />
       
       {/* Teams Section */}
       <section className='w-full flex justify-center'>

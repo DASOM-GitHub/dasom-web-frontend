@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef, useMemo } from 'react'
+import Banner from '../../components/common/Banner'
 import NewsContent from '../../components/UI/NewsContent'
 import dasombanner from '../../assets/images/dasombanner.png'
 import { useNavigate } from 'react-router-dom'
@@ -49,17 +50,11 @@ const News: React.FC = () => {
 
   return (
     <main className='w-full bg-[#17171B] flex flex-col items-center pb-20 min-h-screen'>
-      <header className='flex flex-col w-full relative'>
-        <img
-          src={dasombanner}
-          alt='dasombanner'
-          className='w-full h-full object-cover'
-        />
-        <div className='absolute inset-0 flex flex-col items-center justify-center bg-black/30 md:space-y-4 px-4 text-center'>
-          <div className="text-2xl sm:text-2xl md:text-5xl font-black text-mainColor font-PretendardBold">DASOM</div>
-          <div className="text-sm sm:text-xl md:text-2xl font-bold text-white font-PretendardBold">다솜의 최근 활동 사진들을 몰아볼 수 있어요.</div>
-        </div>
-      </header>
+      <Banner
+        imageUrl={dasombanner}
+        title="DASOM"
+        subtitle="다솜의 최근 활동 사진들을 몰아볼 수 있어요."
+      />
 
       <section className='w-full flex justify-center'>
         <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8 mx-[12px] w-full max-w-6xl mt-[60px] md:mt-[100px] mb-10'>
