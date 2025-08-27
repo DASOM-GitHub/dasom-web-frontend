@@ -35,7 +35,7 @@ const Header = () => {
   return (
     <header
       onMouseLeave={() => setActiveMenu(null)}
-      className={`w-full relative shadow-[2px_6px_11px_0px_rgba(0,0,0,0.25)] bg-mainBlack text-white transition-all duration-300 ease-in-out ${activeMenu ? 'md:h-[120px]' : 'md:h-[56px]'} h-[56px]`}>
+      className={`w-full relative shadow-[2px_6px_11px_0px_rgba(0,0,0,0.25)] bg-mainBlack text-white transition-all duration-300 ease-in-out ${activeMenu ? 'md:h-[132px]' : 'md:h-[56px]'} h-[56px]`}>
 
       <div className="w-full max-w-screen-xl mx-auto px-4">
         {/* 모바일 헤더 */}
