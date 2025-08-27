@@ -45,12 +45,12 @@ const IntroCurriculum: React.FC = () => {
           {tabData[tabName].map((item, index) => (
             <div
               key={index}
-              className="bg-[#26262D] flex items-center px-[54px] w-full max-w-[562px] mx-auto h-[72px]"
+              className="bg-[#26262D] flex items-center px-4 sm:px-6 md:px-[54px] w-full max-w-[562px] mx-auto h-auto min-h-[60px] sm:min-h-[72px] py-3 sm:py-0"
             >
-                <span className="mr-[20px] text-[#00B493] text-center font-bold text-[28px] font-['Inconsolata']">
+                <span className="mr-3 sm:mr-5 text-[#00B493] text-center font-bold text-xl sm:text-2xl md:text-[28px] font-['Inconsolata'] whitespace-nowrap">
                     {String(index + 1).padStart(2, '0')}
                 </span>
-                <span className="text-white text-2xl font-semibold font-[Pretendard] leading-normal">
+                <span className="text-white text-base sm:text-xl md:text-2xl font-[Pretendard] leading-normal break-words">
                     {item}
                 </span>
             </div>
@@ -63,23 +63,23 @@ const IntroCurriculum: React.FC = () => {
 
   return (
     <div>
-      <p className='text-white text-center text-6xl font-semibold font-[Pretendard] leading-normal'>
+      <p className='text-white text-center text-4xl md:text-5xl lg:text-6xl font-semibold font-[Pretendard] leading-tight lg:leading-normal'>
         Curriculum
       </p>
-      <p className='mt-[24px] text-white text-center text-2xl font-normal font-[Pretendard] leading-normal'>
-        다솜에선 아래 커리큘럼을 통해 다양한 분야의 개발자로 성장이 가능해요.<br />
+      <p className='mt-4 md:mt-6 text-white text-center text-base md:text-xl lg:text-2xl font-normal font-[Pretendard] leading-relaxed px-4'>
+        다솜에선 아래 커리큘럼을 통해 다양한 분야의 개발자로 성장이 가능해요.<br className="hidden sm:block" />
         High-level 개발자를 지향하며 이 외에도 DevOps, 게임 등 다양한 분야에 관심있는 부원들이 모여있어요.
       </p>
 
-      <div className="mt-[102px] flex flex-col items-center justify-start min-h-screen p-4">
-        <div className="w-full max-w-screen-sm flex justify-center space-x-4 mb-[57px]">
+      <div className="mt-12 md:mt-16 lg:mt-[102px] flex flex-col items-center justify-start min-h-screen px-4 sm:px-6 py-8">
+        <div className="w-full max-w-screen-sm flex flex-wrap justify-center gap-2 sm:gap-4 mb-8 sm:mb-12 md:mb-[57px]">
           {Object.keys(tabData).map((tabName) => {
             const isActive = activeTab === tabName
             return (
               <button
                 key={tabName}
                 onClick={() => setActiveTab(tabName)}
-                className={`py-3 px-4 rounded-2xl font-semibold transition-colors duration-200
+                className={`py-2 sm:py-3 px-3 sm:px-4 text-sm sm:text-base rounded-xl sm:rounded-2xl font-semibold transition-colors duration-200 whitespace-nowrap
                   ${isActive
                     ? 'bg-[#26262D] text-white shadow-lg'
                     : 'bg-transparent text-white opacity-60 hover:opacity-100'
@@ -92,7 +92,7 @@ const IntroCurriculum: React.FC = () => {
         </div>
 
         {/* 커리큘럼 내용 표시 영역 */}
-        <div className="w-full max-w-2xl px-4">
+        <div className="w-full max-w-4xl px-0 sm:px-4">
           {renderCurriculum(activeTab)}
         </div>
       </div>
