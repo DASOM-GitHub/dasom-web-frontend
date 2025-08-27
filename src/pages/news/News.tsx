@@ -49,12 +49,16 @@ const News: React.FC = () => {
 
   return (
     <main className='w-full bg-[#17171B] flex flex-col items-center pb-20 min-h-screen'>
-      <header className='flex flex-col w-full'>
+      <header className='flex flex-col w-full relative'>
         <img
           src={dasombanner}
           alt='dasombanner'
-          className='w-full h-full object-contain'
+          className='w-full h-full object-cover'
         />
+        <div className='absolute inset-0 flex flex-col items-center justify-center bg-black/30 md:space-y-4 px-4 text-center'>
+          <div className="text-2xl sm:text-2xl md:text-5xl font-black text-mainColor font-PretendardBold">DASOM</div>
+          <div className="text-sm sm:text-xl md:text-2xl font-bold text-white font-PretendardBold">다솜의 최근 활동 사진들을 몰아볼 수 있어요.</div>
+        </div>
       </header>
 
       <section className='w-full flex justify-center'>

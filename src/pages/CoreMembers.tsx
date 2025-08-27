@@ -3,6 +3,15 @@ import { motion } from 'framer-motion'
 import githubIcon from '../assets/images/github.png'
 import { useMediaQuery } from 'react-responsive'
 import dasombanner from '../assets/images/dasombanner.png'
+import presidentImage from '../assets/images/source/image.png'
+import techLeadImage from '../assets/images/source/image 7.png'
+import vicePresidentImage from '../assets/images/source/image 7-7.png'
+import academicLeadImage from '../assets/images/source/image 7-6.png'
+import secretaryImage from '../assets/images/source/image 7-5.png'
+import academicViceLeadImage from '../assets/images/source/image 7-4.png'
+import managerImage from '../assets/images/source/image 7-3.png'
+import viceManagerImage from '../assets/images/source/image 7-2.png'
+import prLeadImage from '../assets/images/source/image 7-1.png'
 
 interface TeamMember {
   id: number;
@@ -10,9 +19,16 @@ interface TeamMember {
   position: string;
   role: string;
   github_username: string;
-  team: 'president' | 'tech' | 'academic' | 'pr' | 'management';
-  description?: string;
+  team: keyof typeof TEAM_DESCRIPTIONS;
 }
+
+const TEAM_DESCRIPTIONS = {
+  president: '동아리 운영 총괄, 기획 및 각 부서 업무 관리',
+  tech: '동아리 주요 프로젝트 개발 및 유지보수',
+  academic: '스터디 및 해커톤 관리·운영, 학술 자료 정리 및 배포',
+  pr: '동아리 SNS, 홍보물 제작, 각종 행사 홍보',
+  management: '비품 및 회비 관리, 동아리 재정 관리, 회의록 정리'
+} as const
 
 const teamMembers: TeamMember[] = [
   // 회장단
@@ -22,8 +38,7 @@ const teamMembers: TeamMember[] = [
     position: '회장',
     role: '동아리 운영 총괄',
     github_username: 'hodoon',
-    team: 'president',
-    description: '동아리 운영 총괄, 기획 및 각 부서 업무 관리'
+    team: 'president'
   },
   {
     id: 2,
@@ -31,8 +46,7 @@ const teamMembers: TeamMember[] = [
     position: '부회장',
     role: '동아리 운영 보조',
     github_username: '',
-    team: 'president',
-    description: '동아리 운영 총괄, 기획 및 각 부서 업무 관리'
+    team: 'president'
   },
   // 기술팀
   {
@@ -41,8 +55,7 @@ const teamMembers: TeamMember[] = [
     position: '기술팀장',
     role: '기술부장',
     github_username: 'ysw789',
-    team: 'tech',
-    description: '동아리 주요 프로젝트 개발 및 유지보수'
+    team: 'tech'
   },
   // 학술팀
   {
@@ -51,8 +64,7 @@ const teamMembers: TeamMember[] = [
     position: '학술팀장',
     role: '학술부장',
     github_username: 'dohy-eon',
-    team: 'academic',
-    description: '스터디 및 해커톤 관리·운영, 학술 자료 정리 및 배포 및 깃허브 관리'
+    team: 'academic'
   },
   {
     id: 5,
@@ -60,8 +72,7 @@ const teamMembers: TeamMember[] = [
     position: '학술차장',
     role: '학술부차장',
     github_username: '',
-    team: 'academic',
-    description: '스터디 및 해커톤 관리·운영, 학술 자료 정리 및 배포 및 깃허브 관리'
+    team: 'academic'
   },
   // 홍보팀
   {
@@ -70,8 +81,7 @@ const teamMembers: TeamMember[] = [
     position: '홍보팀장',
     role: '홍보부장',
     github_username: 'sooh329',
-    team: 'pr',
-    description: '동아리 SNS, 홍보물 제작, 각종 행사 홍보'
+    team: 'pr'
   },
   // 운영총무팀
   {
@@ -80,8 +90,7 @@ const teamMembers: TeamMember[] = [
     position: '서기',
     role: '서기',
     github_username: 'limtjdghks',
-    team: 'management',
-    description: '비품 및 회비 관리, 동아리 재정 관리, 회의록 정리'
+    team: 'management'
   },
   {
     id: 8,
@@ -89,8 +98,7 @@ const teamMembers: TeamMember[] = [
     position: '총무',
     role: '총무',
     github_username: 'kim3360',
-    team: 'management',
-    description: '비품 및 회비 관리, 동아리 재정 관리, 회의록 정리'
+    team: 'management'
   },
   {
     id: 9,
@@ -98,8 +106,7 @@ const teamMembers: TeamMember[] = [
     position: '부총무',
     role: '부총무',
     github_username: '',
-    team: 'management',
-    description: '비품 및 회비 관리, 동아리 재정 관리, 회의록 정리'
+    team: 'management'
   },
 ]
 
@@ -127,6 +134,32 @@ const staggerContainer = {
 }
 
 const MemberCard = ({ member }: { member: TeamMember }) => {
+  // Get the appropriate profile image based on position
+  const getProfileImage = () => {
+    switch (member.position) {
+      case '회장':
+        return presidentImage
+      case '기술팀장':
+        return techLeadImage
+      case '부회장':
+        return vicePresidentImage
+      case '학술팀장':
+        return academicLeadImage
+      case '서기':
+        return secretaryImage
+      case '학술차장':
+        return academicViceLeadImage
+      case '총무':
+        return managerImage
+      case '부총무':
+        return viceManagerImage
+      case '홍보팀장':
+        return prLeadImage
+      default:
+        return `https://avatars.githubusercontent.com/${member.github_username || 'github'}`
+    }
+  }
+
   const hasGithub = !!member.github_username
   
   return (
@@ -138,7 +171,7 @@ const MemberCard = ({ member }: { member: TeamMember }) => {
       <div className="flex-1">
         <div className="aspect-w-4 aspect-h-3 w-full overflow-hidden rounded-lg mb-4">
           <img
-            src={`https://avatars.githubusercontent.com/${member.github_username || 'github'}`}
+            src={getProfileImage()}
             alt={member.name}
             className="w-full h-64 object-cover rounded-lg"
             onError={(e) => {
@@ -179,9 +212,9 @@ const TeamSection = ({ title, members, description }: {
       className="mb-16 md:mb-24"
       variants={fadeIn}
     >
-      <h2 className="text-3xl md:text-4xl font-bold text-center mb-4 text-white">{title}</h2>
+      <h2 className="text-3xl md:text-4xl font-bold text-center mb-4 text-white font-PretendardBold">{title}</h2>
       {description && (
-        <p className="text-center text-white/80 text-lg mb-8 max-w-3xl mx-auto">
+        <p className="text-center text-white/80 text-lg mb-8 max-w-3xl mx-auto  font-PretendardRegular">
           {description}
         </p>
       )}
@@ -220,14 +253,6 @@ const CoreMembers = () => {
     management: '운영총무팀'
   } as const
   
-  const teamDescriptions = {
-    president: '동아리 운영 총괄, 기획 및 각 부서 업무 관리',
-    tech: '동아리 주요 프로젝트 개발 및 유지보수',
-    academic: '스터디 및 해커톤 관리·운영, 학술 자료 정리 및 배포',
-    pr: '동아리 SNS, 홍보물 제작, 각종 행사 홍보',
-    management: '비품 및 회비 관리, 동아리 재정 관리, 회의록 정리'
-  } as const
-
   return (
     <main className='w-full bg-[#17171B] flex flex-col items-center pb-20 min-h-screen'>
       <header className='flex flex-col w-full relative'>
@@ -236,9 +261,9 @@ const CoreMembers = () => {
           alt='dasombanner'
           className='w-full h-full object-cover'
         />
-        <div className='absolute inset-0 flex flex-col items-center justify-center bg-black/30 space-y-4'>
-          <div className="text-5xl md:text-7xl font-black text-mainColor font-PretendardBold">DASOM</div>
-          <div className="text-white text-3xl font-bold font-PretendardBold">다솜의 운영진을 소개합니다.</div>
+        <div className='absolute inset-0 flex flex-col items-center justify-center bg-black/30 md:space-y-4 px-4 text-center'>
+          <div className="text-2xl sm:text-2xl md:text-5xl font-black text-mainColor font-PretendardBold">DASOM</div>
+          <div className="text-sm sm:text-xl md:text-2xl font-bold text-white font-PretendardBold">다솜의 운영진을 소개합니다.</div>
         </div>
       </header>
       
@@ -257,7 +282,7 @@ const CoreMembers = () => {
                 key={teamId}
                 title={teamTitles[teamId]}
                 members={teamGroups[teamId] || []}
-                description={teamDescriptions[teamId]}
+                description={TEAM_DESCRIPTIONS[teamId]}
               />
             ))}
           </motion.div>
