@@ -32,6 +32,7 @@ import {
   SomkathonSubmit,
   SomkatonApplicants,
   RecruitInfo,
+  IntroMain,
 } from './pages'
 import Header from './components/layout/Header'
 import Footer from './components/layout/Footer'
@@ -76,6 +77,7 @@ function AppContent() {
         <Route path='/activities/news/:no' element={<NewsInfo />} />
         <Route path='/coremember' element={<CoreMembers />} />
         <Route path='/faq' element={<FAQ />} />
+        <Route path='/about/introduction' element={<IntroMain />} />
         <Route path='/recruit' element={<Recruit />} />
         <Route path='/recruitinfo' element={<RecruitInfo />} />
         <Route path='/recruit/submit' element={<RecruitSubmit />} />
