@@ -54,6 +54,12 @@ export interface PaginationProps {
   setPage: Dispatch<SetStateAction<number>>
 }
 
+export interface AdminApplicantButtonProps {
+  label: string;
+  active: boolean;
+  onClick: () => void;
+}
+
 export interface Recruit_InfoBannerProps {
   message: string
 }

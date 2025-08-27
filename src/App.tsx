@@ -20,7 +20,6 @@ import {
   ManNewsPost,
   ManNewsEdit,
   ManRecruitDate,
-  ManInterviewee,
   UserMain,
   Recruit,
   CoreMembers,
@@ -62,6 +61,7 @@ function AppContent() {
     '/recruit/meeting/submit',
     '/somkathon',
     '/somkathon/submit',
+    '/admin/applicants'
   ] // 푸터만 숨길 페이지
 
   return (
@@ -104,14 +104,6 @@ function AppContent() {
           element={
             <ProtectedRoute>
               <ManApplicants />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path='/admin/applicants/interviewee'
-          element={
-            <ProtectedRoute>
-              <ManInterviewee />
             </ProtectedRoute>
           }
         />

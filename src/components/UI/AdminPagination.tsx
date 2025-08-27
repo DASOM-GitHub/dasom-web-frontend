@@ -32,7 +32,7 @@ const AdminPagination: React.FC<PaginationProps> = ({
   setPage,
 }) => {
   return (
-    <div className='my-6 space-x-4'>
+    <div className='mt-6 mb-16 space-x-4 '>
       <button
         className='px-4 py-2 bg-gray-700 text-white rounded-lg disabled:opacity-50'
         onClick={() => handlePrevPage(setCurrentPage, setPage, totalPages)}
