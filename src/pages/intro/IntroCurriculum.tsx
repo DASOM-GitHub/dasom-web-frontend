@@ -50,7 +50,7 @@ const IntroCurriculum: React.FC = () => {
                 <span className="mr-[20px] text-[#00B493] text-center font-bold text-[28px] font-['Inconsolata']">
                     {String(index + 1).padStart(2, '0')}
                 </span>
-                <span className="text-white text-center text-2xl font-semibold font-[Pretendard] leading-normal">
+                <span className="text-white text-2xl font-semibold font-[Pretendard] leading-normal">
                     {item}
                 </span>
             </div>
