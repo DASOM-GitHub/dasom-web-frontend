@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef, useCallback } from 'react'
 import MobileLayout from '../../components/layout/MobileLayout'
 import { useNavigate } from 'react-router-dom'
 import { RecruitUI, RecruitHeader } from '../../components/UI/RecruitUI'
@@ -21,33 +21,33 @@ const Recruit: React.FC = () => {
     interviewPeriodEnd: '',
   })
 
-  useEffect(() => {
-    const checkRecruitmentPeriod = async () => {
-      try {
-        const { scheduleData } = await loadSchedule()
+  const checkRecruitmentPeriod = useCallback(async () => {
+    try {
+      const { scheduleData } = await loadSchedule()
 
-        // 면접 일정 데이터 포맷
-        setInterviewData({
-          documentPassAnnouncement: formatKoreanDate(
-            scheduleData.documentPassAnnouncement
-          ),
-          interviewPeriodStart: formatKoreanDate(
-            scheduleData.interviewPeriodStart
-          ),
-          interviewPeriodEnd: formatKoreanDate(scheduleData.interviewPeriodEnd),
-        })
-      } catch (error) {
-        console.error('모집 기간 확인 중 오류 발생:', error)
-        if (!alertShown.current) {
-          alertShown.current = true
-          alert('네트워크 오류가 발생했습니다.')
-          navigate('/')
-        }
+      // 면접 일정 데이터 포맷
+      setInterviewData({
+        documentPassAnnouncement: formatKoreanDate(
+          scheduleData.documentPassAnnouncement
+        ),
+        interviewPeriodStart: formatKoreanDate(
+          scheduleData.interviewPeriodStart
+        ),
+        interviewPeriodEnd: formatKoreanDate(scheduleData.interviewPeriodEnd),
+      })
+    } catch (error) {
+      console.error('모집 기간 확인 중 오류 발생:', error)
+      if (!alertShown.current) {
+        alertShown.current = true
+        alert('네트워크 오류가 발생했습니다.')
+        navigate('/')
       }
     }
+  }, [loadSchedule, navigate])
 
+  useEffect(() => {
     checkRecruitmentPeriod()
-  }, [navigate, loadSchedule])
+  }, [checkRecruitmentPeriod])
 
   /*
   useEffect(() => {

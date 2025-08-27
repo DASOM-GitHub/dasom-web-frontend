@@ -1,6 +1,9 @@
-import React, { useEffect, useState } from 'react'
-import { formatKoreanDate, useRecruitSchedule } from '../../pages/recruit/useRecruitSchedule'
-import { RecruitScheduleData } from '@/pages/recruit/Recruittype'
+import React, { useEffect, useState, useCallback } from 'react'
+import {
+  formatKoreanDate,
+  useRecruitSchedule,
+  RecruitScheduleData,
+} from '../../pages/recruit/useRecruitSchedule'
 
 interface RecruitUIProps {
   name?: string
@@ -20,19 +23,22 @@ export const RecruitHeader: React.FC<RecruitHeaderProps> = ({ title }) => {
 
 export const RecruitUI: React.FC = () => {
   const { loadSchedule } = useRecruitSchedule()
-  const [scheduleData, setScheduleData] = useState<RecruitScheduleData | null>(null)
+  const [scheduleData, setScheduleData] = useState<RecruitScheduleData | null>(
+    null
+  )
+
+  const fetchRecruit = useCallback(async () => {
+    try {
+      const { scheduleData } = await loadSchedule()
+      setScheduleData(scheduleData)
+    } catch (error) {
+      console.error('모집 기간 확인 중 오류 발생:', error)
+    }
+  }, [loadSchedule])
 
   useEffect(() => {
-    const fetchRecruit = async () => {
-      try {
-        const { scheduleData } = await loadSchedule()
-        setScheduleData(scheduleData)
-      } catch (error) {
-        console.error('모집 기간 확인 중 오류 발생:', error)
-      }
-    }
     fetchRecruit()
-  }, [loadSchedule])
+  }, [fetchRecruit])
 
   const formatDate = (isoString: string) => {
     const date = new Date(isoString)
@@ -109,19 +115,22 @@ export const RecruitUI: React.FC = () => {
 
 export const RecruitUI_SUB: React.FC<RecruitUIProps> = ({ name }) => {
   const { loadSchedule } = useRecruitSchedule()
-  const [scheduleData, setScheduleData] = useState<RecruitScheduleData | null>(null)
+  const [scheduleData, setScheduleData] = useState<RecruitScheduleData | null>(
+    null
+  )
+
+  const fetchRecruit = useCallback(async () => {
+    try {
+      const { scheduleData } = await loadSchedule()
+      setScheduleData(scheduleData)
+    } catch (error) {
+      console.error('모집 기간 확인 중 오류 발생:', error)
+    }
+  }, [loadSchedule])
 
   useEffect(() => {
-    const fetchRecruit = async () => {
-      try {
-        const { scheduleData } = await loadSchedule()
-        setScheduleData(scheduleData)
-      } catch (error) {
-        console.error('모집 기간 확인 중 오류 발생:', error)
-      }
-    }
     fetchRecruit()
-  }, [loadSchedule])
+  }, [fetchRecruit])
 
   return (
     <div className='whitespace-pre-line text-white flex flex-col items-start w-auto h-[auto] shadow-[0px_2px_3px_rgba(255,255,255,0.2)] bg-#17171B] gap-2 mx-2 font-pretendardRegular pl-2 text-[12px] md:text-sm'>
@@ -137,10 +146,16 @@ export const RecruitUI_SUB: React.FC<RecruitUIProps> = ({ name }) => {
       </p>
 
       <p>
-        {'다음 전형인 대면 인터뷰에서 뵐 수 있게 되어 기쁜 마음을 담아 안내드립니다.'}
+        {
+          '다음 전형인 대면 인터뷰에서 뵐 수 있게 되어 기쁜 마음을 담아 안내드립니다.'
+        }
       </p>
 
-      <p className='mb-3'>대면 인터뷰는 {formatKoreanDate(scheduleData?.interviewPeriodStart)} ~ {formatKoreanDate(scheduleData?.interviewPeriodEnd)} 중에 진행 될 예정이며 편한 시간대로 폼을 작성해주시면 감사하겠습니다.</p>
+      <p className='mb-3'>
+        대면 인터뷰는 {formatKoreanDate(scheduleData?.interviewPeriodStart)} ~{' '}
+        {formatKoreanDate(scheduleData?.interviewPeriodEnd)} 중에 진행 될
+        예정이며 편한 시간대로 폼을 작성해주시면 감사하겠습니다.
+      </p>
     </div>
   )
 }
@@ -170,7 +185,10 @@ export const RecruitUI_FINAL: React.FC<RecruitUIProps> = ({ name }) => {
     <div className='whitespace-pre-line text-white flex flex-col items-start w-auto h-[auto] shadow-[0px_2px_3px_rgba(255,255,255,0.2)] bg-#17171B] gap-2 mx-2 font-pretendardRegular pl-2  text-[12px] md:text-sm'>
       <p className='pt-3 font-pretendardBold '>
         안녕하세요 {`${name}`}님, <br /> 다솜 34기에
-        <span className='text-mainColor font-pretendardBold'> 최종합격</span>{' '}
+        <span className='text-mainColor font-pretendardBold'>
+          {' '}
+          최종합격
+        </span>{' '}
         되신 점 축하드립니다!
       </p>
 

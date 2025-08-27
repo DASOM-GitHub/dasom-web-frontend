@@ -1,6 +1,6 @@
-import { useState } from 'react'
+import { useState, useCallback } from 'react'
 import { fetchRecruitConfigs } from './RecruitService'
-import { RecruitConfigItem, RecruitScheduleData } from './Recruittype'
+import { RecruitConfigItem } from './Recruittype'
 
 // 날짜를 'M월 D일(요일)'로 포맷하는 유틸 함수
 export const formatKoreanDate = (dateStr?: string): string => {
@@ -39,15 +39,29 @@ export const formatDate = (dateStr?: string): string => {
   return `${year}-${month}-${day}`
 }
 
+// 모집 일정 데이터 타입 정의
+export interface RecruitScheduleData {
+  recruitmentPeriodStart: string // YYYY-MM-DD
+  recruitmentPeriodEnd: string // YYYY-MM-DD
+  documentPassAnnouncement: string // YYYY-MM-DD
+  interviewPeriodStart: string // YYYY-MM-DD
+  interviewPeriodEnd: string // YYYY-MM-DD
+  interviewTimeStart: string // HH:MM:SS
+  interviewTimeEnd: string // HH:MM:SS
+  interviewPassAnnouncement: string // YYYY-MM-DD
+}
+
 // 모집 일정 조회 및 처리를 담당하는 훅
 export const useRecruitSchedule = () => {
   const [isRecruiting, setIsRecruiting] = useState<boolean | null>(null)
-  const [scheduleData, setScheduleData] = useState<RecruitScheduleData | null>(null)
+  const [scheduleData, setScheduleData] = useState<RecruitScheduleData | null>(
+    null
+  )
 
-  const loadSchedule = async (): Promise<{
-    isRecruiting: boolean;
-    data: RecruitConfigItem[];
-    scheduleData: RecruitScheduleData;
+  const loadSchedule = useCallback(async (): Promise<{
+    isRecruiting: boolean
+    data: RecruitConfigItem[]
+    scheduleData: RecruitScheduleData
   }> => {
     try {
       const data = await fetchRecruitConfigs()
@@ -89,8 +103,10 @@ export const useRecruitSchedule = () => {
         interviewPeriodEnd: formatDate(
           data.find(item => item.key === 'INTERVIEW_PERIOD_END')?.value
         ),
-        interviewTimeStart: data.find(item => item.key === 'INTERVIEW_TIME_START')?.value || '',
-        interviewTimeEnd: data.find(item => item.key === 'INTERVIEW_TIME_END')?.value || '',
+        interviewTimeStart:
+          data.find(item => item.key === 'INTERVIEW_TIME_START')?.value || '',
+        interviewTimeEnd:
+          data.find(item => item.key === 'INTERVIEW_TIME_END')?.value || '',
         interviewPassAnnouncement: formatDate(
           data.find(item => item.key === 'INTERVIEW_PASS_ANNOUNCEMENT')?.value
         ),
@@ -100,11 +116,11 @@ export const useRecruitSchedule = () => {
 
       return { isRecruiting: isRecruitingNow, data, scheduleData }
     } catch (error) {
-      //console.error('모집 일정 조회 중 오류 발생:', error)
+      console.error('모집 일정 조회 중 오류 발생:', error)
       setIsRecruiting(false)
       throw error
     }
-  }
+  }, [])
 
   return {
     isRecruiting,
