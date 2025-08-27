@@ -1,28 +1,14 @@
 import React, { useState, useMemo } from 'react'
-import { Swiper, SwiperSlide } from 'swiper/react'
-import { Pagination, Autoplay } from 'swiper/modules'
-import 'swiper/css'
-import 'swiper/css/pagination'
 import { NewsProps } from './types'
 
 const NewsContent: React.FC<NewsProps> = React.memo(
-  ({ id, title, image, images, createdAt, onClick, isDetail = false }) => {
+  ({ title, image, createdAt, content, onClick }) => {
     const [loading, setLoading] = useState(true)
 
     const formattedDate = useMemo(
       () => new Date(createdAt).toISOString().split('T')[0].replace(/-/g, '.'),
       [createdAt]
     )
-
-    // Base64 → 이미지 URL 변환 (useMemo로 캐싱)
-    const imageUrls = useMemo(() => {
-      if (!images || images.length === 0) return null
-      return images.map(img =>
-        img?.encodedData
-          ? `data:${img.fileFormat};base64,${img.encodedData}`
-          : null
-      )
-    }, [images])
 
     return (
       <div
@@ -33,48 +19,30 @@ const NewsContent: React.FC<NewsProps> = React.memo(
           <div className='w-full h-[140px] bg-gray-700 animate-pulse rounded-lg'></div>
         )}
 
-        {isDetail && imageUrls ? (
-          <Swiper
-            key={`swiper-${id}-${imageUrls.length}`}
-            spaceBetween={10}
-            pagination={{ clickable: true }}
-            autoplay={{ delay: 3000, disableOnInteraction: false }}
-            loop={true}
-            observer={true}
-            observeParents={true}
-            modules={[Pagination, Autoplay]}
-            className='w-full'
-          >
-            {imageUrls.map(
-              (imageUrl, index) =>
-                imageUrl && (
-                  <SwiperSlide key={index}>
-                    <img
-                      src={imageUrl}
-                      className='w-full h-[140px] rounded-lg transition-opacity duration-500'
-                      alt={`뉴스 이미지 ${index + 1}`}
-                      onLoad={() => setLoading(false)}
-                      loading='lazy'
-                    />
-                  </SwiperSlide>
-                )
-            )}
-          </Swiper>
-        ) : (
-          image && (
-            <img
-              src={image}
-              className='w-full h-[140px] rounded-lg transition-opacity duration-500'
-              alt='뉴스 대표 이미지'
-              onLoad={() => setLoading(false)}
-              loading='lazy'
+        <img
+          src={image || ''}
+          className='w-full h-[140px] rounded-t-lg transition-opacity duration-500'
+          alt='뉴스 대표 이미지'
+          onLoad={() => setLoading(false)}
+          loading='lazy'
+        />
+
+        <div className='flex flex-col bg-[#26262D] rounded-b-lg w-full px-3 py-3'>
+          <h3 className='font-pretendardBold text-white mb-2 truncate'>
+            {title}
+          </h3>
+
+          {content && (
+            <p
+              className='font-pretendardRegular text-subGrey mb-3 line-clamp-2 leading-relaxed'
+              dangerouslySetInnerHTML={{ __html: content }}
             />
-          )
-        )}
-        <p className='font-pretendardBold text-white text-[16px] mt-2'>
-          {title}
-        </p>
-        <p className='text-[12px] text-subGrey2'>작성일: {formattedDate}</p>
+          )}
+
+          <time className='font-pretendardRegular text-subGrey2 self-start'>
+            작성일: {formattedDate}
+          </time>
+        </div>
       </div>
     )
   }

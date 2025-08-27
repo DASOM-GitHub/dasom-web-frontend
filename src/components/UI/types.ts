@@ -63,7 +63,12 @@ export interface NewsProps {
   title: string
   image?: string | null
   images?: { encodedData: string; fileFormat: string }[] | null
+  content?: string
   createdAt: string
   onClick: () => void
   isDetail?: boolean
+}
+
+export interface NewsCarouselProps {
+  imageUrls: string[]
 }
