@@ -45,7 +45,7 @@ const IntroCurriculum: React.FC = () => {
           {tabData[tabName].map((item, index) => (
             <div
               key={index}
-              className="bg-[#2B2B2B] flex items-center px-[54px] w-full max-w-[562px] mx-auto h-[72px]"
+              className="bg-[#26262D] flex items-center px-[54px] w-full max-w-[562px] mx-auto h-[72px]"
             >
                 <span className="mr-[20px] text-[#00B493] text-center font-bold text-[28px] font-['Inconsolata']">
                     {String(index + 1).padStart(2, '0')}

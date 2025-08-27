@@ -2,17 +2,18 @@ import React from 'react'
 import IntroSince from './IntroSince'
 import IntroCurriculum from './IntroCurriculum'
 
-import dasomintrobanner from '../../assets/images/dasomIntroBanner.png'
+import dasombanner from '../../assets/images/dasombanner.png'
 import IntroSNS from './IntroSNS'
+import Banner from '../../components/common/Banner'
 
 const IntroMain: React.FC = () => {
   return (
     <main className='w-full bg-[#17171B] flex flex-col items-center pb-20 min-h-screen'>
         <header>
-            <img
-                src={dasomintrobanner}
-                alt='dasombanner'
-                className='w-full h-full object-contain'
+            <Banner
+                imageUrl={dasombanner}
+                title="SNS"
+                subtitle="다솜을 소개합니다."
             />
         </header>
 
