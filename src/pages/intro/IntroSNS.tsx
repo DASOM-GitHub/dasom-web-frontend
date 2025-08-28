@@ -10,25 +10,25 @@ const IntroSNS: React.FC = () => {
 
     return (
         <div>
-            <div className='flex flex-col items-end mx-[260px] py-8'>
-                <p className='text-white text-6xl font-semibold font-[Pretendard] leading-normal'>
+            <div className='flex flex-col py-8 items-end'>
+                <p className='w-full text-right text-white text-6xl font-pretendardSemiBold leading-normal'>
                     SNS
                 </p>
-                <p className='text-white text-2xl font-normal font-[Pretendard] leading-normal text-right'>
+                <p className='text-white text-2xl font-pretendardRegular leading-normal text-right'>
                     다솜에선 공식 인스타그램, 홈페이지 및 깃허브 Organization을 활용 중이며,<br />이전 기수에서의 스터디나 프로젝트 기록들을 살펴 볼 수 있어요.
                 </p>
 
-                <div className="flex flex-row space-x-4 mt-6">
+                <div className="flex flex-col space-y-4 mt-6 md:space-x-4 md:flex-row md:space-y-0" >
                     {Object.entries(SNSdata).map(([key, value]) => (
                         <div key={key}>
-                            <div className='w-[479px] h-[72px] bg-[#26262D] pt-[17px] pb-[19px] px-[18px]'>
+                            <div className='bg-[#26262D] w-[calc(100vw-150px)] md:w-[479px]  h-[72px] pt-[17px] pb-[19px] px-[18px]'>
                                 <a 
                                     href={value[1]} 
                                     target="_blank" 
                                     rel="noopener noreferrer" 
-                                    className="text-white text-base font-medium flex flex-row items-center justify-end"
+                                    className="flex flex-row items-center justify-end"
                                 >
-                                    {value[0]}
+                                    <p className='text-white text-base font-pretendardSemiBold '>{value[0]}</p>
                                     <div className='w-[22px]'></div>
                                     <img 
                                         src={value[2]} 
