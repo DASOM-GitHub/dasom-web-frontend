@@ -48,7 +48,7 @@ const ActivitiesSection: React.FC = () => {
         {latestThree.map(item => (
           <Link
             key={item.id}
-            to={`/news/${item.id}`}
+            to={`/activities/news/${item.id}`}
             className="rounded-3xl bg-neutral-100 text-zinc-900 overflow-hidden border border-zinc-900/10 hover:shadow-md transition-shadow"
           >
             {item.imageUrl ? (
@@ -68,7 +68,7 @@ const ActivitiesSection: React.FC = () => {
       </div>
 
       <div className="mt-10 flex justify-center">
-        <Link to="/news" className="px-6 py-3 rounded-[30px] bg-mainColor shadow-[2px_6px_11px_0px_rgba(0,0,0,0.25)] font-pretendardSemiBold">
+        <Link to="/activities/news" className="px-6 py-3 rounded-[30px] bg-mainColor shadow-[2px_6px_11px_0px_rgba(0,0,0,0.25)] font-pretendardSemiBold">
           더 알아보기
         </Link>
       </div>
