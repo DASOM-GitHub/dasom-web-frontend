@@ -21,12 +21,12 @@ const IntroSNS: React.FC = () => {
                 <div className="flex flex-col space-y-4 mt-6 md:space-x-4 md:flex-row md:space-y-0" >
                     {Object.entries(SNSdata).map(([key, value]) => (
                         <div key={key}>
-                            <div className='bg-[#26262D] w-[calc(100vw-150px)] md:w-[479px]  h-[72px] pt-[17px] pb-[19px] px-[18px]'>
+                            <div className='bg-[#26262D] w-[calc(100vw-150px)] md:w-[479px] h-[72px] pt-[17px] pb-[19px] px-[18px]'>
                                 <a 
                                     href={value[1]} 
                                     target="_blank" 
                                     rel="noopener noreferrer" 
-                                    className="flex flex-row items-center justify-end"
+                                    className="flex flex-row items-center justify-between"
                                 >
                                     <p className='text-white text-base font-pretendardSemiBold '>{value[0]}</p>
                                     <div className='w-[22px]'></div>
