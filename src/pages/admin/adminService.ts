@@ -105,7 +105,7 @@ export async function createInterviewSchedule(payload: {
   startTime: string
   endTime: string
 }): Promise<void> {
-  await apiClient.post('/recruit/interview/schedule', payload)
+  await apiClient.post('/admin/recruit/interview/schedule', payload)
 }
 
 // Somkathon
