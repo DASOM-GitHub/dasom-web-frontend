@@ -11,8 +11,7 @@ const sendResultMail = async (mailType: any) => {
 
   try {
     await apiClient.post(
-      '/admin/applicants/send-email',
-      { mailType },
+      `/admin/applicants/send-email?mailType=${mailType}`,
       {
         headers: {
           Authorization: `Bearer ${accessToken}`,
