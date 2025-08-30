@@ -9,12 +9,12 @@ const IntroSNS: React.FC = () => {
     }
 
     return (
-        <div>
+        <div className='px-4'>
             <div className='flex flex-col py-8 items-end'>
-                <p className='w-full text-right text-white text-6xl font-pretendardSemiBold leading-normal'>
+                <p className='w-full text-right text-white text-4xl md:text-5xl lg:text-6xl font-pretendardSemiBold leading-normal'>
                     SNS
                 </p>
-                <p className='text-white text-2xl font-pretendardRegular leading-normal text-right'>
+                <p className='text-white text-lg md:text-xl lg:text-2xl font-pretendardRegular leading-normal text-right'>
                     다솜에선 공식 인스타그램, 홈페이지 및 깃허브 Organization을 활용 중이며,<br />이전 기수에서의 스터디나 프로젝트 기록들을 살펴 볼 수 있어요.
                 </p>
 
@@ -28,7 +28,7 @@ const IntroSNS: React.FC = () => {
                                     rel="noopener noreferrer" 
                                     className="flex flex-row items-center justify-between"
                                 >
-                                    <p className='text-white text-base font-pretendardSemiBold '>{value[0]}</p>
+                                    <p className='text-white  text-sm lg:text-base font-pretendardSemiBold '>{value[0]}</p>
                                     <div className='w-[22px]'></div>
                                     <img 
                                         src={value[2]} 
