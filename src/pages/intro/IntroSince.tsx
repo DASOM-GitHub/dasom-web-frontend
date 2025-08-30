@@ -1,0 +1,26 @@
+import React from 'react'
+
+import introSinceBanner from '../../assets/images/introSinceBanner.png'
+
+const IntroSince: React.FC = () => {
+    return (
+        <div className='px-4'>
+            <p className="flex flex-wrap  mb-[14px] md:mb-[24px]">
+                <span className="mr-2 text-white text-4xl md:text-5xl lg:text-6xl font-pretendardSemiBold">Since</span>
+                <span className="text-[#00B493] text-4xl md:text-5xl lg:text-6xl font-pretendardSemiBold">1992.</span>
+            </p>
+
+            <p className="mb-[48px] text-white text-sm md:text-base lg:text-xl font-pretendardRegular leading-normal">
+                컴퓨터공학부 전공 동아리 다솜은 1992년에 설립된<br />  웹/앱 서비스 개발을 통해 개인의 개발 실력 향상을 도모하는 동아리입니다.
+            </p>
+
+            <img
+                src={introSinceBanner}
+                alt='dasombanner'
+                className='w-full h-full object-contain'
+            />
+        </div>
+    )
+}
+
+export default IntroSince
