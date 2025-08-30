@@ -141,7 +141,11 @@ const RecruitCalendar: React.FC<RecruitCalendarProps> = ({
         cell: 'p-0',
         day: 'p-2 h-10 w-10 md:h-11 md:w-11 text-center',
         outside: 'text-subGrey3',
+<<<<<<< HEAD
         today: 'ring-1 ring-[#00B493] rounded-full',
+=======
+        today: '',
+>>>>>>> main
         month: 'space-y-4 p-6 bg-subGrey3 rounded-[10%] sm:max-w-[350px] md:min-w-[450px]',
         months: 'flex gap-20 justify-center flex-col md:flex-row',
       }}

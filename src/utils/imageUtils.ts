@@ -2,7 +2,7 @@ import { ImageData } from '../pages/news/Newstype'
 
 export function convertToBase64Url(image: ImageData | null): string | null {
   if (!image || !image.encodedData) return null
-  return `data:${image.fileFormat};base64,${image.encodedData}`
+  return `${image.encodedData}`
 }
 
 export function convertMultipleToBase64Urls(

@@ -73,6 +73,7 @@ function AppContent() {
       <Routes>
         <Route path='/' element={<Main />} />
         <Route path='/login' element={<Login />} />
+        <Route path='/auth/login' element={<Login />} />
         <Route path='/usermain' element={<UserMain />} />
         <Route path='/activities/news' element={<News />} />
         <Route path='/activities/news/:no' element={<NewsInfo />} />

@@ -33,7 +33,7 @@ export async function updateApplicantStatus(
 // Interviewees
 export async function getInterviewees(): Promise<IntervieweeItem[]> {
   const res = await apiClient.get<IntervieweeItem[]>(
-    '/recruit/interview/applicants'
+    '/admin/recruit/interview/applicants'
   )
   return res.data
 }
@@ -54,7 +54,7 @@ export async function createNews(
   title: string,
   contentHtml: string
 ): Promise<number> {
-  const res = await apiClient.post('/news', { title, content: contentHtml })
+  const res = await apiClient.post('/admin/news', { title, content: contentHtml })
   return res.data.id
 }
 
@@ -62,12 +62,12 @@ export async function updateNews(
   id: string,
   payload: { title: string; content: string; deleteImageIds: number[] }
 ): Promise<{ id: number }> {
-  const res = await apiClient.put(`/news/${id}`, payload)
+  const res = await apiClient.put(`/admin/news/${id}`, payload)
   return res.data
 }
 
 export async function deleteNews(id: string): Promise<void> {
-  await apiClient.delete(`/news/${id}`)
+  await apiClient.delete(`/admin/news/${id}`)
 }
 
 export async function uploadNewsFiles(
@@ -79,7 +79,7 @@ export async function uploadNewsFiles(
   files.forEach(file => formData.append('files', file))
   formData.append('fileType', 'NEWS')
   formData.append('targetId', String(targetId))
-  await apiClient.post('/files/upload', formData)
+  await apiClient.post('/admin/files/upload', formData)
 }
 
 // Recruit schedule
@@ -105,7 +105,7 @@ export async function createInterviewSchedule(payload: {
   startTime: string
   endTime: string
 }): Promise<void> {
-  await apiClient.post('/recruit/interview/schedule', payload)
+  await apiClient.post('/admin/recruit/interview/schedule', payload)
 }
 
 // Somkathon
