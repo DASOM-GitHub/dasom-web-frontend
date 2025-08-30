@@ -4,6 +4,7 @@ import { RecruitInfo_Button } from '../../components/UI/RecruitInfo_Button'
 import React, { useEffect, useState } from 'react'
 import RecruitCalendar from '../../components/UI/RecruitCalendar'
 import { useRecruitSchedule } from './useRecruitSchedule'
+import { formatDate } from './useRecruitSchedule'
 
 const RecruitInfo: React.FC = () => {
   const navigate = useNavigate()
@@ -173,23 +174,23 @@ const RecruitInfo: React.FC = () => {
             <RecruitCalendar
               periods={[
                 {
-                  start: periodData.recruitmentPeriodStart,
-                  end: periodData.recruitmentPeriodEnd,
+                  start: formatDate(periodData.recruitmentPeriodStart),
+                  end: formatDate(periodData.recruitmentPeriodEnd),
                 },
               ]}
               interviewPeriods={
                 periodData.interviewPeriodStart && periodData.interviewPeriodEnd
                   ? [
                       {
-                        start: periodData.interviewPeriodStart,
-                        end: periodData.interviewPeriodEnd,
+                        start: formatDate(periodData.interviewPeriodStart),
+                        end: formatDate(periodData.interviewPeriodEnd),
                       },
                     ]
                   : []
               }
               passDates={
                 periodData.interviewPassAnnouncement
-                  ? [periodData.interviewPassAnnouncement]
+                  ? [formatDate(periodData.interviewPassAnnouncement)]
                   : []
               }
               colors={{
