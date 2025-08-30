@@ -23,10 +23,10 @@ const Banner: React.FC<BannerProps> = ({
         className='w-full h-full object-cover'
       />
       <div className='absolute inset-0 flex flex-col items-center justify-center bg-black/30 px-4 text-center'>
-        <h1 className='text-2xl sm:text-2xl md:text-5xl font-black text-mainColor font-PretendardBold'>
+        <h1 className='text-2xl sm:text-2xl md:text-5xl font-black text-mainColor font-pretendardBlack'>
           {title}
         </h1>
-        <p className='text-sm sm:text-xl md:text-2xl font-bold text-white font-PretendardBold'>
+        <p className='text-sm sm:text-xl md:text-2xl font-bold text-white font-pretendardBold'>
           {subtitle}
         </p>
         {children}

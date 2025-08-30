@@ -11,7 +11,7 @@ const IntroMain: React.FC = () => {
     <main className='w-full bg-[#17171B] flex flex-col items-center pb-20 min-h-screen'>
         <Banner
                 imageUrl={dasombanner}
-                title="SNS"
+                title='DASOM'
                 subtitle="다솜을 소개합니다."
             />
         <div className='w-full max-w-screen-xl px-4'>

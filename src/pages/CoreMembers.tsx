@@ -137,7 +137,7 @@ const staggerContainer = {
 const MemberCard = ({ member }: { member: TeamMember }) => {
   const [isImageLoaded, setIsImageLoaded] = useState(false)
   const [imageSrc, setImageSrc] = useState('')
-  
+
   useEffect(() => {
     const img = new Image()
     const src = (() => {
@@ -154,7 +154,7 @@ const MemberCard = ({ member }: { member: TeamMember }) => {
         default: return `https://avatars.githubusercontent.com/${member.github_username || 'github'}`
       }
     })()
-    
+
     img.src = src
     img.onload = () => {
       setImageSrc(src)
@@ -164,7 +164,7 @@ const MemberCard = ({ member }: { member: TeamMember }) => {
       setImageSrc('https://placehold.co/400x400/10b981/ffffff?text=DASOM')
       setIsImageLoaded(true)
     }
-    
+
     return () => {
       img.onload = null
       img.onerror = null
@@ -172,7 +172,7 @@ const MemberCard = ({ member }: { member: TeamMember }) => {
   }, [member.position, member.github_username])
 
   const hasGithub = !!member.github_username
-  
+
   return (
     <motion.div
       className="bg-white/5 backdrop-blur-sm rounded-xl p-6 border border-white/10 hover:border-mainColor transition-all duration-300 flex flex-col h-full"
@@ -216,23 +216,23 @@ const MemberCard = ({ member }: { member: TeamMember }) => {
   )
 }
 
-const TeamSection = ({ title, members, description }: { 
-  title: string; 
-  members: TeamMember[]; 
-  description?: string 
+const TeamSection = ({ title, members, description }: {
+  title: string;
+  members: TeamMember[];
+  description?: string
 }) => {
   return (
-    <motion.div 
+    <motion.div
       className="mb-16 md:mb-24"
       variants={fadeIn}
     >
-      <h2 className="text-3xl md:text-4xl font-bold text-center mb-4 text-white font-PretendardBold">{title}</h2>
+      <h2 className="text-3xl md:text-4xl font-bold text-center mb-4 text-white font-pretendardBold">{title}</h2>
       {description && (
-        <p className="text-center text-white/80 text-lg mb-8 max-w-3xl mx-auto  font-PretendardRegular">
+        <p className="text-center text-white/80 text-lg mb-8 max-w-3xl mx-auto  font-pretendardRegular">
           {description}
         </p>
       )}
-      <motion.div 
+      <motion.div
         className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 px-4 md:px-8"
         variants={staggerContainer}
         initial="hidden"
@@ -249,7 +249,7 @@ const TeamSection = ({ title, members, description }: {
 
 const CoreMembers = () => {
   const isMobile = useMediaQuery({ maxWidth: 768 })
-  
+
   const teamGroups = teamMembers.reduce((groups, member) => {
     if (!groups[member.team]) {
       groups[member.team] = []
@@ -257,7 +257,7 @@ const CoreMembers = () => {
     groups[member.team].push(member)
     return groups
   }, {} as Record<TeamMember['team'], TeamMember[]>)
-  
+
   const teamOrder: TeamMember['team'][] = ['president', 'tech', 'academic', 'pr', 'management']
   const teamTitles = {
     president: '회장단',
@@ -266,7 +266,7 @@ const CoreMembers = () => {
     pr: '홍보팀',
     management: '운영총무팀'
   } as const
-  
+
   return (
     <main className='w-full bg-[#17171B] flex flex-col items-center pb-20 min-h-screen'>
       <Banner
@@ -274,7 +274,7 @@ const CoreMembers = () => {
         title="DASOM"
         subtitle="다솜의 운영진을 소개합니다."
       />
-      
+
       {/* Teams Section */}
       <section className='w-full flex justify-center'>
         <div className='w-full max-w-6xl px-4'>
@@ -286,7 +286,7 @@ const CoreMembers = () => {
             className='space-y-24 mt-[60px] md:mt-[100px] mb-10'
           >
             {teamOrder.map((teamId) => (
-              <TeamSection 
+              <TeamSection
                 key={teamId}
                 title={teamTitles[teamId]}
                 members={teamGroups[teamId] || []}
