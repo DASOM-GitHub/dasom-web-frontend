@@ -67,7 +67,7 @@ const ManNewsDetail: React.FC = () => {
             images.map(image => (
               <div key={image.id} className='flex items-center'>
                 <img
-                  src={`data:${image.fileFormat};base64,${image.encodedData}`}
+                  src={`${image.encodedData}`}
                   alt={`image-${image.id}`}
                   className='w-max h-auto object-cover'
                 />
