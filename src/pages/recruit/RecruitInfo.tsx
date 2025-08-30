@@ -11,9 +11,15 @@ const RecruitInfo: React.FC = () => {
   const [periodData, setPeriodData] = useState({
     recruitmentPeriodStart: '',
     recruitmentPeriodEnd: '',
+    documentPassAnnouncement: '',
     interviewPeriodStart: '',
     interviewPeriodEnd: '',
     interviewPassAnnouncement: '',
+  })
+  const [buttonState, setButtonState] = useState({
+    text: '',
+    disabled: false,
+    onClick: () => navigate('/recruit'),
   })
 
   const formatMmDd = (dateStr: string) => {
@@ -25,7 +31,98 @@ const RecruitInfo: React.FC = () => {
     return dateStr
   }
 
-  // 모집 기간 데이터 가져오기
+  const determineRecruitStatus = () => {
+    const now = new Date()
+    const {
+      recruitmentPeriodStart,
+      recruitmentPeriodEnd,
+      documentPassAnnouncement,
+      interviewPassAnnouncement,
+    } = periodData
+
+    if (!recruitmentPeriodStart || !recruitmentPeriodEnd) {
+      return {
+        text: '모집 일정 준비 중',
+        disabled: true,
+        onClick: () => {},
+      }
+    }
+
+    const startDate = new Date(recruitmentPeriodStart)
+    const endDate = new Date(recruitmentPeriodEnd)
+    const docPassDate = documentPassAnnouncement
+      ? new Date(documentPassAnnouncement)
+      : null
+    const interviewPassDate = interviewPassAnnouncement
+      ? new Date(interviewPassAnnouncement)
+      : null
+
+    let status: 'before' | 'recruiting' | 'docPass' | 'interviewPass' | 'ended'
+
+    if (now < startDate) {
+      status = 'before'
+    } else if (now >= startDate && now <= endDate) {
+      status = 'recruiting'
+    } else if (docPassDate && now >= endDate && now < docPassDate) {
+      status = 'docPass'
+    } else if (
+      interviewPassDate &&
+      now >= docPassDate! &&
+      now < interviewPassDate
+    ) {
+      status = 'interviewPass'
+    } else {
+      status = 'ended'
+    }
+
+    switch (status) {
+      case 'before':
+        const daysUntilStart = Math.ceil(
+          (startDate.getTime() - now.getTime()) / (1000 * 60 * 60 * 24)
+        )
+        return {
+          text: `모집 시작까지 ${daysUntilStart}일 남음`,
+          disabled: true,
+          onClick: () => {},
+        }
+
+      case 'recruiting':
+        return {
+          text: '34기 지원하기',
+          disabled: false,
+          onClick: () => navigate('/recruit'),
+        }
+
+      case 'docPass':
+        return {
+          text: '1차 합격 발표',
+          disabled: false,
+          onClick: () => navigate('/recruit/result'),
+        }
+
+      case 'interviewPass':
+        return {
+          text: '최종 합격 발표',
+          disabled: false,
+          onClick: () => navigate('/recruit/result'),
+        }
+
+      case 'ended':
+        return {
+          text: '지원 결과 확인하기',
+          disabled: false,
+          onClick: () => navigate('/recruit/result'),
+        }
+
+      default:
+        return {
+          text: '모집 일정 준비 중',
+          disabled: true,
+          onClick: () => {},
+        }
+    }
+  }
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -33,6 +130,7 @@ const RecruitInfo: React.FC = () => {
         setPeriodData({
           recruitmentPeriodStart: scheduleData.recruitmentPeriodStart,
           recruitmentPeriodEnd: scheduleData.recruitmentPeriodEnd,
+          documentPassAnnouncement: scheduleData.documentPassAnnouncement,
           interviewPeriodStart: scheduleData.interviewPeriodStart,
           interviewPeriodEnd: scheduleData.interviewPeriodEnd,
           interviewPassAnnouncement: scheduleData.interviewPassAnnouncement,
@@ -45,6 +143,11 @@ const RecruitInfo: React.FC = () => {
     fetchData()
   }, [loadSchedule])
 
+  useEffect(() => {
+    const newButtonState = determineRecruitStatus()
+    setButtonState(newButtonState)
+  }, [periodData, navigate])
+
   return (
     <div className='flex flex-col items-center w-full max-w-full min-h-screen overflow-x-hidden bg-mainBlack text-white pb-20'>
       {/* Title Section */}
@@ -56,8 +159,9 @@ const RecruitInfo: React.FC = () => {
         <p className='text-right'>34th</p>
       </div>
       <RecruitInfo_Button
-        text='34기 지원하기'
-        onClick={() => navigate('/recruit')}
+        text={buttonState.text}
+        onClick={buttonState.onClick}
+        disabled={buttonState.disabled}
       />
 
       {/* Schedule Section */}
