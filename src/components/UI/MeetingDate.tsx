@@ -1,10 +1,5 @@
 import React, { JSX } from 'react'
-
-interface props {
-	date: string
-	onClick?: () => void
-	isSelected?: boolean // 선택 여부 
-}
+import { MeetingDateProps } from '../../types/meeting'
 
 const getDisplatyDate = (date:string) => {
 	const d = new Date(date)
@@ -15,7 +10,7 @@ const getDisplatyDate = (date:string) => {
 }
 
 // 면접 날짜 선택 여부 컴포넌트 
-const MeetingDate = ({ date, onClick, isSelected }: props): JSX.Element => {
+const MeetingDate = ({ date, onClick, isSelected }: MeetingDateProps): JSX.Element => {
 	return (
 		<button className={`font-pretendardBold text-white text-center border-2 border-mainColor p-1 w-[100px] h-[35px] transition-all hover:bg-[#00937A] active:scale-95 ${isSelected ? 'bg-mainColor' : 'bg-none'}`} onClick={onClick}>
 			{getDisplatyDate(date)}

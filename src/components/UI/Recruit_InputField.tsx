@@ -1,24 +1,5 @@
 import React from 'react'
-
-interface InputFieldProps {
-  label: string
-  name: string
-  subLabel?: string
-  type?: 'text' | 'email' | 'textarea' | 'select' | 'checkbox'
-  placeholder?: string
-  required?: boolean
-  options?: { value: string; label: string }[]
-  checkboxLabel?: string
-  phoneNumber?: boolean
-  value: string | boolean
-  minLength?: number
-  maxLength?: number
-  checked?: boolean
-  onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => void
-  onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => void
-  highlightLabels?: string[]
-}
-
+import { InputFieldProps } from './types'
 
 export const InputField: React.FC<InputFieldProps> = ({
   label,
@@ -36,32 +17,37 @@ export const InputField: React.FC<InputFieldProps> = ({
   checked,
   onChange,
   onKeyDown,
-  highlightLabels = ['전화번호 마지막 4자리', '학번']
+  highlightLabels = ['전화번호 마지막 4자리', '학번'],
 }) => {
-
   const handleTextAreaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     e.target.style.height = 'auto'
     e.target.style.height = `${e.target.scrollHeight}px`
     onChange(e)
   }
 
-  const containerStyles = 'mb-4 p-3 shadow-[0px_2px_3px_rgba(255,255,255,0.2)] text-white text-[12px]'
-  const baseInputStyles = 'w-full bg-mainBlack border-b border-white p-2 focus:outline-none text-[10px]'
-  const inputStyles = 'w-4 h-4 bg-mainBlack border border-white focus:ring-white border-2 rounded-[3px] appearance-none checked:bg-white checked:border-white'
+  const containerStyles =
+    'mb-4 p-3 shadow-[0px_2px_3px_rgba(255,255,255,0.2)] text-white text-[12px] md:text-base w-full font-pretendardRegular'
+  const baseInputStyles =
+    'w-full bg-mainBlack border-b border-white p-2 focus:outline-none text-[10px] md:text-sm font-pretendardRegular'
+  const inputStyles =
+    'w-4 h-4 bg-mainBlack border border-white focus:ring-white border-2 rounded-[3px] appearance-none checked:bg-white checked:border-white font-pretendardRegular'
 
   return (
     <div className={containerStyles}>
-      <label className="block text-white mb-1">
+      <label className='block text-white mb-1'>
         {label.split(/(전화번호 마지막 4자리|학번)/).map((part, index) => (
-          <span key={index} className={highlightLabels.includes(part) ? 'text-[#00B493]' : ''}>
+          <span
+            key={index}
+            className={highlightLabels.includes(part) ? 'text-[#00B493]' : ''}
+          >
             {part}
           </span>
         ))}
-        {required && <span className="text-[#C11100] pl-1">*</span>}
+        {required && <span className='text-[#C11100] pl-1'>*</span>}
       </label>
 
       {subLabel && (
-        <p className="pb-[10px] font-pretendardRegular">
+        <p className='pb-[10px] font-pretendardRegular'>
           {subLabel.split(/(대면으로|ex|0542)/).map((part, index) => (
             <span
               key={index}
@@ -82,14 +68,19 @@ export const InputField: React.FC<InputFieldProps> = ({
       )}
 
       {type === 'select' ? (
-        <select name={name} value={value as string} onChange={onChange} required={required} className={baseInputStyles}>
-          {options.map((option) => (
+        <select
+          name={name}
+          value={value as string}
+          onChange={onChange}
+          required={required}
+          className={baseInputStyles}
+        >
+          {options.map(option => (
             <option key={option.value} value={option.value}>
               {option.label}
             </option>
           ))}
         </select>
-
       ) : type === 'textarea' ? (
         <textarea
           name={name}
@@ -98,23 +89,23 @@ export const InputField: React.FC<InputFieldProps> = ({
           onKeyDown={onKeyDown}
           required={required}
           placeholder={placeholder}
-          className={baseInputStyles + ' overflow-scroll [&::-webkit-scrollbar]:hidden'}
+          className={
+            baseInputStyles + ' overflow-scroll [&::-webkit-scrollbar]:hidden'
+          }
           rows={4}
         />
-
       ) : type === 'checkbox' ? (
-        <div className="flex items-center space-x-2">
+        <div className='flex items-center space-x-2'>
           <input
-            type="checkbox"
+            type='checkbox'
             name={name}
             checked={checked ?? (value as boolean)}
             onChange={onChange}
             required={required}
             className={inputStyles}
           />
-          <span className="text-white">{checkboxLabel}</span>
+          <span className='text-white'>{checkboxLabel}</span>
         </div>
-
       ) : (
         <input
           type={type}

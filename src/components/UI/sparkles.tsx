@@ -31,7 +31,7 @@ export const SparklesCore = (props: ParticlesProps) => {
   } = props
   const [init, setInit] = useState(false)
   useEffect(() => {
-    initParticlesEngine(async (engine) => {
+    initParticlesEngine(async engine => {
       await loadSlim(engine)
     }).then(() => {
       setInit(true)
