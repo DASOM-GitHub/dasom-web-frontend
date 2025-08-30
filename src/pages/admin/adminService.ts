@@ -33,7 +33,7 @@ export async function updateApplicantStatus(
 // Interviewees
 export async function getInterviewees(): Promise<IntervieweeItem[]> {
   const res = await apiClient.get<IntervieweeItem[]>(
-    '/recruit/interview/applicants'
+    '/admin/recruit/interview/applicants'
   )
   return res.data
 }
