@@ -53,7 +53,7 @@ function AppContent() {
   const hideHeaderFooter = ['/login'] // 헤더와 푸터를 숨길 페이지
   const hideFooterOnly = [
     '/recruit',
-    '/recruitinfo',
+    '/join/apply',
     '/recruit/submit',
     '/recruit/result',
     '/recruit/check',
@@ -79,7 +79,7 @@ function AppContent() {
         <Route path='/faq' element={<FAQ />} />
         <Route path='/about/introduction' element={<IntroMain />} />
         <Route path='/recruit' element={<Recruit />} />
-        <Route path='/recruitinfo' element={<RecruitInfo />} />
+        <Route path='/join/apply' element={<RecruitInfo />} />
         <Route path='/recruit/submit' element={<RecruitSubmit />} />
         <Route path='/recruit/result' element={<RecruitResult />} />
         <Route path='/recruit/check' element={<RecruitCheck />} />

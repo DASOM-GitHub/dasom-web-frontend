@@ -49,7 +49,6 @@ const Recruit: React.FC = () => {
     checkRecruitmentPeriod()
   }, [checkRecruitmentPeriod])
 
-  /*
   useEffect(() => {
     if (isRecruiting === false && !alertShown.current) {
       alertShown.current = true
@@ -59,7 +58,6 @@ const Recruit: React.FC = () => {
   }, [isRecruiting, navigate])
 
   if (isRecruiting === false) return null
-  */
 
   return (
     <div className='bg-subGrey3' style={{ minHeight: 'calc(100vh - 56px)' }}>
