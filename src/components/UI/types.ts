@@ -78,3 +78,21 @@ export interface NewsProps {
 export interface NewsCarouselProps {
   imageUrls: string[]
 }
+
+// ActivityStatus 관련 타입들
+export type ActivityItem = {
+  title?: string
+  award?: string
+  subtitle?: string
+}
+
+export type ActivitySection = {
+  category: string
+  items: ActivityItem[]
+}
+
+export interface ActivityStatusProps {
+  year: string
+  activityData?: ActivitySection[]
+  className?: string
+}

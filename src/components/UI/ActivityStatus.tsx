@@ -2,17 +2,7 @@ import React from 'react'
 import { motion } from 'framer-motion'
 import DasomLogo from '../../assets/images/dasomLogo.svg'
 import ActivityBar from '../../assets/images/activityBar.svg'
-
-type ActivityItem = {
-  title?: string
-  award?: string
-  subtitle?: string
-}
-
-type ActivitySection = {
-  category: string
-  items: ActivityItem[]
-}
+import { ActivityStatusProps, ActivitySection } from './types'
 
 // 페이드 인 및 위로 이동 애니메이션
 const FadeInSection: React.FC<{ children: React.ReactNode }> = ({
@@ -30,8 +20,13 @@ const FadeInSection: React.FC<{ children: React.ReactNode }> = ({
   )
 }
 
-const ActivityStatus: React.FC<{ year: string }> = ({ year }) => {
-  const activityData: ActivitySection[] = [
+const ActivityStatus: React.FC<ActivityStatusProps> = ({ 
+  year, 
+  activityData: customActivityData,
+  className = ''
+}) => {
+  // 2024년도 기본 활동 데이터
+  const defaultActivityData2024: ActivitySection[] = [
     {
       category: '코엑스 한국전자전',
       items: [
@@ -79,9 +74,51 @@ const ActivityStatus: React.FC<{ year: string }> = ({ year }) => {
     },
   ]
 
+  // 2025년도 기본 활동 데이터
+  const defaultActivityData2025: ActivitySection[] = [
+    {
+      category: '신규 프로젝트',
+      items: [
+        {
+          title: 'NFT 기반 타임캡슐 서비스 - ',
+          subtitle: ' 기획, 디자인 및 시연',
+        },
+      ],
+    },
+    {
+      category: '세미나 및 워크샵',
+      items: [
+        { title: '나의 커리어 디자인하기 - 나에게 맞는 회사 고민하기, 성장 전략은? ', subtitle: ' ' },
+      ],
+    },
+    {
+      category: '대회 참가',
+      items: [
+        {
+          award: '장려상 ',
+          subtitle: '생성형 AI를 활용한 문제해결 해커톤',
+        },
+      ],
+    },
+    {
+      category: '2025년 기타 활동',
+      items: [
+        { title: '스프링 부트, 팀 프로젝트 기획 개발 스터디 그룹 운영' },
+        { title: '컴퓨터공학부 + 시각디자인학부 협업 해커톤 개최' },
+        { title: '대학생 IT 연합동아리 DND, UMC 활동' },
+        { title: '오픈소스 프로젝트 기여 활동' },
+        { title: '2025년 동계 MT 계획' },
+        { title: '미니퀴즈 간식행사' },
+      ],
+    },
+  ]
+
+  // 커스텀 데이터가 있으면 사용하고, 없으면 연도에 따른 기본 데이터 사용
+  const data = customActivityData || (year === '2025' ? defaultActivityData2025 : defaultActivityData2024)
+
   return (
     <FadeInSection>
-      <div className='max-w-[400px] bg-mainBlack p-4 rounded-xl text-white'>
+      <div className={`max-w-[400px] bg-mainBlack p-4 rounded-xl text-white ${className}`}>
         <div className='flex items-center gap-2 mb-3'>
           <img src={DasomLogo} className='w-7 h-7' alt='Dasom Icon' />
           <div>
@@ -98,7 +135,7 @@ const ActivityStatus: React.FC<{ year: string }> = ({ year }) => {
             alt='Activitybar'
           />
           <div className='space-y-3'>
-            {activityData.map((section, index) => (
+            {data.map((section, index) => (
               <FadeInSection key={index}>
                 <div>
                   <div className='text-white text-[12px] font-pretendardBold'>
