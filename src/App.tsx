@@ -33,6 +33,7 @@ import {
   RecruitInfo,
   IntroMain,
   CoreMembers,
+  ActivityStatusDemo,
 } from './pages'
 import Header from './components/layout/Header'
 import Footer from './components/layout/Footer'
@@ -78,6 +79,7 @@ function AppContent() {
         <Route path='/about/organization' element={<CoreMembers />} />
         <Route path='/faq' element={<FAQ />} />
         <Route path='/about/introduction' element={<IntroMain />} />
+        <Route path='/activities/status' element={<ActivityStatusDemo />} />
         <Route path='/recruit' element={<Recruit />} />
         <Route path='/join/apply' element={<RecruitInfo />} />
         <Route path='/recruit/submit' element={<RecruitSubmit />} />
