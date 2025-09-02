@@ -2,10 +2,12 @@ import React, { useState } from 'react'
 import apiClient from '../utils/apiClient'
 import MobileLayout from '../components/layout/MobileLayout'
 import { useNavigate } from 'react-router-dom'
+import { setTokens } from '../utils/tokenUtils'
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
   const navigate = useNavigate()
 
   const handleLogin = async () => {
@@ -13,6 +15,8 @@ const Login: React.FC = () => {
       alert('아이디와 비밀번호를 입력하세요.')
       return
     }
+
+    setIsLoading(true)
 
     try {
       const response = await apiClient.post('/auth/admin-login', {
@@ -22,16 +26,15 @@ const Login: React.FC = () => {
 
       const accessToken = response.headers['access-token']
       const refreshToken = response.headers['refresh-token']
+      
       if (accessToken && refreshToken) {
-        localStorage.setItem('accessToken', accessToken)
-        localStorage.setItem('refreshToken', refreshToken)
-      }
-
-      const authority = response.headers['authority']
-      if (authority === 'ROLE_ADMIN') {
+        // 토큰 저장
+        setTokens(accessToken, refreshToken)
+        
+        // 로그인 성공 시 어드민 페이지로 이동
         navigate('/admin')
       } else {
-        navigate('/usermain')
+        alert('토큰을 받지 못했습니다. 다시 시도해주세요.')
       }
     } catch (err: any) {
       const errorCode = err.response?.data?.code
@@ -40,11 +43,13 @@ const Login: React.FC = () => {
       } else {
         alert('로그인 실패. 다시 시도해주세요.')
       }
+    } finally {
+      setIsLoading(false)
     }
   }
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === 'Enter') {
+    if (event.key === 'Enter' && !isLoading) {
       handleLogin()
     }
   }
@@ -63,6 +68,7 @@ const Login: React.FC = () => {
             className='bg-subGrey h-[32px] w-[80%] rounded-[6px] mb-[16px] pl-[12px] outline-mainColor focus:ring-1 ring-white'
             placeholder='Email'
             onKeyDown={handleKeyDown}
+            disabled={isLoading}
           />
           <input
             type='password'
@@ -71,12 +77,17 @@ const Login: React.FC = () => {
             className='bg-subGrey h-[32px] w-[80%] rounded-[6px] mb-[16px] pl-[12px] outline-mainColor focus:ring-1 ring-white'
             placeholder='Password'
             onKeyDown={handleKeyDown}
+            disabled={isLoading}
           />
           <div
-            className='cursor-pointer bg-mainColor h-[32px] w-[80%] rounded-[6px] font-pretendardBold tracking-[1px] text-white flex justify-center items-center hover:bg-[#00A889]'
-            onClick={handleLogin}
+            className={`cursor-pointer h-[32px] w-[80%] rounded-[6px] font-pretendardBold tracking-[1px] text-white flex justify-center items-center transition-colors ${
+              isLoading 
+                ? 'bg-gray-500 cursor-not-allowed' 
+                : 'bg-mainColor hover:bg-[#00A889]'
+            }`}
+            onClick={isLoading ? undefined : handleLogin}
           >
-            로그인
+            {isLoading ? '로그인 중...' : '로그인'}
           </div>
         </div>
       </div>
