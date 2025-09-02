@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import apiClient from '../utils/apiClient'
-import MobileLayout from '../components/layout/MobileLayout'
 import { useNavigate } from 'react-router-dom'
 import { setTokens } from '../utils/tokenUtils'
 
@@ -55,43 +54,41 @@ const Login: React.FC = () => {
   }
 
   return (
-    <MobileLayout>
-      <div className='h-screen flex flex-col items-center justify-center'>
-        <div className='font-pretendardBlack text-mainColor text-2xl mb-[32px]'>
-          DASOM
-        </div>
-        <div className='w-full text-[12px] flex flex-col items-center font-pretendardRegular'>
-          <input
-            type='text'
-            value={email}
-            onChange={e => setEmail(e.target.value)}
-            className='bg-subGrey h-[32px] w-[80%] rounded-[6px] mb-[16px] pl-[12px] outline-mainColor focus:ring-1 ring-white'
-            placeholder='Email'
-            onKeyDown={handleKeyDown}
-            disabled={isLoading}
-          />
-          <input
-            type='password'
-            value={password}
-            onChange={e => setPassword(e.target.value)}
-            className='bg-subGrey h-[32px] w-[80%] rounded-[6px] mb-[16px] pl-[12px] outline-mainColor focus:ring-1 ring-white'
-            placeholder='Password'
-            onKeyDown={handleKeyDown}
-            disabled={isLoading}
-          />
-          <div
-            className={`cursor-pointer h-[32px] w-[80%] rounded-[6px] font-pretendardBold tracking-[1px] text-white flex justify-center items-center transition-colors ${
-              isLoading 
-                ? 'bg-gray-500 cursor-not-allowed' 
-                : 'bg-mainColor hover:bg-[#00A889]'
-            }`}
-            onClick={isLoading ? undefined : handleLogin}
-          >
-            {isLoading ? '로그인 중...' : '로그인'}
-          </div>
+    <div className='min-h-screen w-full bg-black flex flex-col items-center justify-center'>
+      <div className='font-pretendardBlack text-mainColor text-2xl mb-[32px]'>
+        DASOM
+      </div>
+      <div className='w-full text-[12px] flex flex-col items-center font-pretendardRegular'>
+        <input
+          type='text'
+          value={email}
+          onChange={e => setEmail(e.target.value)}
+          className='bg-subGrey h-[32px] w-[80%] max-w-[300px] rounded-[6px] mb-[16px] pl-[12px] outline-mainColor focus:ring-1 ring-white'
+          placeholder='Email'
+          onKeyDown={handleKeyDown}
+          disabled={isLoading}
+        />
+        <input
+          type='password'
+          value={password}
+          onChange={e => setPassword(e.target.value)}
+          className='bg-subGrey h-[32px] w-[80%] max-w-[300px] rounded-[6px] mb-[16px] pl-[12px] outline-mainColor focus:ring-1 ring-white'
+          placeholder='Password'
+          onKeyDown={handleKeyDown}
+          disabled={isLoading}
+        />
+        <div
+          className={`cursor-pointer h-[32px] w-[80%] max-w-[300px] rounded-[6px] font-pretendardBold tracking-[1px] text-white flex justify-center items-center transition-colors ${
+            isLoading 
+              ? 'bg-gray-500 cursor-not-allowed' 
+              : 'bg-mainColor hover:bg-[#00A889]'
+          }`}
+          onClick={isLoading ? undefined : handleLogin}
+        >
+          {isLoading ? '로그인 중...' : '로그인'}
         </div>
       </div>
-    </MobileLayout>
+    </div>
   )
 }
 
