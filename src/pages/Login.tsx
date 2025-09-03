@@ -33,7 +33,7 @@ const Login: React.FC = () => {
         
         // 인증 서비스에 로그인 성공 알림
         authService.onLoginSuccess()
-        
+       
         // 로그인 성공 시 어드민 페이지로 이동
         navigate('/admin')
       } else {

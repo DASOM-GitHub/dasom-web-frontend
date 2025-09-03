@@ -29,6 +29,18 @@ const ProtectedRoute: React.FC<ProtecteRouteProps> = ({ children }) => {
     return null
   }
 
+  if (isChecking) {
+    return (
+      <div className="min-h-screen bg-[#17171B] flex items-center justify-center">
+        <div className="text-white text-lg">권한 확인 중...</div>
+      </div>
+    )
+  }
+
+  if (!isAuthorized) {
+    return null
+  }
+
   return <>{children}</>
 }
 
