@@ -1,6 +1,6 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
-import { logout as logoutService } from './adminService'
+import { useAuth } from '../../hooks/useAuth'
 
 // 메뉴 버튼 컴퍼넌트
 const AdminMenuBtn = ({ text, link }: { text: string; link: string }) => {
@@ -18,12 +18,11 @@ const AdminMenuBtn = ({ text, link }: { text: string; link: string }) => {
 
 const AdminMain: React.FC = () => {
   const navigate = useNavigate()
+  const { logout } = useAuth()
 
   const handleLogout = async () => {
     try {
-      await logoutService()
-      localStorage.removeItem('accessToken')
-      // 메인으로 리다이렉트
+      logout()
       navigate('/')
     } catch (error) {
       console.error('로그아웃 중 오류 발생', error)

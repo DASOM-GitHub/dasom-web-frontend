@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import apiClient from '../utils/apiClient'
 import { useNavigate } from 'react-router-dom'
 import { setTokens } from '../utils/tokenUtils'
+import { authService } from '../utils/authService'
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState('')
@@ -29,6 +30,9 @@ const Login: React.FC = () => {
       if (accessToken && refreshToken) {
         // 토큰 저장
         setTokens(accessToken, refreshToken)
+        
+        // 인증 서비스에 로그인 성공 알림
+        authService.onLoginSuccess()
         
         // 로그인 성공 시 어드민 페이지로 이동
         navigate('/admin')

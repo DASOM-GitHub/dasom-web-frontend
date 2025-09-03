@@ -1,5 +1,6 @@
 import axios, { AxiosRequestConfig, InternalAxiosRequestConfig } from 'axios'
 import { getAccessToken, getRefreshToken, setTokens, removeTokens } from './tokenUtils'
+import { authService } from './authService'
 
 const API_BASE_URL =
   (process.env.DASOM_BASE_URL as string) ||
@@ -11,11 +12,42 @@ const apiClient = axios.create({
   timeout: 15000,
 })
 
+// 토큰 갱신 중복 요청 방지를 위한 플래그
+let isRefreshing = false
+let failedQueue: Array<{
+  resolve: (value: string | null) => void
+  reject: (reason?: any) => void
+}> = []
+
+const processQueue = (error: any, token: string | null = null) => {
+  failedQueue.forEach(({ resolve, reject }) => {
+    if (error) {
+      reject(error)
+    } else {
+      resolve(token)
+    }
+  })
+  
+  failedQueue = []
+}
+
 // 리프레시 토큰으로 새로운 액세스 토큰을 요청하는 함수
 const refreshAccessToken = async (): Promise<string | null> => {
+  if (isRefreshing) {
+    // 이미 토큰 갱신 중인 경우 대기열에 추가
+    return new Promise((resolve, reject) => {
+      failedQueue.push({ resolve, reject })
+    })
+  }
+
+  isRefreshing = true
+
   try {
     const refreshToken = getRefreshToken()
-    if (!refreshToken) return null
+    if (!refreshToken) {
+      processQueue(new Error('No refresh token'), null)
+      return null
+    }
 
     const response = await axios.post(`${API_BASE_URL}/auth/refresh`, {
       refreshToken
@@ -26,13 +58,26 @@ const refreshAccessToken = async (): Promise<string | null> => {
 
     if (newAccessToken && newRefreshToken) {
       setTokens(newAccessToken, newRefreshToken)
+      processQueue(null, newAccessToken)
       return newAccessToken
     }
+    
+    processQueue(new Error('Invalid token response'), null)
     return null
-  } catch (error) {
+  } catch (error: any) {
     console.error('토큰 갱신 실패:', error)
-    removeTokens()
+    
+    // 리프레시 토큰도 만료된 경우 (401, 403 등)
+    if (error.response?.status === 401 || error.response?.status === 403) {
+      processQueue(error, null)
+      authService.onTokenRefreshFailure()
+      return null
+    }
+    
+    processQueue(error, null)
     return null
+  } finally {
+    isRefreshing = false
   }
 }
 
@@ -70,9 +115,13 @@ apiClient.interceptors.response.use(
   response => response,
   async error => {
     const originalRequest = error.config
+    const status = error.response?.status
 
-    // 401 에러이고 토큰 갱신을 시도하지 않은 경우
-    if (error.response?.status === 401 && !originalRequest._retry) {
+    // 인증 관련 에러 코드들 (백엔드와 협의된 코드)
+    const authErrorCodes = [401, 403]
+    
+    // 인증 에러이고 토큰 갱신을 시도하지 않은 경우
+    if (authErrorCodes.includes(status) && !originalRequest._retry) {
       originalRequest._retry = true
 
       try {
@@ -84,15 +133,14 @@ apiClient.interceptors.response.use(
         }
       } catch (refreshError) {
         console.error('토큰 갱신 중 오류:', refreshError)
+        // 토큰 갱신 실패 시 로그아웃 처리는 refreshAccessToken 함수에서 처리됨
+        return Promise.reject(refreshError)
       }
     }
 
-    // 401 에러가 지속되면 로그인 페이지로 리다이렉트
-    if (error.response?.status === 401) {
-      removeTokens()
-      if (typeof window !== 'undefined') {
-        window.location.href = '/login'
-      }
+    // 토큰 갱신 후에도 인증 에러가 지속되면 로그아웃
+    if (authErrorCodes.includes(status) && originalRequest._retry) {
+      authService.logout()
     }
 
     return Promise.reject(error)

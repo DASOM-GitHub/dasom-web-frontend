@@ -9,6 +9,7 @@ import {
   getInterviewees,
 } from './adminService'
 import { ApplicantListItem, ApplicantDetail, IntervieweeItem } from './admin'
+import { useAuth } from '../../hooks/useAuth'
 
 dayjs.extend(utc)
 
@@ -53,13 +54,12 @@ export const useAdminApplicant = () => {
   const [currentPage, setCurrentPage] = useState<number>(1)
   const [totalPages, setTotalPages] = useState<number>(1)
   const [page, setPage] = useState<number>(0)
-
-  const accessToken = localStorage.getItem('accessToken')
+  const { isAuthenticated } = useAuth()
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        if (!accessToken) {
+        if (!isAuthenticated) {
           toast.error('로그인이 필요합니다.')
           return
         }
@@ -87,7 +87,7 @@ export const useAdminApplicant = () => {
     }
 
     fetchData()
-  }, [viewMode, page, accessToken])
+  }, [viewMode, page, isAuthenticated])
 
   // 상세정보 조회
   const getDetail = async (id: number) => {
