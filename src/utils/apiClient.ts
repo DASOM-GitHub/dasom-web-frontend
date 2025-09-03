@@ -117,7 +117,7 @@ apiClient.interceptors.response.use(
     const originalRequest = error.config
     const status = error.response?.status
 
-    // 인증 관련 에러 코드들 (백엔드와 협의된 코드)
+    // 인증 관련 에러 코드들
     const authErrorCodes = [401, 403]
     
     // 인증 에러이고 토큰 갱신을 시도하지 않은 경우
@@ -133,7 +133,7 @@ apiClient.interceptors.response.use(
         }
       } catch (refreshError) {
         console.error('토큰 갱신 중 오류:', refreshError)
-        // 토큰 갱신 실패 시 로그아웃 처리는 refreshAccessToken 함수에서 처리됨
+        // 토큰 갱신 실패 시 로그아웃 처리는 refreshAccessToken 함수에서
         return Promise.reject(refreshError)
       }
     }
