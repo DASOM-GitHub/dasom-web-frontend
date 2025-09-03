@@ -88,28 +88,22 @@ export const useRecruitSchedule = () => {
 
       // 모든 모집 일정 데이터 정리
       const scheduleData: RecruitScheduleData = {
-        recruitmentPeriodStart: formatDate(
-          data.find(item => item.key === 'RECRUITMENT_PERIOD_START')?.value
-        ),
-        recruitmentPeriodEnd: formatDate(
-          data.find(item => item.key === 'RECRUITMENT_PERIOD_END')?.value
-        ),
-        documentPassAnnouncement: formatDate(
-          data.find(item => item.key === 'DOCUMENT_PASS_ANNOUNCEMENT')?.value
-        ),
-        interviewPeriodStart: formatDate(
-          data.find(item => item.key === 'INTERVIEW_PERIOD_START')?.value
-        ),
-        interviewPeriodEnd: formatDate(
-          data.find(item => item.key === 'INTERVIEW_PERIOD_END')?.value
-        ),
+        recruitmentPeriodStart:
+          data.find(item => item.key === 'RECRUITMENT_PERIOD_START')?.value || '',
+        recruitmentPeriodEnd:
+          data.find(item => item.key === 'RECRUITMENT_PERIOD_END')?.value || '',
+        documentPassAnnouncement:
+          data.find(item => item.key === 'DOCUMENT_PASS_ANNOUNCEMENT')?.value || '',
+        interviewPeriodStart:
+          data.find(item => item.key === 'INTERVIEW_PERIOD_START')?.value || '',
+        interviewPeriodEnd:
+          data.find(item => item.key === 'INTERVIEW_PERIOD_END')?.value || '',
         interviewTimeStart:
           data.find(item => item.key === 'INTERVIEW_TIME_START')?.value || '',
         interviewTimeEnd:
           data.find(item => item.key === 'INTERVIEW_TIME_END')?.value || '',
-        interviewPassAnnouncement: formatDate(
-          data.find(item => item.key === 'INTERVIEW_PASS_ANNOUNCEMENT')?.value
-        ),
+        interviewPassAnnouncement:
+          data.find(item => item.key === 'INTERVIEW_PASS_ANNOUNCEMENT')?.value || '',
       }
 
       setScheduleData(scheduleData)
