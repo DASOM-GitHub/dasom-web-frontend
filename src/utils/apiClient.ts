@@ -1,6 +1,5 @@
 import axios, { AxiosRequestConfig, InternalAxiosRequestConfig } from 'axios'
 import { getAccessToken, getRefreshToken, setTokens, removeTokens } from './tokenUtils'
-import { authService } from './authService'
 
 const API_BASE_URL =
   (process.env.DASOM_BASE_URL as string) ||
@@ -12,40 +11,12 @@ const apiClient = axios.create({
   timeout: 15000,
 })
 
-// 토큰 갱신 중복 요청 방지를 위한 플래그
-let isRefreshing = false
-let failedQueue: Array<{
-  resolve: (value: string | null) => void
-  reject: (reason?: any) => void
-}> = []
-
-const processQueue = (error: any, token: string | null = null) => {
-  failedQueue.forEach(({ resolve, reject }) => {
-    if (error) {
-      reject(error)
-    } else {
-      resolve(token)
-    }
-  })
-  
-  failedQueue = []
-}
-
 // 리프레시 토큰으로 새로운 액세스 토큰을 요청하는 함수
 const refreshAccessToken = async (): Promise<string | null> => {
-  if (isRefreshing) {
-    // 이미 토큰 갱신 중인 경우 대기열에 추가
-    return new Promise((resolve, reject) => {
-      failedQueue.push({ resolve, reject })
-    })
-  }
-
-  isRefreshing = true
-
   try {
     const refreshToken = getRefreshToken()
     if (!refreshToken) {
-      processQueue(new Error('No refresh token'), null)
+      console.log('리프레시 토큰이 없습니다.')
       return null
     }
 
@@ -53,31 +24,29 @@ const refreshAccessToken = async (): Promise<string | null> => {
       refreshToken
     })
 
+    // 백엔드에서 새로운 토큰들을 응답으로 받음
     const newAccessToken = response.data.accessToken
     const newRefreshToken = response.data.refreshToken
 
     if (newAccessToken && newRefreshToken) {
+      // 새로운 토큰들을 로컬 스토리지에 저장
       setTokens(newAccessToken, newRefreshToken)
-      processQueue(null, newAccessToken)
+      console.log('토큰이 성공적으로 갱신되었습니다.')
       return newAccessToken
     }
     
-    processQueue(new Error('Invalid token response'), null)
+    console.log('토큰 갱신 응답에서 유효한 토큰을 받지 못했습니다.')
     return null
   } catch (error: any) {
     console.error('토큰 갱신 실패:', error)
     
-    // 리프레시 토큰도 만료된 경우 (401, 403 등)
+    // 리프레시 토큰이 유효하지 않은 경우 (401, 403 등)
     if (error.response?.status === 401 || error.response?.status === 403) {
-      processQueue(error, null)
-      authService.onTokenRefreshFailure()
-      return null
+      console.log('리프레시 토큰이 유효하지 않습니다. 로그아웃 처리합니다.')
+      removeTokens()
     }
     
-    processQueue(error, null)
     return null
-  } finally {
-    isRefreshing = false
   }
 }
 
@@ -112,35 +81,51 @@ apiClient.interceptors.request.use(
 )
 
 apiClient.interceptors.response.use(
-  response => response,
+  response => {
+    // 정상 응답 시 그대로 반환
+    return response
+  },
   async error => {
     const originalRequest = error.config
-    const status = error.response?.status
 
-    // 인증 관련 에러 코드들
-    const authErrorCodes = [401, 403]
-    
-    // 인증 에러이고 토큰 갱신을 시도하지 않은 경우
-    if (authErrorCodes.includes(status) && !originalRequest._retry) {
+    // 401 Unauthorized 에러이고 토큰 갱신을 시도하지 않은 경우
+    if (error.response?.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true
+
+      console.log('액세스 토큰이 만료되었습니다. 리프레시 토큰으로 갱신을 시도합니다.')
 
       try {
         const newAccessToken = await refreshAccessToken()
+        
         if (newAccessToken) {
-          // 새로운 토큰으로 원래 요청 재시도
+          // 새로운 액세스 토큰으로 원래 요청 재시도
           originalRequest.headers['Authorization'] = `Bearer ${newAccessToken}`
+          console.log('새로운 액세스 토큰으로 요청을 재시도합니다.')
           return apiClient(originalRequest)
+        } else {
+          console.log('토큰 갱신에 실패했습니다. 로그인 페이지로 리다이렉트합니다.')
+          // 토큰 갱신 실패 시 로그인 페이지로 리다이렉트
+          removeTokens()
+          if (typeof window !== 'undefined') {
+            window.location.href = '/login'
+          }
         }
       } catch (refreshError) {
-        console.error('토큰 갱신 중 오류:', refreshError)
-        // 토큰 갱신 실패 시 로그아웃 처리는 refreshAccessToken 함수에서
-        return Promise.reject(refreshError)
+        console.error('토큰 갱신 중 오류 발생:', refreshError)
+        removeTokens()
+        if (typeof window !== 'undefined') {
+          window.location.href = '/login'
+        }
       }
     }
 
-    // 토큰 갱신 후에도 인증 에러가 지속되면 로그아웃
-    if (authErrorCodes.includes(status) && originalRequest._retry) {
-      authService.logout()
+    // 401 에러가 지속되거나 다른 인증 관련 에러인 경우
+    if (error.response?.status === 401 || error.response?.status === 403) {
+      console.log('인증이 필요합니다. 로그인 페이지로 리다이렉트합니다.')
+      removeTokens()
+      if (typeof window !== 'undefined') {
+        window.location.href = '/login'
+      }
     }
 
     return Promise.reject(error)
