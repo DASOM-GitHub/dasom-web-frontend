@@ -23,18 +23,38 @@ const Login: React.FC = () => {
         password,
       })
 
-      // 백엔드에서 응답 body에 토큰을 포함하여 전송
-      const { accessToken, refreshToken } = response.data
+      console.log('로그인 응답:', response)
+      console.log('응답 헤더:', response.headers)
+      console.log('응답 데이터:', response.data)
+
+      // 백엔드에서 헤더로 토큰을 전송하는 경우
+      const accessToken = response.headers['access-token'] || response.headers['accessToken']
+      const refreshToken = response.headers['refresh-token'] || response.headers['refreshToken']
       
-      if (accessToken && refreshToken) {
+      // 또는 응답 body에서 토큰을 받는 경우
+      const bodyAccessToken = response.data?.accessToken
+      const bodyRefreshToken = response.data?.refreshToken
+      
+      // 최종 토큰 결정 (헤더 우선, 없으면 body에서)
+      const finalAccessToken = accessToken || bodyAccessToken
+      const finalRefreshToken = refreshToken || bodyRefreshToken
+      
+      if (finalAccessToken && finalRefreshToken) {
         // 로컬 스토리지에 토큰 저장
-        setTokens(accessToken, refreshToken)
+        setTokens(finalAccessToken, finalRefreshToken)
         
         console.log('로그인 성공: 토큰이 저장되었습니다.')
+        console.log('저장된 액세스 토큰:', finalAccessToken)
+        console.log('저장된 리프레시 토큰:', finalRefreshToken)
         
         // 로그인 성공 시 어드민 페이지로 이동
         navigate('/admin')
       } else {
+        console.error('토큰을 찾을 수 없습니다.')
+        console.error('헤더 액세스 토큰:', accessToken)
+        console.error('헤더 리프레시 토큰:', refreshToken)
+        console.error('바디 액세스 토큰:', bodyAccessToken)
+        console.error('바디 리프레시 토큰:', bodyRefreshToken)
         alert('토큰을 받지 못했습니다. 다시 시도해주세요.')
       }
     } catch (err: any) {
