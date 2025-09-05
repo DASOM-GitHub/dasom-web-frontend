@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import apiClient from '../utils/apiClient'
 import { useNavigate } from 'react-router-dom'
 import { setTokens } from '../utils/tokenUtils'
-import { authService } from '../utils/authService'
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState('')
@@ -24,25 +23,30 @@ const Login: React.FC = () => {
         password,
       })
 
-      const accessToken = response.headers['access-token']
-      const refreshToken = response.headers['refresh-token']
+      // 백엔드에서 응답 body에 토큰을 포함하여 전송
+      const { accessToken, refreshToken } = response.data
       
       if (accessToken && refreshToken) {
-        // 토큰 저장
+        // 로컬 스토리지에 토큰 저장
         setTokens(accessToken, refreshToken)
         
-        // 인증 서비스에 로그인 성공 알림
-        authService.onLoginSuccess()
-       
+        console.log('로그인 성공: 토큰이 저장되었습니다.')
+        
         // 로그인 성공 시 어드민 페이지로 이동
         navigate('/admin')
       } else {
         alert('토큰을 받지 못했습니다. 다시 시도해주세요.')
       }
     } catch (err: any) {
+      console.error('로그인 오류:', err)
+      
       const errorCode = err.response?.data?.code
       if (errorCode === 'C005') {
         alert('이메일 또는 비밀번호가 잘못되었습니다.')
+      } else if (err.response?.status === 401) {
+        alert('인증에 실패했습니다. 이메일과 비밀번호를 확인해주세요.')
+      } else if (err.response?.status === 403) {
+        alert('접근 권한이 없습니다.')
       } else {
         alert('로그인 실패. 다시 시도해주세요.')
       }
