@@ -1,5 +1,5 @@
 import axios, { AxiosRequestConfig, InternalAxiosRequestConfig } from 'axios'
-import { getAccessToken, getRefreshToken, setTokens, removeTokens } from './tokenUtils'
+import { getAccessToken, getRefreshToken, setTokens, removeTokens, removeAllTokens } from './tokenUtils'
 
 const API_BASE_URL =
   (process.env.DASOM_BASE_URL as string) ||
@@ -43,7 +43,7 @@ const refreshAccessToken = async (): Promise<string | null> => {
     // 리프레시 토큰이 유효하지 않은 경우 (401, 403 등)
     if (error.response?.status === 401 || error.response?.status === 403) {
       console.log('리프레시 토큰이 유효하지 않습니다. 로그아웃 처리합니다.')
-      removeTokens()
+      removeAllTokens()
     }
     
     return null
@@ -57,8 +57,12 @@ apiClient.interceptors.request.use(
     // 헤더 객체가 존재하도록 보장
     config.headers = config.headers || {}
 
-    // 명시적으로 제공되지 않은 경우 Authorization 헤더 자동 부착
-    if (accessToken && !config.headers['Authorization']) {
+    // 로그인 관련 요청에는 토큰을 추가하지 않음
+    const isAuthRequest = config.url?.includes('/auth/') && 
+                         (config.url?.includes('login') || config.url?.includes('refresh'))
+    
+    // 명시적으로 제공되지 않은 경우 Authorization 헤더 자동 부착 (로그인 요청 제외)
+    if (accessToken && !config.headers['Authorization'] && !isAuthRequest) {
       config.headers['Authorization'] = `Bearer ${accessToken}`
     }
 
@@ -105,14 +109,14 @@ apiClient.interceptors.response.use(
         } else {
           console.log('토큰 갱신에 실패했습니다. 로그인 페이지로 리다이렉트합니다.')
           // 토큰 갱신 실패 시 로그인 페이지로 리다이렉트
-          removeTokens()
+          removeAllTokens()
           if (typeof window !== 'undefined') {
             window.location.href = '/login'
           }
         }
       } catch (refreshError) {
         console.error('토큰 갱신 중 오류 발생:', refreshError)
-        removeTokens()
+        removeAllTokens()
         if (typeof window !== 'undefined') {
           window.location.href = '/login'
         }
@@ -122,7 +126,7 @@ apiClient.interceptors.response.use(
     // 401 에러가 지속되거나 다른 인증 관련 에러인 경우
     if (error.response?.status === 401 || error.response?.status === 403) {
       console.log('인증이 필요합니다. 로그인 페이지로 리다이렉트합니다.')
-      removeTokens()
+      removeAllTokens()
       if (typeof window !== 'undefined') {
         window.location.href = '/login'
       }
