@@ -1,4 +1,4 @@
-import { getAccessToken, getRefreshToken, removeTokens, isAccessTokenValid, isRefreshTokenValid } from './tokenUtils'
+import { getAccessToken, getRefreshToken, removeTokens, removeAllTokens, isAccessTokenValid, isRefreshTokenValid } from './tokenUtils'
 
 // 인증 상태 관리 서비스
 export class AuthService {
@@ -40,6 +40,11 @@ export class AuthService {
     const accessToken = getAccessToken()
     const refreshToken = getRefreshToken()
     
+    // 토큰이 없는 경우
+    if (!accessToken && !refreshToken) {
+      return false
+    }
+    
     // 액세스 토큰이 유효한 경우
     if (accessToken && isAccessTokenValid()) {
       return true
@@ -50,12 +55,19 @@ export class AuthService {
       return true
     }
     
+    // 모든 토큰이 만료된 경우 토큰 제거
+    if ((accessToken && !isAccessTokenValid()) && (refreshToken && !isRefreshTokenValid())) {
+      console.log('모든 토큰이 만료되었습니다. 토큰을 제거합니다.')
+      removeAllTokens()
+      this.notifyAuthStateChange(false)
+    }
+    
     return false
   }
 
   // 로그아웃 처리
   public logout(): void {
-    removeTokens()
+    removeAllTokens()
     this.notifyAuthStateChange(false)
     
     // 로그인 페이지로 리다이렉트
