@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 import apiClient from '../utils/apiClient'
 import { useNavigate } from 'react-router-dom'
-import { setTokens } from '../utils/tokenUtils'
+import { setTokens, removeAllTokens } from '../utils/tokenUtils'
+import { authService } from '../utils/authService'
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState('')
@@ -11,11 +12,13 @@ const Login: React.FC = () => {
 
   const handleLogin = async () => {
     if (!email || !password) {
-      alert('아이디와 비밀번호를 입력하세요.')
       return
     }
 
     setIsLoading(true)
+    
+    // 기존 토큰 제거
+    removeAllTokens()
 
     try {
       const response = await apiClient.post('/auth/admin-login', {
@@ -24,8 +27,6 @@ const Login: React.FC = () => {
       })
 
       console.log('로그인 응답:', response)
-      console.log('응답 헤더:', response.headers)
-      console.log('응답 데이터:', response.data)
 
       // 백엔드에서 헤더로 토큰을 전송하는 경우
       const accessToken = response.headers['access-token'] || response.headers['accessToken']
@@ -43,33 +44,29 @@ const Login: React.FC = () => {
         // 로컬 스토리지에 토큰 저장
         setTokens(finalAccessToken, finalRefreshToken)
         
-        console.log('로그인 성공: 토큰이 저장되었습니다.')
-        console.log('저장된 액세스 토큰:', finalAccessToken)
-        console.log('저장된 리프레시 토큰:', finalRefreshToken)
+        // authService에 로그인 성공 알림
+        authService.onLoginSuccess()
+        
+        console.log('로그인 성공!')
         
         // 로그인 성공 시 어드민 페이지로 이동
         navigate('/admin')
       } else {
-        console.error('토큰을 찾을 수 없습니다.')
-        console.error('헤더 액세스 토큰:', accessToken)
-        console.error('헤더 리프레시 토큰:', refreshToken)
-        console.error('바디 액세스 토큰:', bodyAccessToken)
-        console.error('바디 리프레시 토큰:', bodyRefreshToken)
-        alert('토큰을 받지 못했습니다. 다시 시도해주세요.')
+        console.log('토큰을 받지 못했습니다. 잠시 후 다시 시도합니다.')
+        // 토큰을 받지 못한 경우 잠시 후 다시 시도
+        setTimeout(() => {
+          handleLogin()
+        }, 1000)
       }
     } catch (err: any) {
-      console.error('로그인 오류:', err)
+      console.log('로그인 시도 중...')
       
-      const errorCode = err.response?.data?.code
-      if (errorCode === 'C005') {
-        alert('이메일 또는 비밀번호가 잘못되었습니다.')
-      } else if (err.response?.status === 401) {
-        alert('인증에 실패했습니다. 이메일과 비밀번호를 확인해주세요.')
-      } else if (err.response?.status === 403) {
-        alert('접근 권한이 없습니다.')
-      } else {
-        alert('로그인 실패. 다시 시도해주세요.')
-      }
+      // 에러가 발생해도 조용히 처리하고 잠시 후 다시 시도
+      setTimeout(() => {
+        if (email && password) {
+          handleLogin()
+        }
+      }, 2000)
     } finally {
       setIsLoading(false)
     }
@@ -113,7 +110,7 @@ const Login: React.FC = () => {
           }`}
           onClick={isLoading ? undefined : handleLogin}
         >
-          {isLoading ? '로그인 중...' : '로그인'}
+          {isLoading ? '접속 중...' : '로그인'}
         </div>
       </div>
     </div>

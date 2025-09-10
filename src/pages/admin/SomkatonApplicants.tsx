@@ -5,6 +5,7 @@ import {
   getSomkathonParticipant,
   listSomkathonParticipants,
 } from './adminService'
+import { useAuth } from '../../hooks/useAuth'
 
 const SomkatonApplicants: React.FC = () => {
   const [applicants, setApplicants] = useState<SomkathonApplicantListItem[]>([])
@@ -13,15 +14,22 @@ const SomkatonApplicants: React.FC = () => {
   )
   const [selectedId, setSelectedId] = useState<number | null>(null)
   const [count, setCount] = useState<number>(0)
-  const accessToken = localStorage.getItem('accessToken')
+  const { isAuthenticated, isLoading } = useAuth()
 
   // 지원자 전체 조회
   const getData = async () => {
     try {
-      if (!accessToken) {
+      // 로딩 중이면 대기
+      if (isLoading) {
+        return
+      }
+      
+      // 로딩이 완료되었는데 인증되지 않은 경우
+      if (!isAuthenticated) {
         alert('로그인이 필요합니다.')
         return
       }
+      
       const response = await listSomkathonParticipants()
       setApplicants(response)
       setCount(response.length)
@@ -33,7 +41,7 @@ const SomkatonApplicants: React.FC = () => {
 
   useEffect(() => {
     getData()
-  }, [])
+  }, [isAuthenticated, isLoading])
 
   // 지원자 상세 조회
   const toggleDetail = async (id: number) => {
