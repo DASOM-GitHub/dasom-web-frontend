@@ -14,10 +14,22 @@ export const getRefreshToken = (): string | null => {
   return localStorage.getItem('refreshToken')
 }
 
-// 토큰 제거
+// 토큰 제거 (로컬 스토리지에서)
 export const removeTokens = () => {
   localStorage.removeItem('accessToken')
   localStorage.removeItem('refreshToken')
+}
+
+// 모든 토큰 제거 (로컬 스토리지 + 쿠키)
+export const removeAllTokens = () => {
+  // 로컬 스토리지에서 토큰 제거
+  localStorage.removeItem('accessToken')
+  localStorage.removeItem('refreshToken')
+  
+  // 쿠키에서도 토큰 제거
+  removeTokensFromCookie()
+  
+  console.log('모든 토큰이 제거되었습니다.')
 }
 
 // 쿠키에 토큰 저장 (보안 강화 옵션)
