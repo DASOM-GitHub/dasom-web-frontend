@@ -19,6 +19,7 @@
 | PM | <a href="https://github.com/dohy-eon">최도현</a>  | **프론트엔드 리드**, 프론트 인프라 구축 & 서버 연동 및 배포, 화면 UI 구현, <br> UI/UX, GUI 디자인, 백엔드 API 및 DB 구축 |
 | 백엔드 | <a href="https://github.com/ysw789">유승완</a>  | **백엔드 리드**, 백엔드 인프라 구축 & 서버 연동 및 배포, API 및 DB 구축 |
 | 백엔드 | <a href="https://github.com/hodoon">윤도훈</a>  | **백엔드**, API 및 DB 구축 |
+| 백엔드 | <a href="https://github.com/jucheonsu">주천수</a>  | **백엔드**, 활동 연혁 API 개발, ADMIN 권한 구현 |
 | 프론트엔드 | <a href="https://github.com/sooh329">김수현</a>  | **프론트엔드**, 화면 UI 구현, API 연동 |
 | 프론트엔드 | <a href="https://github.com/kim3360">김태우</a>  | **프론트엔드**, 화면 UI 구현, API 연동 |
 | 프론트엔드 | <a href="https://github.com/limtjdghks">임성환</a>  | **프론트엔드**, 화면 UI 구현, API 연동 |
@@ -34,10 +35,8 @@
 ![TailwindCSS](https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white)
 ![ESLint](https://img.shields.io/badge/ESLint-4B3263?style=for-the-badge&logo=eslint&logoColor=white)
 ![Prettier](https://img.shields.io/badge/prettier-%23F7B93E.svg?style=for-the-badge&logo=prettier&logoColor=black)
-![Yarn](https://img.shields.io/badge/yarn-%232C8EBB.svg?style=for-the-badge&logo=yarn&logoColor=white)
 ![React Router](https://img.shields.io/badge/React_Router-CA4245?style=for-the-badge&logo=react-router&logoColor=white)
 ![Framer](https://img.shields.io/badge/Framer-black?style=for-the-badge&logo=framer&logoColor=blue)
-![Testing-Library](https://img.shields.io/badge/-TestingLibrary-%23E33332?style=for-the-badge&logo=testing-library&logoColor=white)
 
 ### BE
 
@@ -69,157 +68,4 @@
 ![Swagger](https://img.shields.io/badge/-Swagger-%23Clojure?style=for-the-badge&logo=swagger&logoColor=white)
 ![Notion](https://img.shields.io/badge/Notion-%23000000.svg?style=for-the-badge&logo=notion&logoColor=white)
 ![Discord](https://img.shields.io/badge/Discord-%235865F2.svg?style=for-the-badge&logo=discord&logoColor=white)
-<br>
-
-## 컨벤션
-
-### Commit Convention
-
-| 태그 | 설명 | 예시 |
-| --- | --- | --- |
-| feat | 새로운 기능 추가 | `feat: 로그인 기능 추가` |
-| fix | 버그 수정 | `fix: 로그인 예외 처리 버그 수정` |
-| docs | README 등의 문서 수정 | `docs: API 명세 업데이트` |
-| style | 코드 스타일 변경 | `style: 코드 포맷팅 개선` |
-| refactor | 기능 변경 없이 코드 내부 구조 리팩토링 | `refactor: 로그인 처리 로직 리팩토링` |
-| test | 테스트 케이스 작성 혹은 수정 | `test: 사용자 인증 로직 테스트 케이스 추가` |
-| chore | 라이브러리 버전 수정, 패키지 관리 등 | `chore: 의존성 버전 업데이트` |
-| comment | 주석 추가 / 수정 | `comment: 불필요한 주석 제거` |
-| hotfix | 배포된 버전에서의 급한 버그 수정 | `hotfix: 서버 Timezone 설정 변경` |
-| rename | 파일, 클래스 등의 이름 변경 | `rename: UserController → AuthController 변경` |
-| remove | 파일, 클래스 등의 삭제 | `remove: 사용하지 않는 DTO 제거` |
-| cicd | CI/CD 관련 설정 | `cicd: Github Actions workflow 추가` |
-| design | 애니메이션, 컬러 등의 디자인 수정 | `design: hover 애니메이션 추가` |
-
-### Issue Template
-
-```markdown
-# [태그] 제목
-(예: [feat] 로그인 기능 추가)
-
-## 목적
-- 해당 Issue가 발생한 원인과 배경을 설명한다.
-  - 예: 회원 기능 구현을 위한 로그인 기능 추가 필요
-- 문제점이나 개선해야 할 사항을 기술한다.
-  - 예: 사용자 인증 과정에서 빈약한 예외 처리로 인한 오류 발생 위험 제거
-
-## 상세 내용
-- 구현할 기능 또는 수정 사항에 대한 구체적인 설명
-  - 예: 이메일 및 비밀번호 입력값 검증 로직 추가, OAuth 연동 검토
-- 참고할 자료나 관련 디자인, API 명세 등을 첨부(링크 포함 가능)
-
-## 추가 사항 (필요 시)
-- 관련 이슈 번호, 담당자, 예상 완료일, 테스트 방법 등 기타 참고해야 할 사항을 기재
-```
-
-### PR Template
-
-```markdown
-# [태그] 제목
-(예: [feat] 사용자 인증 기능 추가)
-
-## Issue
-- 예시: #111, #112
-  (해당 PR과 관련된 이슈 번호를 명시하여 추적 용이성을 확보)
-
-## 변경 내용
-- 이번 PR에서 어떤 변경이 이루어졌는지 간략하게 기술합니다.
-  (예: 기존 로그인 API에 JWT 기반 인증 로직 추가)
-
-## 구현 사항
-- 새로운 기능 구현 내용 및 기존 코드 수정 경위를 상세하게 설명합니다.
-  (예: 로그인 요청 처리 로직 개선, 예외 처리 추가, API 응답 포맷 변경 등)
-
-## 테스트 (필요 시)
-- 적용된 테스트 방법과 결과를 기록합니다.
-  (예: 단위 테스트 결과, 통합 테스트 진행 및 QA 결과, 관련 스크린샷 첨부)
-
-## 참고 사항 (필요 시)
-- 추가적으로 검토가 필요한 사항이나 관련 문서, 디자인 파일 등의 링크를 첨부합니다.
-  (예: API 명세서, 디자인 목업 파일 링크 등)
-```
-
-## 패키지 구조
-
-### 백엔드
-```
-dmu.dasom.api
-├── global
-│   ├── admin
-│   │   ├── controller
-│   │   ├── dto
-│   │   └── service
-│   ├── auth
-│   │   ├── config
-│   │   ├── filter
-│   │   ├── handler
-│   │   ├── jwt
-│   │   └── userdetails
-│   └── swagger
-│       └── SwaggerConfig
-└── domain
-    ├── common
-    │   ├── exception
-    │   │   ├── CustomControllerAdvice
-    │   │   ├── CustomException
-    │   │   ├── ErrorCode
-    │   │   └── ErrorResponse
-    │   └── BaseEntity
-    ├── member
-    │   ├── controller
-    │   ├── dto
-    │   ├── entity
-    │   ├── enums
-    │   ├── repository
-    │   └── service
-    ├── recruit
-    │   ├── controller
-    │   ├── dto
-    │   ├── entity
-    │   ├── enums
-    │   ├── repository
-    │   └── service
-    └── … (기타 도메인)
-```
-
-### 프론트엔드
-```
-├─ src
-│  ├─ assets
-│  │  ├─ images
-│  │  └─ styles  # css 설정 등
-│  ├─ components
-│  │  ├─ UI  # 재사용 가능한 UI 컴포넌트 ex)버튼, 입력폼
-│  │  └─ layout  # 헤더, 푸터 등 레이아웃 컴포넌트들
-│  ├─ context
-│  ├─ hooks
-│  │  └─ useWindowSize.tsx
-│  ├─ pages
-│  │  ├─ Main.tsx
-│  │  ├─ FAQ.tsx
-│  │  ├─ News.tsx
-│  │  ├─ NewsInfo.tsx
-│  │  ├─ CoreMembers.tsx
-│  │  ├─ Login.tsx
-│  │  ├─ Recruit.tsx
-│  │  ├─ RecruitCheck.tsx
-│  │  ├─ RecruitCheckFinal.tsx
-│  │  ├─ RecruitMeeting.tsx
-│  │  ├─ RecruitResult.tsx
-│  │  ├─ RecruitSubmit.tsx
-│  │  ├─ RecruitSubmitMeeting.tsx
-│  │  ├─ UserMain.tsx
-│  │  └─ admin
-│  │     ├─ AdminMain.tsx
-│  │     ├─ ManMembers.tsx
-│  │     ├─ ManApplicants.tsx
-│  │     ├─ ManRecruitDate.tsx
-│  │     └─ ManNews.tsx
-│  ├─ utils
-│  │  └─ utils.ts
-│  └─ types
-├─ App.tsx
-├─ index.tsx
-├─ react-app-env.d.ts
-└─ setupTests.ts
-```
+<br/>
