@@ -71,6 +71,8 @@ export interface SomkathonRecruitFormData {
   grade: string
   contact: string
   email: string
+  githubLink: string
+  portfolioLink: string
 }
 
 export interface RecruitPeriodData {
