@@ -45,19 +45,19 @@ const Recruit: React.FC = () => {
     }
   }, [loadSchedule, navigate])
 
-  useEffect(() => {
-    checkRecruitmentPeriod()
-  }, [checkRecruitmentPeriod])
+  // useEffect(() => {
+  //   checkRecruitmentPeriod()
+  // }, [checkRecruitmentPeriod])
 
-  useEffect(() => {
-    if (isRecruiting === false && !alertShown.current) {
-      alertShown.current = true
-      alert('현재 모집 기간이 아닙니다.')
-      navigate('/')
-    }
-  }, [isRecruiting, navigate])
+  // useEffect(() => {
+  //   if (isRecruiting === false && !alertShown.current) {
+  //     alertShown.current = true
+  //     alert('현재 모집 기간이 아닙니다.')
+  //     navigate('/')
+  //   }
+  // }, [isRecruiting, navigate])
 
-  if (isRecruiting === false) return null
+  // if (isRecruiting === false) return null
 
   return (
     <div className='bg-subGrey3' style={{ minHeight: 'calc(100vh - 56px)' }}>

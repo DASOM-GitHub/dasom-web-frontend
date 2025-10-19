@@ -70,4 +70,6 @@ export interface SomkathonApplicantDetail extends SomkathonApplicantListItem {
   email: string
   grade: string
   department: string
+  gitHubLink: string
+  portfolioLink: string
 }
