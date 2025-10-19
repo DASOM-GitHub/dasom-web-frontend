@@ -22,28 +22,28 @@ const SomkathonRecruit: React.FC = () => {
     email: '',
   })
 
-  useEffect(() => {
-    const checkRecruitmentPeriod = async () => {
-      const startDate = new Date('2025-04-08T00:00:00')
-      const endDate = new Date('2025-04-17T00:00:00')
-      const now = new Date()
+  // useEffect(() => {
+  //   const checkRecruitmentPeriod = async () => {
+  //     const startDate = new Date('2025-04-08T00:00:00')
+  //     const endDate = new Date('2025-04-17T00:00:00')
+  //     const now = new Date()
 
-      if (now >= startDate && now <= endDate) {
-        setIsRecruiting(true)
-      } else {
-        setIsRecruiting(false)
-        if (!alertShown.current) {
-          alertShown.current = true
-          alert('현재 모집 기간이 아닙니다.')
-          navigate('/')
-        }
-      }
-    }
+  //     if (now >= startDate && now <= endDate) {
+  //       setIsRecruiting(true)
+  //     } else {
+  //       setIsRecruiting(false)
+  //       if (!alertShown.current) {
+  //         alertShown.current = true
+  //         alert('현재 모집 기간이 아닙니다.')
+  //         navigate('/')
+  //       }
+  //     }
+  //   }
 
-    checkRecruitmentPeriod()
-  }, [navigate])
+  //   checkRecruitmentPeriod()
+  // }, [navigate])
 
-  if (isRecruiting === false) return null
+  // if (isRecruiting === false) return null
 
   // 입력값들 제약조건 설정
   const handleInputChange = (

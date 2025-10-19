@@ -243,19 +243,27 @@ export const SomRecruitUI: React.FC = () => {
       </p>
       <div className='mt-2 pl-2 flex'>
         <p className='text-mainColor font-pretendardSemiBold'>📅 모집 일정 :</p>
-        <span className='text-white pl-1'>4월 11일 (금) ~ 4월 16일 (수)</span>
+        <span className='text-white pl-1'>10월 20일 (월) ~ 11월 02일 (일)</span>
+      </div>
+
+      <div className='mt-2 pl-2 flex'>
+        <p className='text-mainColor font-pretendardSemiBold'>🚀 진행 일정 :</p>
+        <div className='flex flex-col'>
+          <span className='text-white pl-1'>11월 10일 (월) ~ 11월 22일 (토)</span>
+          <span className='text-white pl-1'>발표 및 심사: 2025.11.22(토) 09:00 ~ 20:30</span>
+        </div>
       </div>
 
       <div className='mt-2 pl-2  flex items-center'>
         <p className='text-mainColor font-pretendardSemiBold'>📝 모집 대상 :</p>
         <span className='text-white pl-1'>
-          25년도 1학기 솜커톤에 참가하는 학우 여러분
+          25년도 2학기 솜커톤에 참가하는 학우 여러분
         </span>
       </div>
 
       <div className='mt-2 pl-2  flex items-center'>
         <p className='text-mainColor font-pretendardSemiBold'>🌿 신청 조건 :</p>
-        <span className='text-white pl-1 '>컴퓨터공학부 학생</span>
+        <span className='text-white pl-1 '>동양미래대학교 재학생</span>
       </div>
 
       <div className='mt-2  pl-2'>
