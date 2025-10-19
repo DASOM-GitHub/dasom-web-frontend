@@ -118,6 +118,8 @@ export const useRecruitForm = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
+    console.log('Submitted Form Data:', formData)
+
     if (
       !formData.name ||
       !formData.studentNo ||

@@ -20,12 +20,14 @@ const SomkathonRecruit: React.FC = () => {
     grade: '1',
     contact: '',
     email: '',
+    githubLink: '',
+    portfolioLink: ''
   })
 
   useEffect(() => {
     const checkRecruitmentPeriod = async () => {
-      const startDate = new Date('2025-04-08T00:00:00')
-      const endDate = new Date('2025-04-17T00:00:00')
+      const startDate = new Date('2025-10-19T00:00:00')
+      const endDate = new Date('2025-11-02T00:00:00')
       const now = new Date()
 
       if (now >= startDate && now <= endDate) {
@@ -142,7 +144,24 @@ const SomkathonRecruit: React.FC = () => {
       return
     }
 
+    if (!/^\d{8}$/.test(formData.studentId)) {
+      alert('학번은 8자리 숫자여야 합니다.')
+      return
+    }
+
+    if (!/^\d{3}-\d{3,4}-\d{4}$/.test(formData.contact)) {
+      alert('연락처 형식을 확인해주세요. (예: 01012345678)')
+      return
+    }
+
+    if (!formData.portfolioLink.startsWith('https')) {
+      alert('포트폴리오 링크를 https:// 를 포함하는 형식으로 작성해주세요.')
+      return
+    }
+
+
     try {
+      console.log('Submitted Form Data:', formData)
       await createSomkathonParticipant(formData)
       navigate('/somkathon/submit')
     } catch (error: any) {
@@ -195,24 +214,23 @@ const SomkathonRecruit: React.FC = () => {
             <InputField
               label='학과'
               name='department'
-              type='select'
               value={formData.department}
               onChange={handleInputChange}
-              options={[
-                {
-                  value: '웹응용소프트웨어공학과',
-                  label: '웹응용소프트웨어공학과',
-                },
-                {
-                  value: '컴퓨터소프트웨어공학과',
-                  label: '컴퓨터소프트웨어공학과',
-                },
-                {
-                  value: '인공지능소프트웨어학과',
-                  label: '인공지능소프트웨어학과',
-                },
-              ]}
               required
+            />
+            <InputField
+              label='학년'
+              name='grade'
+              type='select'
+              value={formData.grade}
+              onChange={handleInputChange}
+              required
+              options={[
+                { value: '1', label: '1학년' },
+                { value: '2', label: '2학년' },
+                { value: '3', label: '3학년' },
+                { value: '4', label: '4학년' },
+              ]}
             />
             <InputField
               label='연락처'
@@ -231,18 +249,18 @@ const SomkathonRecruit: React.FC = () => {
               required
             />
             <InputField
-              label='학년'
-              name='grade'
-              type='select'
-              value={formData.grade}
+              label='포트폴리오 링크'
+              name='portfolioLink'
+              placeholder='Notion, 개인 블로그, Google Drive 등 / (ex: https://portfolio.com/username)'
+              value={formData.portfolioLink}
               onChange={handleInputChange}
               required
-              options={[
-                { value: '1', label: '1학년' },
-                { value: '2', label: '2학년' },
-                { value: '3', label: '3학년' },
-                { value: '4', label: '4학년' },
-              ]}
+            />
+            <InputField
+              label='GitHub 링크'
+              name='githubLink'
+              value={formData.githubLink}
+              onChange={handleInputChange}
             />
             <Button text='폼 제출하기' />
           </form>
