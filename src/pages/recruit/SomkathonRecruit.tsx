@@ -26,7 +26,7 @@ const SomkathonRecruit: React.FC = () => {
 
   useEffect(() => {
     const checkRecruitmentPeriod = async () => {
-      const startDate = new Date('2025-10-20T00:00:00')
+      const startDate = new Date('2025-10-19T00:00:00')
       const endDate = new Date('2025-11-02T00:00:00')
       const now = new Date()
 
@@ -144,7 +144,24 @@ const SomkathonRecruit: React.FC = () => {
       return
     }
 
+    if (!/^\d{8}$/.test(formData.studentId)) {
+      alert('학번은 8자리 숫자여야 합니다.')
+      return
+    }
+
+    if (!/^\d{3}-\d{3,4}-\d{4}$/.test(formData.contact)) {
+      alert('연락처 형식을 확인해주세요. (예: 01012345678)')
+      return
+    }
+
+    if (!formData.portfolioLink.startsWith('https')) {
+      alert('포트폴리오 링크를 https:// 를 포함하는 형식으로 작성해주세요.')
+      return
+    }
+
+
     try {
+      console.log('Submitted Form Data:', formData)
       await createSomkathonParticipant(formData)
       navigate('/somkathon/submit')
     } catch (error: any) {
@@ -234,7 +251,7 @@ const SomkathonRecruit: React.FC = () => {
             <InputField
               label='포트폴리오 링크'
               name='portfolioLink'
-              placeholder='Notion, 개인 블로그, Google Drive 등'
+              placeholder='Notion, 개인 블로그, Google Drive 등 / (ex: https://portfolio.com/username)'
               value={formData.portfolioLink}
               onChange={handleInputChange}
               required

@@ -30,6 +30,10 @@ const Header = () => {
       title: '가입안내',
       links: [{ name: '지원하기', path: '/join/apply' }],
     },
+    {
+      title: '솜커톤',
+      links: [{ name: '지원하기', path: '/somkathon' }],
+    },
   ]
 
   return (
