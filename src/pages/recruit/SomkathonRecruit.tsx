@@ -27,7 +27,7 @@ const SomkathonRecruit: React.FC = () => {
   useEffect(() => {
     const checkRecruitmentPeriod = async () => {
       const startDate = new Date('2025-11-03T00:00:00')
-      const endDate = new Date('2025-11-07T00:00:00')
+      const endDate = new Date('2025-11-08T00:00:00')
       const now = new Date()
 
       if (now >= startDate && now <= endDate) {
