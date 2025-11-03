@@ -72,4 +72,5 @@ export interface SomkathonApplicantDetail extends SomkathonApplicantListItem {
   department: string
   gitHubLink: string
   portfolioLink: string
+  positions: string
 }
