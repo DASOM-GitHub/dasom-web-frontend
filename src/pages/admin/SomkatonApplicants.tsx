@@ -129,6 +129,7 @@ const SomkatonApplicants: React.FC = () => {
         <DetailItem label='학과' value={applicant.department} />
         <DetailItem label='깃헙' value={applicant.gitHubLink} />
         <DetailItem label='포트폴리오' value={applicant.portfolioLink} />
+        <DetailItem label='희망포지션' value={applicant.positions} />
         <div className='flex gap-[10px]'>
           <button className='bg-gray-700 text-white px-2 py-1 rounded w-20'>
             수정
