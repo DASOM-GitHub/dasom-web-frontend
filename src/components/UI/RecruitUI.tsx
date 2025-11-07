@@ -243,14 +243,14 @@ export const SomRecruitUI: React.FC = () => {
       </p>
       <div className='mt-2 pl-2 flex'>
         <p className='text-mainColor font-pretendardSemiBold'>📅 모집 일정 :</p>
-        <span className='text-white pl-1'>10월 20일 (월) ~ 11월 02일 (일)</span>
+        <span className='text-white pl-1'>11월 03일 (월) ~ 11월 09일 (일)</span>
       </div>
 
       <div className='mt-2 pl-2 flex'>
         <p className='text-mainColor font-pretendardSemiBold'>🚀 진행 일정 :</p>
         <div className='flex flex-col'>
           <span className='text-white pl-1'>11월 10일 (월) ~ 11월 22일 (토)</span>
-          <span className='text-white pl-1'>발표 및 심사: 2025.11.22(토) 09:00 ~ 20:30</span>
+          <span className='text-white pl-1'>데모 데이: 2025.11.22(토) 09:00 ~ 20:30</span>
         </div>
       </div>
 
