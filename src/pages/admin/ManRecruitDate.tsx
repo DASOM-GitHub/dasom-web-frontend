@@ -14,22 +14,21 @@ import {
 const ManRecruitDate = () => {
   const [dates, setDates] = useState({
     // 모집 기간 (시작일, 종료일)
-    RECRUITMENT_PERIOD_START: dayjs('2025-03-01T09:00:00'),
-    RECRUITMENT_PERIOD_END: dayjs('2025-03-10T18:00:00'),
+    RECRUITMENT_PERIOD_START: dayjs('2026-02-24T09:00:00'),
+    RECRUITMENT_PERIOD_END: dayjs('2026-03-10T18:00:00'),
 
     // 1차 합격 (서류) 발표일
-    DOCUMENT_PASS_ANNOUNCEMENT: dayjs('2025-03-15T12:00:00'),
-
+    DOCUMENT_PASS_ANNOUNCEMENT: dayjs('2026-03-10T12:00:00'),
     // 면접 기간 (시작일, 종료일)
-    INTERVIEW_PERIOD_START: dayjs('2025-03-20T12:00:00'),
-    INTERVIEW_PERIOD_END: dayjs('2025-03-20T12:00:00'),
+    INTERVIEW_PERIOD_START: dayjs('2026-03-11T12:00:00'),
+    INTERVIEW_PERIOD_END: dayjs('2026-03-13T23:00:00'),
 
     // 면접 시간 (시작시각, 종료시각)
-    INTERVIEW_TIME_START: dayjs('18:00:00', 'HH:mm:ss'),
-    INTERVIEW_TIME_END: dayjs('18:00:00', 'HH:mm:ss'),
+    INTERVIEW_TIME_START: dayjs('12:00:00', 'HH:mm:ss'),
+    INTERVIEW_TIME_END: dayjs('21:00:00', 'HH:mm:ss'),
 
     // 최종 합격 (면접) 발표일
-    INTERVIEW_PASS_ANNOUNCEMENT: dayjs('2025-03-30T17:00:00'),
+    INTERVIEW_PASS_ANNOUNCEMENT: dayjs('2026-03-14T12:00:00'),
   })
 
   const statusMap = {
