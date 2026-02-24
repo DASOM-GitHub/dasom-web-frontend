@@ -45,9 +45,9 @@ const Recruit: React.FC = () => {
     }
   }, [loadSchedule, navigate])
 
-  // useEffect(() => {
-  //   checkRecruitmentPeriod()
-  // }, [checkRecruitmentPeriod])
+  useEffect(() => {
+    checkRecruitmentPeriod()
+  }, [checkRecruitmentPeriod])
 
   // useEffect(() => {
   //   if (isRecruiting === false && !alertShown.current) {
