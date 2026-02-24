@@ -7,6 +7,11 @@ import { useRecruitSchedule } from './useRecruitSchedule'
 import { formatDate } from './useRecruitSchedule'
 
 const RecruitInfo: React.FC = () => {
+  const FIRST_GENERATION_YEAR = 1992 // 다솜 1기 1992년 기준
+
+  const currentYear = new Date().getFullYear() // 현재 년도 계산
+  const currentGeneration = currentYear - FIRST_GENERATION_YEAR + 1 // 현재 기수 계산
+
   const navigate = useNavigate()
   const { loadSchedule } = useRecruitSchedule()
   const [periodData, setPeriodData] = useState({
@@ -89,7 +94,7 @@ const RecruitInfo: React.FC = () => {
 
       case 'recruiting':
         return {
-          text: '34기 지원하기',
+          text: `${currentGeneration}기 지원하기`,
           disabled: false,
           onClick: () => navigate('/recruit'),
         }
@@ -157,7 +162,7 @@ const RecruitInfo: React.FC = () => {
           <p>DASOM</p>
           <p className='text-lg'>"Dare, Share. Someday."</p>
         </div>
-        <p className='text-right'>34th</p>
+        <p className='text-right'>{currentGeneration}th</p>
       </div>
       <RecruitInfo_Button
         text={buttonState.text}
@@ -167,7 +172,7 @@ const RecruitInfo: React.FC = () => {
 
       {/* Schedule Section */}
       <div className='flex flex-col mt-96 w-[90%] items-center font-pretendardRegular overflow-x-hidden'>
-        <p className='font-pretendardBold text-4xl'>34기 모집일정</p>
+        <p className='font-pretendardBold text-4xl'>{currentGeneration}기 모집일정</p>
         <div className='my-10'>
           {periodData.recruitmentPeriodStart &&
           periodData.recruitmentPeriodEnd ? (
@@ -218,8 +223,7 @@ const RecruitInfo: React.FC = () => {
             {formatMmDd(periodData.interviewPassAnnouncement)}
           </p>
           <p>
-            <span className='font-pretendardBold'>4. 다솜 2학기 OT</span> 09월
-            19일
+            <span className='font-pretendardBold'>4. 다솜 1학기 OT</span> 03월 20일
           </p>
         </div>
         <p className='mt-6 text-base text-subGrey2'>
