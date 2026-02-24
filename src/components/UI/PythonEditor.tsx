@@ -136,7 +136,7 @@ const PythonEditor: React.FC = () => {
                 className='h-4 w-4 mr-2.5'
                 alt='Python Scroll Down Icon'
               />
-              DASOM 34기 부원 모집
+              DASOM 35기 부원 모집
             </div>
             <div className='text-xl font-semibold text-stone-300 flex items-center'>
               <img
