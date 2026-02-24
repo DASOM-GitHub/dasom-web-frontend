@@ -165,7 +165,7 @@ const RecruitMeeting: React.FC = () => {
   return (
     <div className='bg-subGrey3' style={{ minHeight: 'calc(100vh - 56px)' }}>
       <MobileLayout>
-        <RecruitHeader title='컴퓨터 소프트웨어 공학과 전공 동아리 다솜 34기 모집 폼' />
+        <RecruitHeader title='컴퓨터 소프트웨어 공학과 전공 동아리 다솜 35기 모집 폼' />
         <RecruitUI />
         <Recruit_InfoBanner
           message={`1차 서류에 합격되신 점 다시 한번 축하드리며,
