@@ -1,206 +1,171 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import DasomLogo from '../../assets/images/dasomLogo.svg'
-import ActivityBar from '../../assets/images/activityBar.svg'
 import { ActivityStatusProps, ActivitySection } from './types'
+import axios from 'axios'
 
-// 페이드 인 및 위로 이동 애니메이션
-const FadeInSection: React.FC<{ children: React.ReactNode }> = ({
-  children,
-}) => {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.8, ease: 'easeOut' }}
-      viewport={{ once: false }}
-    >
-      {children}
-    </motion.div>
-  )
+interface ApiActivity {
+  id: number
+  monthDay: string
+  title: string
+  award: string | null
 }
 
-const ActivityStatus: React.FC<ActivityStatusProps> = ({ 
-  year, 
+interface ApiSection {
+  id: number
+  section: string
+  activities: ApiActivity[]
+}
+
+interface ApiYearData {
+  year: number
+  sections: ApiSection[]
+}
+
+const FadeInSection: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => (
+  <motion.div
+    initial={{ opacity: 0, y: 10 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    transition={{ duration: 0.6, ease: 'easeOut' }}
+    viewport={{ once: true, amount: 0.2 }}
+  >
+    {children}
+  </motion.div>
+)
+
+const ActivityStatus: React.FC<ActivityStatusProps> = ({
+  year,
   activityData: customActivityData,
-  className = ''
+  className = '',
 }) => {
-  // 2024년도 기본 활동 데이터
-  const defaultActivityData2024: ActivitySection[] = [
-    {
-      category: '코엑스 한국전자전',
-      items: [
-        {
-          award: '장려상',
-          subtitle: '2024 동양미래 EXPO',
-        },
-      ],
-    },
-    {
-      category: '외부 경진대회 / 전시회',
-      items: [
-        {
-          award: '동상',
-          subtitle: '교육장비 개발 및 아이디어 경진대회',
-        },
-      ],
-    },
-    {
-      category: '교내 경진대회',
-      items: [
-        {
-          award: '최우수상',
-          subtitle: '컴퓨터 공학부 경진대회',
-        },
-      ],
-    },
-    {
-      category: '세미나 실적',
-      items: [
-        { title: '현직 백엔드 개발자 특강 - ', subtitle: '20명 대상' },
-        { title: '웹 개발 세미나 - ', subtitle: '10명 대상' },
-      ],
-    },
-    {
-      category: '기타 활동',
-      items: [
-        { title: '컴퓨터공학부 최초 해커톤 개최' },
-        { title: '전공동아리 내부 팀 프로젝트 발표회 개최' },
-        { title: 'DASOM MAKERS 스터디 및 홈페이지 제작' },
-        { title: '시험기간 간식 행사' },
-        { title: '할로윈 행사' },
-        { title: '동계, 하계 MT' },
-      ],
-    },
-  ]
+  const [apiData, setApiData] = useState<ActivitySection[]>([])
+  const [loading, setLoading] = useState(true)
 
-  // 2025년도 기본 활동 데이터
-  const defaultActivityData2025: ActivitySection[] = [
-  {
-    category: '신규 프로젝트',
-    items: [
-      {
-        title: 'NFT 기반 타임캡슐 서비스 - ',
-        subtitle: ' 기획, 디자인 및 시연',
-      },
-      {
-        title: 'MemoReal (Expo 출품작)',
-        subtitle: '기획 및 개발',
-      },
-      {
-        title: 'Makers (Dasom Web)',
-        subtitle: '웹 서비스 개발',
-      },
-      {
-        title: 'HeyDoctor',
-        subtitle: '동아리 메인 프로젝트 개발',
-      },
-      {
-        title: 'UMC 프로젝트',
-        subtitle: '팀 프로젝트 개발',
-      },
-    ],
-  },
-  {
-    category: '세미나 및 워크샵',
-    items: [
-      { title: '나의 커리어 디자인하기 - 나에게 맞는 회사 고민하기, 성장 전략은? ', subtitle: ' ' },
-      { title: '34기 신입 부원 OT', subtitle: '' },
-      { title: '현직자 강의', subtitle: '' },
-      { title: 'UMC PM Day', subtitle: '' },
-      { title: '스프린트 리뷰 데이', subtitle: '' },
-      { title: 'HeyDoctor 중간 발표', subtitle: '' },
-    ],
-  },
-  {
-    category: '대회 참가',
-    items: [
-      {
-        award: '장려상 ',
-        subtitle: '생성형 AI를 활용한 문제해결 해커톤',
-      },
-      {
-        title: 'NYPC (넥슨 청소년 프로그래밍 챌린지)',
-        subtitle: '',
-      },
-      {
-        title: 'UMCON 레퍼런스 참가',
-        subtitle: '',
-      },
-    ],
-  },
-  {
-    category: '2025년 기타 활동',
-    items: [
-      { title: '스프링 부트, 팀 프로젝트 기획 개발 스터디 그룹 운영' },
-      { title: '컴퓨터공학부 + 시각디자인학부 협업 해커톤 개최' },
-      { title: '대학생 IT 연합동아리 DND, UMC 활동' },
-      { title: '오픈소스 프로젝트 기여 활동' },
-      { title: '2025년 동계 MT 계획' },
-      { title: '미니퀴즈 간식행사' },
-      { title: '서블릿 전공과목 튜터링' },
-      { title: 'UMC 스터디 참여' },
-      { title: '무비나잇 행사 운영' },
-      { title: '동계 MT 참여' },
-      { title: 'DASOM 결산 행사' },
-    ],
-  },
-]
+  useEffect(() => {
+    const fetchActivities = async () => {
+      try {
+        setLoading(true)
 
+        const response = await axios.get<ApiYearData[]>(
+          'https://api.dmu-dasom.or.kr/api/activities'
+        )
 
-  // 커스텀 데이터가 있으면 사용하고, 없으면 연도에 따른 기본 데이터 사용
-  const data = customActivityData || (year === '2025' ? defaultActivityData2025 : defaultActivityData2024)
+        const result = response.data
+
+        const currentYearData = result.find(
+          item => item.year === Number(year)
+        )
+
+        if (!currentYearData) {
+          setApiData([])
+          return
+        }
+
+        const transformed: ActivitySection[] =
+          currentYearData.sections.map(section => ({
+            category: section.section,
+            items: section.activities.map(activity => ({
+              title: activity.title,
+              award: activity.award ?? undefined,
+              subtitle: activity.monthDay
+                ? `(${activity.monthDay})`
+                : undefined,
+            })),
+          }))
+
+        setApiData(transformed)
+      } catch (error) {
+        console.error('활동 데이터 불러오기 실패:', error)
+        setApiData([])
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchActivities()
+  }, [year])
+
+  const defaultActivityData2024: ActivitySection[] = []
+  const defaultActivityData2025: ActivitySection[] = []
+
+  const data =
+    customActivityData ||
+    (apiData.length > 0
+      ? apiData
+      : year === '2025'
+      ? defaultActivityData2025
+      : defaultActivityData2024)
+
+  if (loading) {
+    return <div className="text-white text-center py-10">Loading...</div>
+  }
 
   return (
-    <FadeInSection>
-      <div className={`max-w-[400px] bg-mainBlack p-4 rounded-xl text-white ${className}`}>
-        <div className='flex items-center gap-2 mb-3'>
-          <img src={DasomLogo} className='w-7 h-7' alt='Dasom Icon' />
+    <FadeInSection key={year}>
+      <div
+        className={`max-w-[400px] bg-mainBlack p-4 rounded-xl text-white ${className}`}
+      >
+        {/* 헤더 */}
+        <div className="flex items-center gap-2 mb-6">
+          <img src={DasomLogo} className="w-7 h-7" alt="Dasom Icon" />
           <div>
-            <div className='text-[16px] font-pretendardBold'>활동 현황</div>
-            <div className='text-mainColor text-[13px] font-pretendardSemiBold'>
+            <div className="text-[16px] font-pretendardBold">
+              활동 현황
+            </div>
+            <div className="text-mainColor text-[13px] font-pretendardSemiBold">
               {year}
             </div>
           </div>
         </div>
-        <div className='flex items-start gap-3'>
-          <img
-            src={ActivityBar}
-            className='w-4 h-[300px] mt-1.5'
-            alt='Activitybar'
-          />
-          <div className='space-y-3'>
+
+        {/* 타임라인 */}
+        <div className="relative">
+          {/* 세로 라인 */}
+          <div className="absolute left-[3px] top-0 bottom-0 w-[2px] bg-mainColor/30" />
+
+          <div className="space-y-6">
             {data.map((section, index) => (
               <FadeInSection key={index}>
-                <div>
-                  <div className='text-white text-[12px] font-pretendardBold'>
-                    {section.category}
+                <div className="flex gap-4">
+                  
+                  {/* 점 */}
+                  <div className="relative flex justify-center">
+                    <span className="w-1.5 h-1.5 rounded-full bg-mainColor mt-[3px]" />
                   </div>
-                  <ul className='space-y-1'>
-                    {section.items.map((activity, idx) => (
-                      <li
-                        key={idx}
-                        className='flex flex-wrap text-[10.5px] leading-tight'
-                      >
-                        {activity.title && (
-                          <span className='font-pretendardRegular'>
-                            {activity.title}
-                          </span>
-                        )}
-                        {activity.award && (
-                          <span className='font-pretendardBold text-mainColor mr-1'>
-                            {activity.award}
-                          </span>
-                        )}
-                        {activity.subtitle && (
-                          <span className='text-subGrey font-pretendardRegular'>
-                            {' '}
-                            {activity.subtitle}
-                          </span>
-                        )}
-                      </li>
-                    ))}
-                  </ul>
+
+                  {/* 콘텐츠 */}
+                  <div className="flex-1">
+                    <div className="text-white text-[12px] font-pretendardBold mb-1">
+                      {section.category}
+                    </div>
+
+                    <ul className="space-y-1">
+                      {section.items.map((activity, idx) => (
+                        <li
+                          key={idx}
+                          className="flex flex-wrap text-[10.5px] leading-tight"
+                        >
+                          {activity.award && (
+                            <span className="font-pretendardBold text-mainColor mr-1">
+                              {activity.award}
+                            </span>
+                          )}
+                          {activity.title && (
+                            <span className="font-pretendardRegular">
+                              {activity.title}
+                            </span>
+                          )}
+                          {activity.subtitle && (
+                            <span className="text-subGrey font-pretendardRegular ml-1">
+                              {activity.subtitle}
+                            </span>
+                          )}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
                 </div>
               </FadeInSection>
             ))}
