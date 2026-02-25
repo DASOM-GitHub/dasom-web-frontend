@@ -76,42 +76,77 @@ const ActivityStatus: React.FC<ActivityStatusProps> = ({
 
   // 2025년도 기본 활동 데이터
   const defaultActivityData2025: ActivitySection[] = [
-    {
-      category: '신규 프로젝트',
-      items: [
-        {
-          title: 'NFT 기반 타임캡슐 서비스 - ',
-          subtitle: ' 기획, 디자인 및 시연',
-        },
-      ],
-    },
-    {
-      category: '세미나 및 워크샵',
-      items: [
-        { title: '나의 커리어 디자인하기 - 나에게 맞는 회사 고민하기, 성장 전략은? ', subtitle: ' ' },
-      ],
-    },
-    {
-      category: '대회 참가',
-      items: [
-        {
-          award: '장려상 ',
-          subtitle: '생성형 AI를 활용한 문제해결 해커톤',
-        },
-      ],
-    },
-    {
-      category: '2025년 기타 활동',
-      items: [
-        { title: '스프링 부트, 팀 프로젝트 기획 개발 스터디 그룹 운영' },
-        { title: '컴퓨터공학부 + 시각디자인학부 협업 해커톤 개최' },
-        { title: '대학생 IT 연합동아리 DND, UMC 활동' },
-        { title: '오픈소스 프로젝트 기여 활동' },
-        { title: '2025년 동계 MT 계획' },
-        { title: '미니퀴즈 간식행사' },
-      ],
-    },
-  ]
+  {
+    category: '신규 프로젝트',
+    items: [
+      {
+        title: 'NFT 기반 타임캡슐 서비스 - ',
+        subtitle: ' 기획, 디자인 및 시연',
+      },
+      {
+        title: 'MemoReal (Expo 출품작)',
+        subtitle: '기획 및 개발',
+      },
+      {
+        title: 'Makers (Dasom Web)',
+        subtitle: '웹 서비스 개발',
+      },
+      {
+        title: 'HeyDoctor',
+        subtitle: '동아리 메인 프로젝트 개발',
+      },
+      {
+        title: 'UMC 프로젝트',
+        subtitle: '팀 프로젝트 개발',
+      },
+    ],
+  },
+  {
+    category: '세미나 및 워크샵',
+    items: [
+      { title: '나의 커리어 디자인하기 - 나에게 맞는 회사 고민하기, 성장 전략은? ', subtitle: ' ' },
+      { title: '34기 신입 부원 OT', subtitle: '' },
+      { title: '현직자 강의', subtitle: '' },
+      { title: 'UMC PM Day', subtitle: '' },
+      { title: '스프린트 리뷰 데이', subtitle: '' },
+      { title: 'HeyDoctor 중간 발표', subtitle: '' },
+    ],
+  },
+  {
+    category: '대회 참가',
+    items: [
+      {
+        award: '장려상 ',
+        subtitle: '생성형 AI를 활용한 문제해결 해커톤',
+      },
+      {
+        title: 'NYPC (넥슨 청소년 프로그래밍 챌린지)',
+        subtitle: '',
+      },
+      {
+        title: 'UMCON 레퍼런스 참가',
+        subtitle: '',
+      },
+    ],
+  },
+  {
+    category: '2025년 기타 활동',
+    items: [
+      { title: '스프링 부트, 팀 프로젝트 기획 개발 스터디 그룹 운영' },
+      { title: '컴퓨터공학부 + 시각디자인학부 협업 해커톤 개최' },
+      { title: '대학생 IT 연합동아리 DND, UMC 활동' },
+      { title: '오픈소스 프로젝트 기여 활동' },
+      { title: '2025년 동계 MT 계획' },
+      { title: '미니퀴즈 간식행사' },
+      { title: '서블릿 전공과목 튜터링' },
+      { title: 'UMC 스터디 참여' },
+      { title: '무비나잇 행사 운영' },
+      { title: '동계 MT 참여' },
+      { title: 'DASOM 결산 행사' },
+    ],
+  },
+]
+
 
   // 커스텀 데이터가 있으면 사용하고, 없으면 연도에 따른 기본 데이터 사용
   const data = customActivityData || (year === '2025' ? defaultActivityData2025 : defaultActivityData2024)
