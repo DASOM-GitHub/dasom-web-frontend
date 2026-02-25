@@ -122,17 +122,27 @@ const ActivityStatus: React.FC<ActivityStatusProps> = ({
 
         {/* 타임라인 */}
         <div className="relative">
-          {/* 세로 라인 */}
-          <div className="absolute left-[3px] top-0 bottom-0 w-[2px] bg-mainColor/30" />
 
           <div className="space-y-6">
             {data.map((section, index) => (
               <FadeInSection key={index}>
-                <div className="flex gap-4">
-                  
-                  {/* 점 */}
-                  <div className="relative flex justify-center">
-                    <span className="w-1.5 h-1.5 rounded-full bg-mainColor mt-[3px]" />
+                <div className="flex gap-4 relative">
+
+                  {/* 점 + 선 영역 */}
+                  <div className="relative w-6 flex justify-center">
+
+                    {/* 세로 점선 (가운데 정렬) */}
+                    <div
+                      className="absolute top-0 bottom-0 left-1/2 
+                                 -translate-x-1/2
+                                 border-l-2 border-dashed border-mainColor/40"
+                    />
+
+                    {/* 점 */}
+                    <span
+                      className="relative z-10 w-1.5 h-1.5 rounded-full bg-mainColor
+                                 shadow-[0_0_10px_rgba(0,255,200,0.8)]"
+                    />
                   </div>
 
                   {/* 콘텐츠 */}
@@ -166,11 +176,13 @@ const ActivityStatus: React.FC<ActivityStatusProps> = ({
                       ))}
                     </ul>
                   </div>
+
                 </div>
               </FadeInSection>
             ))}
           </div>
         </div>
+
       </div>
     </FadeInSection>
   )
