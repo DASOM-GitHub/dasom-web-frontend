@@ -104,6 +104,16 @@ function AppContent() {
             </ProtectedRoute>
           }
         />
+
+        <Route
+          path='/admin/members'
+          element={
+            <ProtectedRoute>
+              <ManMembers />
+            </ProtectedRoute>
+          }
+        />
+        
         <Route
           path='/admin/applicants'
           element={
