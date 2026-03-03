@@ -61,9 +61,29 @@ apiClient.interceptors.request.use(
     const isAuthRequest = config.url?.includes('/auth/') && 
                          (config.url?.includes('login') || config.url?.includes('refresh'))
     
-    // 명시적으로 제공되지 않은 경우 Authorization 헤더 자동 부착 (로그인 요청 제외)
-    if (accessToken && !config.headers['Authorization'] && !isAuthRequest) {
-      config.headers['Authorization'] = `Bearer ${accessToken}`
+    // 공개 API 엔드포인트들 (토큰 없이 접근 가능)
+    const publicEndpoints = ['/news', '/recruit', '/health']
+    const isPublicEndpoint = publicEndpoints.some(endpoint => config.url?.includes(endpoint))
+    
+    // 토큰이 유효하고, 로그인 요청이 아니며, Authorization 헤더가 명시적으로 제공되지 않은 경우에만 토큰 추가
+    if (accessToken && !isAuthRequest && !config.headers['Authorization']) {
+      // 공개 엔드포인트의 경우, 토큰이 유효한지 확인 후 추가
+      if (isPublicEndpoint) {
+        try {
+          // 토큰이 만료되지 않았는지 간단히 확인
+          const payload = JSON.parse(atob(accessToken.split('.')[1]))
+          const currentTime = Date.now() / 1000
+          if (payload.exp > currentTime) {
+            config.headers['Authorization'] = `Bearer ${accessToken}`
+          }
+          // 만료된 토큰은 추가하지 않음 (공개 API이므로)
+        } catch {
+          // 토큰 파싱 실패 시 추가하지 않음
+        }
+      } else {
+        // 비공개 API는 항상 토큰 추가
+        config.headers['Authorization'] = `Bearer ${accessToken}`
+      }
     }
 
     // JSON 요청에 대한 기본 헤더 설정
