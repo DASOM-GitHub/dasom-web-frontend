@@ -61,8 +61,27 @@ apiClient.interceptors.request.use(
     const isAuthRequest = config.url?.includes('/auth/') && 
                          (config.url?.includes('login') || config.url?.includes('refresh'))
     
-    // 명시적으로 제공되지 않은 경우 Authorization 헤더 자동 부착 (로그인 요청 제외)
-    if (accessToken && !config.headers['Authorization'] && !isAuthRequest) {
+    // 공개 API 엔드포인트들 (토큰 없이 접근 가능)
+    const publicEndpoints = ['/news', '/recruit', '/health', '/activities', '/executives']
+    const isPublicEndpoint = publicEndpoints.some(endpoint => config.url?.includes(endpoint))
+    
+    // 공개 엔드포인트는 토큰 없이도 작동하도록 처리
+    if (isPublicEndpoint) {
+      // 토큰이 있고 유효한 경우에만 추가 (선택적)
+      if (accessToken) {
+        try {
+          const payload = JSON.parse(atob(accessToken.split('.')[1]))
+          const currentTime = Date.now() / 1000
+          if (payload.exp > currentTime) {
+            config.headers['Authorization'] = `Bearer ${accessToken}`
+          }
+        } catch {
+          // 토큰 파싱 실패 시 토큰 없이 진행
+        }
+      }
+      // 토큰이 없거나 유효하지 않아도 공개 API는 그대로 진행
+    } else if (accessToken && !isAuthRequest && !config.headers['Authorization']) {
+      // 비공개 API는 항상 토큰 추가
       config.headers['Authorization'] = `Bearer ${accessToken}`
     }
 
@@ -91,6 +110,16 @@ apiClient.interceptors.response.use(
   },
   async error => {
     const originalRequest = error.config
+
+    // 공개 API 엔드포인트 확인
+    const publicEndpoints = ['/news', '/recruit', '/health', '/activities', '/executives']
+    const isPublicEndpoint = publicEndpoints.some(endpoint => originalRequest?.url?.includes(endpoint))
+
+    // 공개 API에서 401 에러가 발생한 경우, 로그인 리다이렉트 없이 에러만 반환
+    if (isPublicEndpoint && error.response?.status === 401) {
+      console.log('공개 API에서 401 에러 발생 - 로그인 리다이렉트하지 않음')
+      return Promise.reject(error)
+    }
 
     // 401 Unauthorized 에러이고 토큰 갱신을 시도하지 않은 경우
     if (error.response?.status === 401 && !originalRequest._retry) {
@@ -123,8 +152,8 @@ apiClient.interceptors.response.use(
       }
     }
 
-    // 401 에러가 지속되거나 다른 인증 관련 에러인 경우
-    if (error.response?.status === 401 || error.response?.status === 403) {
+    // 401 에러가 지속되거나 다른 인증 관련 에러인 경우 (공개 API가 아닐 때만)
+    if (!isPublicEndpoint && (error.response?.status === 401 || error.response?.status === 403)) {
       console.log('인증이 필요합니다. 로그인 페이지로 리다이렉트합니다.')
       removeAllTokens()
       if (typeof window !== 'undefined') {
