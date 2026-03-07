@@ -4,7 +4,7 @@ import { getAccessToken, getRefreshToken, setTokens, removeTokens, removeAllToke
 const API_BASE_URL =
   (process.env.DASOM_BASE_URL as string) ||
   (process.env.REACT_APP_API_BASE_URL as string) ||
-  'https://dmu-dasom-api.or.kr/api'
+  'https://api.dmu-dasom.or.kr/api/'
 
 const apiClient = axios.create({
   baseURL: API_BASE_URL,
