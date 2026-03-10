@@ -49,7 +49,7 @@ const ActivityStatus: React.FC<ActivityStatusProps> = ({
         setLoading(true)
 
         const response = await axios.get<ApiYearData[]>(
-          'https://api.dmu-dasom.or.kr/api/activities'
+          'https://dmu-dasom-api.or.kr/api/activities'
         )
 
         const result = response.data
