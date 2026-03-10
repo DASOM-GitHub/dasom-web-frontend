@@ -74,7 +74,7 @@ const RecruitInfo: React.FC = () => {
       status = 'before'
     } else if (now >= startDate && now <= endDate) {
       status = 'recruiting'
-    } else if (docPassDate && now >= endDate && now < docPassDate) {
+    } else if (interviewPassDate && now >= endDate && now < interviewPassDate) {
       status = 'docPass'
     } else if (
       interviewPassDate &&
