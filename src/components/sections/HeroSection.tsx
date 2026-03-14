@@ -7,9 +7,9 @@ const HeroSection: React.FC = () => {
     <section className="relative overflow-hidden">
       <div className="relative w-full" style={{ paddingTop: '56%' }}>
         <img
-          src="/dasomMain.png"
+          src="/dasomMain.webp"
           alt="hero background"
-          className="absolute inset-0 w-full h-full object-cover opacity-50 blur-[2px]"
+          className="absolute inset-0 w-full h-full object-cover opacity-50"
         />
         {/* Particles layer (absolute), outside of Reveal to avoid transform effects */}
         <ParticlesBackground />
