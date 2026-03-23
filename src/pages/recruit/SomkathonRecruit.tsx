@@ -11,6 +11,7 @@ const SomkathonRecruit: React.FC = () => {
   const navigate = useNavigate()
   const [contact, setContact] = useState('')
   const [isRecruiting, setIsRecruiting] = useState<boolean | null>(null)
+  const [isSubmitting, setIsSubmitting] = useState(false)
   const alertShown = useRef(false)
 
   const [formData, setFormData] = useState<SomkathonRecruitFormData>({
@@ -21,13 +22,14 @@ const SomkathonRecruit: React.FC = () => {
     contact: '',
     email: '',
     githubLink: '',
-    portfolioLink: ''
+    portfolioLink: '',
+    positions: ''
   })
 
   useEffect(() => {
     const checkRecruitmentPeriod = async () => {
       const startDate = new Date('2025-11-03T00:00:00')
-      const endDate = new Date('2025-11-10T00:00:00')
+      const endDate = new Date('2025-11-09T23:59:59')
       const now = new Date()
 
       if (now >= startDate && now <= endDate) {
@@ -138,7 +140,8 @@ const SomkathonRecruit: React.FC = () => {
       !formData.studentId ||
       !formData.contact ||
       !formData.email ||
-      !formData.department
+      !formData.department ||
+      !formData.positions
     ) {
       alert('모든 필수 정보를 입력해주세요.')
       return
@@ -160,6 +163,7 @@ const SomkathonRecruit: React.FC = () => {
     }
 
 
+    setIsSubmitting(true)
     try {
       console.log('Submitted Form Data:', formData)
       await createSomkathonParticipant(formData)
@@ -173,13 +177,15 @@ const SomkathonRecruit: React.FC = () => {
           errorData.code === 'C007'
         ) {
           alert('입력 정보를 다시 확인해주세요.')
-        } else if (error.response.status === 400 && errorData.code === 'C013') {
+        } else if (error.response.status === 400 && errorData.code === 'C002') {
           alert('이미 등록된 학번입니다.')
         }
       } else {
         console.error('API 요청 중 오류 발생:', error)
         alert('네트워크 오류가 발생했습니다.')
       }
+    } finally {
+      setIsSubmitting(false)
     }
   }
 
@@ -262,7 +268,21 @@ const SomkathonRecruit: React.FC = () => {
               value={formData.githubLink}
               onChange={handleInputChange}
             />
-            <Button text='폼 제출하기' />
+            <InputField
+              label='희망 포지션'
+              name='positions'
+              type='select'
+              value={formData.positions}
+              onChange={handleInputChange}
+              required
+              options={[
+                { value: 'FRONTEND', label: '프론트엔드' },
+                { value: 'BACKEND', label: '백엔드' },
+                { value: 'PM', label: '기획' },
+                { value: 'DESIGN', label: '디자인' },
+              ]}
+            />
+            <Button text={isSubmitting ? '제출 중...' : '폼 제출하기'} disabled={isSubmitting} />
           </form>
         </div>
       </MobileLayout>

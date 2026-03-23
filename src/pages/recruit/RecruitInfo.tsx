@@ -7,16 +7,25 @@ import { useRecruitSchedule } from './useRecruitSchedule'
 import { formatDate } from './useRecruitSchedule'
 
 const RecruitInfo: React.FC = () => {
+  const FIRST_GENERATION_YEAR = 1992 // 다솜 1기 1992년 기준
+
+  const currentYear = new Date().getFullYear() // 현재 년도 계산
+  const currentGeneration = currentYear - FIRST_GENERATION_YEAR + 1 // 현재 기수 계산
+
   const navigate = useNavigate()
   const { loadSchedule } = useRecruitSchedule()
-  const [periodData, setPeriodData] = useState({
-    recruitmentPeriodStart: '',
-    recruitmentPeriodEnd: '',
-    documentPassAnnouncement: '',
-    interviewPeriodStart: '',
-    interviewPeriodEnd: '',
-    interviewPassAnnouncement: '',
-  })
+
+  // 기본 모집 일정 (API 실패 시 사용)
+  const defaultPeriodData = {
+    recruitmentPeriodStart: '2026-02-23', // 02월 23일
+    recruitmentPeriodEnd: '2026-03-10',   // 03월 10일 
+    documentPassAnnouncement: '2026-03-11', // 03월 11일
+    interviewPeriodStart: '2026-03-11',  // 03월 11일
+    interviewPeriodEnd: '2026-03-13',    // 03월 13일
+    interviewPassAnnouncement: '2026-03-14', // 03월 14일
+  }
+  
+  const [periodData, setPeriodData] = useState(defaultPeriodData)
   const [buttonState, setButtonState] = useState({
     text: '',
     disabled: false,
@@ -42,10 +51,11 @@ const RecruitInfo: React.FC = () => {
     } = periodData
 
     if (!recruitmentPeriodStart || !recruitmentPeriodEnd) {
+      // API 호출 실패 시 기본값으로 지원하기 버튼 표시
       return {
-        text: '모집 일정 준비 중',
-        disabled: true,
-        onClick: () => {},
+        text: `${currentGeneration}기 지원하기`,
+        disabled: false,
+        onClick: () => navigate('/recruit'),
       }
     }
 
@@ -64,7 +74,7 @@ const RecruitInfo: React.FC = () => {
       status = 'before'
     } else if (now >= startDate && now <= endDate) {
       status = 'recruiting'
-    } else if (docPassDate && now >= endDate && now < docPassDate) {
+    } else if (interviewPassDate && now >= endDate && now < interviewPassDate) {
       status = 'docPass'
     } else if (
       interviewPassDate &&
@@ -89,7 +99,7 @@ const RecruitInfo: React.FC = () => {
 
       case 'recruiting':
         return {
-          text: '34기 지원하기',
+          text: `${currentGeneration}기 지원하기`,
           disabled: false,
           onClick: () => navigate('/recruit'),
         }
@@ -128,16 +138,18 @@ const RecruitInfo: React.FC = () => {
     const fetchData = async () => {
       try {
         const { scheduleData } = await loadSchedule()
+        // API 성공 시 서버 데이터로 업데이트
         setPeriodData({
-          recruitmentPeriodStart: scheduleData.recruitmentPeriodStart,
-          recruitmentPeriodEnd: scheduleData.recruitmentPeriodEnd,
-          documentPassAnnouncement: scheduleData.documentPassAnnouncement,
-          interviewPeriodStart: scheduleData.interviewPeriodStart,
-          interviewPeriodEnd: scheduleData.interviewPeriodEnd,
-          interviewPassAnnouncement: scheduleData.interviewPassAnnouncement,
+          recruitmentPeriodStart: scheduleData.recruitmentPeriodStart || defaultPeriodData.recruitmentPeriodStart,
+          recruitmentPeriodEnd: scheduleData.recruitmentPeriodEnd || defaultPeriodData.recruitmentPeriodEnd,
+          documentPassAnnouncement: scheduleData.documentPassAnnouncement || defaultPeriodData.documentPassAnnouncement,
+          interviewPeriodStart: scheduleData.interviewPeriodStart || defaultPeriodData.interviewPeriodStart,
+          interviewPeriodEnd: scheduleData.interviewPeriodEnd || defaultPeriodData.interviewPeriodEnd,
+          interviewPassAnnouncement: scheduleData.interviewPassAnnouncement || defaultPeriodData.interviewPassAnnouncement,
         })
       } catch (error) {
-        console.error('Error fetching recruit configs:', error)
+        console.warn('API를 통한 모집 일정 조회 실패, 기본 일정을 사용합니다:', error)
+        // API 실패 시 기본 일정 데이터 유지 (이미 useState로 설정됨)
       }
     }
 
@@ -157,7 +169,7 @@ const RecruitInfo: React.FC = () => {
           <p>DASOM</p>
           <p className='text-lg'>"Dare, Share. Someday."</p>
         </div>
-        <p className='text-right'>34th</p>
+        <p className='text-right'>{currentGeneration}th</p>
       </div>
       <RecruitInfo_Button
         text={buttonState.text}
@@ -167,7 +179,7 @@ const RecruitInfo: React.FC = () => {
 
       {/* Schedule Section */}
       <div className='flex flex-col mt-96 w-[90%] items-center font-pretendardRegular overflow-x-hidden'>
-        <p className='font-pretendardBold text-4xl'>34기 모집일정</p>
+        <p className='font-pretendardBold text-4xl'>{currentGeneration}기 모집일정</p>
         <div className='my-10'>
           {periodData.recruitmentPeriodStart &&
           periodData.recruitmentPeriodEnd ? (
@@ -218,8 +230,7 @@ const RecruitInfo: React.FC = () => {
             {formatMmDd(periodData.interviewPassAnnouncement)}
           </p>
           <p>
-            <span className='font-pretendardBold'>4. 다솜 2학기 OT</span> 09월
-            19일
+            <span className='font-pretendardBold'>4. 다솜 1학기 OT</span> 03월 20일
           </p>
         </div>
         <p className='mt-6 text-base text-subGrey2'>

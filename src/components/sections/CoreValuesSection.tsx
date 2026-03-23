@@ -67,7 +67,7 @@ const CoreValuesSection: React.FC = () => {
         <div className="text-center">
           <p className="text-xl md:text-2xl">Core Value</p>
           <h2 className="mt-1 text-3xl md:text-4xl font-pretendardBold">핵심 가치</h2>
-          <p className="mt-4 text-base md:text-xl text-white/80 font-pretendardRegular">34기 다솜은 이런 분들과 함께 성장하고 싶습니다.</p>
+          <p className="mt-4 text-base md:text-xl text-white/80 font-pretendardRegular">35기 다솜은 이런 분들과 함께 성장하고 싶습니다.</p>
           <p className="mt-4 text-xl md:text-3xl font-pretendardBold">"Dare. Share. Someday."</p>
         </div>
 
