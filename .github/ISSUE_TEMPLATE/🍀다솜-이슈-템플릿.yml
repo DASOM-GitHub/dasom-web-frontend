@@ -1,17 +1,8 @@
 name: '🍀다솜-이슈-템플릿'
-description: '해당 이슈 생성 템플릿으로 작성해주세요! (2025.08.08 update)'
+description: '해당 이슈 생성 템플릿으로 작성해주세요! (2026.04.03. update)'
 labels: [FEAT]
 title: '[feat] 개발 타이틀'
 body:
-  - type: input
-    id: parentKey
-    attributes:
-      label: '🎟️ 상위 작업 (Ticket Number)'
-      description: '상위 작업의 Ticket Number를 기입해주세요'
-      placeholder: 'DASOMFE-00'
-    validations:
-      required: true
-
   - type: textarea
     id: purpose
     attributes:
@@ -27,5 +18,14 @@ body:
       label: '📝 상세 내용(Description)'
       description: '구현할 기능 또는 수정 사항에 대한 구체적인 설명'
       placeholder: '예: 이메일 및 비밀번호 입력값 검증 로직 추가, OAuth 연동 검토'
+    validations:
+      required: true
+
+  - type: textarea
+    id: works
+    attributes:
+      label: '✅ 작업 내용(Works)'
+      description: '작업할 구체적인 항목들을 나열한다.'
+      placeholder: '- [ ] OAuth2.0 로그인 기능 구현'
     validations:
       required: true
