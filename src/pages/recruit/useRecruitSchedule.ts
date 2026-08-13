@@ -44,6 +44,33 @@ export const formatDate = (dateStr?: string): string => {
   return `${year}-${month}-${day}`
 }
 
+// 모집 시작일 기준 연도(2자리)와 학기 (1~7월: 1학기, 8~12월: 2학기)
+export const getAcademicTerm = (dateStr?: string): { shortYear: string; semester: 1 | 2 } => {
+  let year: number
+  let month: number
+
+  const match = dateStr ? /^(\d{4})-(\d{2})/.exec(dateStr) : null
+  if (match) {
+    year = Number(match[1])
+    month = Number(match[2])
+  } else {
+    const d = dateStr ? new Date(dateStr) : new Date()
+    if (Number.isNaN(d.getTime())) {
+      const now = new Date()
+      year = now.getFullYear()
+      month = now.getMonth() + 1
+    } else {
+      year = d.getFullYear()
+      month = d.getMonth() + 1
+    }
+  }
+
+  return {
+    shortYear: String(year).slice(-2),
+    semester: month <= 7 ? 1 : 2,
+  }
+}
+
 // 모집 일정 데이터 타입 정의
 export interface RecruitScheduleData {
   recruitmentPeriodStart: string // YYYY-MM-DD
@@ -83,7 +110,9 @@ export const useRecruitSchedule = () => {
       const endDate = new Date(recruitmentEnd as string)
       const now = new Date()
 
-      const isRecruitingNow = now >= startDate && now <= endDate
+      // TODO: 개발용 — 배포 전 아래 한 줄 삭제하고 원래 비교로 원복
+      // const isRecruitingNow = now >= startDate && now <= endDate
+      const isRecruitingNow = true
 
       if (isRecruitingNow) {
         setIsRecruiting(true)
