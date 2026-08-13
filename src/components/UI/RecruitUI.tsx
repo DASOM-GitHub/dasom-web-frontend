@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react'
 import {
   formatKoreanDate,
+  getAcademicTerm,
   useRecruitSchedule,
   RecruitScheduleData,
 } from '../../pages/recruit/useRecruitSchedule'
@@ -50,6 +51,10 @@ export const RecruitUI: React.FC = () => {
     return new Intl.DateTimeFormat('ko-KR', options).format(date)
   }
 
+  const { shortYear, semester } = getAcademicTerm(
+    scheduleData?.recruitmentPeriodStart
+  )
+
   return (
     <div className='text-white font-pretendardRegular flex flex-col text-[12px] md:text-sm items-start w-auto shadow-[0px_2px_3px_rgba(255,255,255,0.2)] bg-#17171B] gap-2 mx-2'>
       <p className='pl-2 pt-2'>
@@ -88,7 +93,7 @@ export const RecruitUI: React.FC = () => {
       <div className='mt-2 pl-2  flex items-center'>
         <p className='text-mainColor font-pretendardSemiBold'>📝 모집 대상 :</p>
         <span className='text-white pl-1'>
-          26년도 1학기부터 다솜과 함께할 예비 다솜 멤버
+          {shortYear}년도 {semester}학기부터 다솜과 함께할 예비 다솜 멤버
         </span>
       </div>
 

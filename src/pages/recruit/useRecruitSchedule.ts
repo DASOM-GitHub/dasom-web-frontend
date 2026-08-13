@@ -29,6 +29,11 @@ export const formatKoreanDate = (dateStr?: string): string => {
 export const formatDate = (dateStr?: string): string => {
   if (!dateStr) return ''
 
+  const match = /^(\d{4})-(\d{2})-(\d{2})/.exec(dateStr)
+  if (match) {
+    return `${match[1]}-${match[2]}-${match[3]}`
+  }
+
   const date = new Date(dateStr)
   if (isNaN(date.getTime())) return ''
 
@@ -37,6 +42,33 @@ export const formatDate = (dateStr?: string): string => {
   const day = String(date.getDate()).padStart(2, '0')
 
   return `${year}-${month}-${day}`
+}
+
+// 모집 시작일 기준 연도(2자리)와 학기 (1~7월: 1학기, 8~12월: 2학기)
+export const getAcademicTerm = (dateStr?: string): { shortYear: string; semester: 1 | 2 } => {
+  let year: number
+  let month: number
+
+  const match = dateStr ? /^(\d{4})-(\d{2})/.exec(dateStr) : null
+  if (match) {
+    year = Number(match[1])
+    month = Number(match[2])
+  } else {
+    const d = dateStr ? new Date(dateStr) : new Date()
+    if (Number.isNaN(d.getTime())) {
+      const now = new Date()
+      year = now.getFullYear()
+      month = now.getMonth() + 1
+    } else {
+      year = d.getFullYear()
+      month = d.getMonth() + 1
+    }
+  }
+
+  return {
+    shortYear: String(year).slice(-2),
+    semester: month <= 7 ? 1 : 2,
+  }
 }
 
 // 모집 일정 데이터 타입 정의

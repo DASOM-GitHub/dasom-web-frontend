@@ -9,8 +9,10 @@ import { formatDate } from './useRecruitSchedule'
 const RecruitInfo: React.FC = () => {
   const FIRST_GENERATION_YEAR = 1992 // 다솜 1기 1992년 기준
 
-  const currentYear = new Date().getFullYear() // 현재 년도 계산
+  const now = new Date()
+  const currentYear = now.getFullYear() // 현재 년도 계산
   const currentGeneration = currentYear - FIRST_GENERATION_YEAR + 1 // 현재 기수 계산
+  const currentSemester = now.getMonth() + 1 <= 7 ? 1 : 2 // 1~7월: 1학기, 8~12월: 2학기
 
   const navigate = useNavigate()
   const { loadSchedule } = useRecruitSchedule()
@@ -26,6 +28,7 @@ const RecruitInfo: React.FC = () => {
   }
   
   const [periodData, setPeriodData] = useState(defaultPeriodData)
+  const [isScheduleReady, setIsScheduleReady] = useState(false)
   const [buttonState, setButtonState] = useState({
     text: '',
     disabled: false,
@@ -150,6 +153,8 @@ const RecruitInfo: React.FC = () => {
       } catch (error) {
         console.warn('API를 통한 모집 일정 조회 실패, 기본 일정을 사용합니다:', error)
         // API 실패 시 기본 일정 데이터 유지 (이미 useState로 설정됨)
+      } finally {
+        setIsScheduleReady(true)
       }
     }
 
@@ -181,9 +186,11 @@ const RecruitInfo: React.FC = () => {
       <div className='flex flex-col mt-96 w-[90%] items-center font-pretendardRegular overflow-x-hidden'>
         <p className='font-pretendardBold text-4xl'>{currentGeneration}기 모집일정</p>
         <div className='my-10'>
-          {periodData.recruitmentPeriodStart &&
+          {isScheduleReady &&
+          periodData.recruitmentPeriodStart &&
           periodData.recruitmentPeriodEnd ? (
             <RecruitCalendar
+              key={`${periodData.recruitmentPeriodStart}-${periodData.interviewPeriodStart}-${periodData.interviewPassAnnouncement}`}
               periods={[
                 {
                   start: formatDate(periodData.recruitmentPeriodStart),
@@ -230,7 +237,7 @@ const RecruitInfo: React.FC = () => {
             {formatMmDd(periodData.interviewPassAnnouncement)}
           </p>
           <p>
-            <span className='font-pretendardBold'>4. 다솜 1학기 OT</span> 03월 20일
+            <span className='font-pretendardBold'>4. 다솜 {currentSemester}학기 OT</span> 08월 31일
           </p>
         </div>
         <p className='mt-6 text-base text-subGrey2'>
