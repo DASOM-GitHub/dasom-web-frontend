@@ -8,7 +8,7 @@ type Period = { start: string | Date; end: string | Date }
 
 function toDate(d: string | Date) {
   if (d instanceof Date) return d
-  const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(d)
+  const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(d)
   if (m) {
     const year = Number(m[1])
     const monthIndex = Number(m[2]) - 1
@@ -94,18 +94,26 @@ const RecruitCalendar: React.FC<RecruitCalendarProps> = ({
     )
   }
 
-  const allStartCandidates: Date[] = []
-  const firstRecruitStart = periods.map((p) => toDate(p.start)).find(isValidDate)
-  const firstInterviewStart = interviewPeriods
-    .map((p) => toDate(p.start))
-    .find(isValidDate)
-  const firstPass = passDateObjs[0]
-  if (firstRecruitStart) allStartCandidates.push(firstRecruitStart)
-  if (firstInterviewStart) allStartCandidates.push(firstInterviewStart)
-  if (firstPass) allStartCandidates.push(firstPass)
-  const defaultMonth = allStartCandidates.length
-    ? new Date(Math.min(...allStartCandidates.map((d) => d.getTime())))
+  const allDateCandidates: Date[] = []
+  const collectPeriodDates = (periodList: Period[]) => {
+    periodList.forEach(p => {
+      const start = toDate(p.start)
+      const end = toDate(p.end)
+      if (isValidDate(start)) allDateCandidates.push(start)
+      if (isValidDate(end)) allDateCandidates.push(end)
+    })
+  }
+  collectPeriodDates(periods)
+  collectPeriodDates(interviewPeriods)
+  allDateCandidates.push(...passDateObjs)
+
+  const earliest = allDateCandidates.length
+    ? new Date(Math.min(...allDateCandidates.map(d => d.getTime())))
     : undefined
+  const displayedMonth = earliest
+    ? new Date(earliest.getFullYear(), earliest.getMonth(), 1)
+    : undefined
+
   return (
     <DayPicker
       hideNavigation={true}
@@ -113,7 +121,7 @@ const RecruitCalendar: React.FC<RecruitCalendarProps> = ({
       locale={ko}
       showOutsideDays
       numberOfMonths={months}
-      defaultMonth={defaultMonth}
+      month={displayedMonth}
       modifiers={{
         recruit: (date) => isWithinAnyPeriod(date, periods),
         recruitRowStart: (date) => isRowStartInPeriod(date, periods),
