@@ -3,11 +3,13 @@ import { Github, Instagram } from 'lucide-react'
 import { Link } from 'react-router-dom'
 
 const Footer = () => {
+  const currentYear = new Date().getFullYear()
+
   return (
             <footer className="bg-mainColor text-white font-pretendardRegular h-auto md:h-[140px] py-7">
       <div className="w-full max-w-screen-xl mx-auto flex flex-col justify-center h-full px-4 md:px-12">
         <div className="flex flex-col md:flex-row justify-between md:items-center gap-4">
-                    <p className="text-xs md:text-lg font-normal">© 2025 DASOM. ALL RIGHTS RESERVED.</p>
+                    <p className="text-xs md:text-lg font-normal">© {currentYear} DASOM. ALL RIGHTS RESERVED.</p>
           <div className="flex space-x-2">
             <Link to="https://www.instagram.com/dasom___official/" target="_blank" rel="noopener noreferrer">
               <Instagram className="size-6" />
