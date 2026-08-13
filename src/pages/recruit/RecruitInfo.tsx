@@ -91,11 +91,13 @@ const RecruitInfo: React.FC = () => {
 
     switch (status) {
       case 'before':
-        // TODO: 개발용 — 배포 전 원래 disabled 로직으로 원복
+        const daysUntilStart = Math.ceil(
+          (startDate.getTime() - now.getTime()) / (1000 * 60 * 60 * 24)
+        )
         return {
-          text: `${currentGeneration}기 지원하기`,
-          disabled: false,
-          onClick: () => navigate('/recruit'),
+          text: `모집 시작까지 ${daysUntilStart}일 남음`,
+          disabled: true,
+          onClick: () => {},
         }
 
       case 'recruiting':

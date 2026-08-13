@@ -110,9 +110,7 @@ export const useRecruitSchedule = () => {
       const endDate = new Date(recruitmentEnd as string)
       const now = new Date()
 
-      // TODO: 개발용 — 배포 전 아래 한 줄 삭제하고 원래 비교로 원복
-      // const isRecruitingNow = now >= startDate && now <= endDate
-      const isRecruitingNow = true
+      const isRecruitingNow = now >= startDate && now <= endDate
 
       if (isRecruitingNow) {
         setIsRecruiting(true)
