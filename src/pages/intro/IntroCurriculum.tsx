@@ -47,7 +47,7 @@ const IntroCurriculum: React.FC = () => {
               key={index}
               className="bg-[#26262D] flex items-center px-4 sm:px-6 md:px-[54px] w-full max-w-[562px] mx-auto h-auto min-h-[60px] sm:min-h-[72px] py-3 sm:py-0"
             >
-                <span className="mr-3 sm:mr-5 text-[#00B493] text-center font-bold text-xl sm:text-2xl md:text-[28px] font-['Inconsolata'] whitespace-nowrap">
+                <span className="mr-3 sm:mr-5 text-[#00B493] text-center font-bold text-xl sm:text-2xl md:text-[28px] font-mono whitespace-nowrap">
                     {String(index + 1).padStart(2, '0')}
                 </span>
                 <span className="text-white text-base sm:text-xl md:text-2xl font-pretendardSemiBold leading-normal break-words">
