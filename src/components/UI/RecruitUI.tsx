@@ -59,7 +59,7 @@ export const RecruitUI: React.FC = () => {
     <div className='text-white font-pretendardRegular flex flex-col text-[12px] md:text-sm items-start w-auto shadow-[0px_2px_3px_rgba(255,255,255,0.2)] bg-#17171B] gap-2 mx-2'>
       <p className='pl-2 pt-2'>
         <span className='font-pretendardBold'>다솜</span>에서 개발자로서 성장해
-        갈 <span className='font-pretendardBold'>36기 멤버분들</span>을
+        갈 <span className='font-pretendardBold'>35기 멤버분들</span>을
         찾습니다!
       </p>
       <div className='mt-2 pl-2'>
@@ -141,7 +141,7 @@ export const RecruitUI_SUB: React.FC<RecruitUIProps> = ({ name }) => {
     <div className='whitespace-pre-line text-white flex flex-col items-start w-auto h-[auto] shadow-[0px_2px_3px_rgba(255,255,255,0.2)] bg-#17171B] gap-2 mx-2 font-pretendardRegular pl-2 text-[12px] md:text-sm'>
       <p className='pt-3 '>
         {`${name}님 안녕하세요 컴퓨터공학부 전공동아리 다솜입니다.
-        먼저 다솜 36기에 많은 관심을 갖고 지원해 주셔서 감사드리며, `}
+        먼저 다솜 35기에 많은 관심을 갖고 지원해 주셔서 감사드리며, `}
         <p>
           <span className='text-mainColor font-pretendardBold'>
             1차 서류 합격
@@ -170,7 +170,7 @@ export const RecruitUI_SUB2: React.FC<RecruitUIProps> = ({ name }) => {
     <div className='whitespace-pre-line text-white flex flex-col items-start w-auto h-[auto] shadow-[0px_2px_3px_rgba(255,255,255,0.2)] bg-#17171B] gap-2 mx-2 font-pretendardRegular pl-2 text-[12px] md:text-sm'>
       <p className='pt-3 '>
         {`${name}님 안녕하세요 컴퓨터공학부 전공동아리 다솜입니다.
-        먼저 다솜 36기에 많은 관심을 갖고 지원해 주셔서 감사드리며, `}
+        먼저 다솜 35기에 많은 관심을 갖고 지원해 주셔서 감사드리며, `}
       </p>
 
       <p>
@@ -189,7 +189,7 @@ export const RecruitUI_FINAL: React.FC<RecruitUIProps> = ({ name }) => {
   return (
     <div className='whitespace-pre-line text-white flex flex-col items-start w-auto h-[auto] shadow-[0px_2px_3px_rgba(255,255,255,0.2)] bg-#17171B] gap-2 mx-2 font-pretendardRegular pl-2  text-[12px] md:text-sm'>
       <p className='pt-3 font-pretendardBold '>
-        안녕하세요 {`${name}`}님, <br /> 다솜 36기에
+        안녕하세요 {`${name}`}님, <br /> 다솜 35기에
         <span className='text-mainColor font-pretendardBold'>
           {' '}
           최종합격
@@ -205,7 +205,7 @@ export const RecruitUI_FINAL: React.FC<RecruitUIProps> = ({ name }) => {
 
       <p className='mb-3'>
         {`다시 한번 진심으로 축하드리며,
-        2026학년도 다솜 36기 멤버로서의 앞으로의 활동을 기대하겠습니다.
+        2026학년도 다솜 35기 멤버로서의 앞으로의 활동을 기대하겠습니다.
         수고 많으셨습니다. ☺️`}
       </p>
     </div>
@@ -217,7 +217,7 @@ export const RecruitUI_FINAL2: React.FC<RecruitUIProps> = ({ name }) => {
     <div className='whitespace-pre-line text-white flex flex-col items-start w-auto h-[auto] shadow-[0px_2px_3px_rgba(255,255,255,0.2)] bg-#17171B] gap-2 mx-2 font-pretendardRegular pl-2 text-[12px] md:text-sm'>
       <p className='pt-3 '>
         {`${name}님 안녕하세요. 컴퓨터공학부 전공동아리 다솜입니다.
-        먼저, 다솜 36기에 관심을 갖고 지원해 주시고 소중한 시간을 내어
+        먼저, 다솜 35기에 관심을 갖고 지원해 주시고 소중한 시간을 내어
         대면 인터뷰까지 함께해 주셔서 진심으로 감사드립니다.`}
       </p>
 
